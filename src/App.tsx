@@ -1,10 +1,7 @@
 import { 
     Refine,
-    GitHubBanner, 
-    WelcomePage,
     Authenticated, 
 } from '@refinedev/core';
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import { AuthPage,ErrorComponent
@@ -41,11 +38,10 @@ function App() {
     
     return (
         <BrowserRouter>
-        <GitHubBanner />
         <RefineKbarProvider>
             <ColorModeContextProvider>
-<AntdApp>
-            <DevtoolsProvider>
+            <AntdApp>
+       
                 <Refine authProvider={authProvider}
 dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
 notificationProvider={useNotificationProvider}
@@ -146,13 +142,11 @@ i18nProvider={i18nProvider}
                     <UnsavedChangesNotifier />
                     <DocumentTitleHandler />
                 </Refine>
-            <DevtoolsPanel />
-            </DevtoolsProvider>
             </AntdApp>
-</ColorModeContextProvider>
+            </ColorModeContextProvider>
         </RefineKbarProvider>
         </BrowserRouter>
       );
-};
+}
 
 export default App;
