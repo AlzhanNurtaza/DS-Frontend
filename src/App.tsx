@@ -16,12 +16,12 @@ import { App as AntdApp } from "antd"
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import routerBindings, { NavigateToResource, CatchAllNavigate, UnsavedChangesNotifier, DocumentTitleHandler } from "@refinedev/react-router-v6";
 import { useTranslation } from "react-i18next";
-import { BlogPostList, BlogPostCreate, BlogPostEdit, BlogPostShow } from "./pages/blog-posts";
-import { CategoryList, CategoryCreate, CategoryEdit, CategoryShow } from "./pages/categories";
+import { Indicator } from "./pages/indicators";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { Header } from "./components/header";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
+import { BarChartOutlined } from '@ant-design/icons';
 
 
 
@@ -49,26 +49,12 @@ notificationProvider={useNotificationProvider}
 routerProvider={routerBindings}
 i18nProvider={i18nProvider} 
                         resources={[
-                            {
-                                name: "blog-posts",
-                                list: "/blog-posts",
-                                create: "/blog-posts/create",
-                                edit: "/blog-posts/edit/:id",
-                                show: "/blog-posts/show/:id",
-                                meta: {
-                                    canDelete: true,
-                                },
-                            },
-                            {
-                                name: "categories",
-                                list: "/categories",
-                                create: "/categories/create",
-                                edit: "/categories/edit/:id",
-                                show: "/categories/show/:id",
-                                meta: {
-                                    canDelete: true,
-                                },
-                            },
+                            { 
+                                name: "indicators", 
+                                list: () => null,
+                                icon:<BarChartOutlined />
+                            ,
+                            }
                         ]}
                     options={{
                         syncWithLocation: true,
@@ -95,20 +81,12 @@ i18nProvider={i18nProvider}
                             }
                         >
                             <Route index element={
-                                    <NavigateToResource resource="blog-posts" />
+                                    <NavigateToResource resource="indicators" />
                             } />
-                            <Route path="/blog-posts">
-                                <Route index element={<BlogPostList />} />
-                                <Route path="create" element={<BlogPostCreate />} />
-                                <Route path="edit/:id" element={<BlogPostEdit />} />
-                                <Route path="show/:id" element={<BlogPostShow />} />
-                            </Route>
-                            <Route path="/categories">
-                                <Route index element={<CategoryList />} />
-                                <Route path="create" element={<CategoryCreate />} />
-                                <Route path="edit/:id" element={<CategoryEdit />} />
-                                <Route path="show/:id" element={<CategoryShow />} />
-                            </Route>
+                            <Route
+                                path="indicators"
+                                element={<Indicator />}
+                            />
                             <Route path="*" element={<ErrorComponent />} />
                         </Route>
                         <Route
