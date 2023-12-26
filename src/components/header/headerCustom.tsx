@@ -1,11 +1,10 @@
 import { DownOutlined } from "@ant-design/icons";
 import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
-import { useGetIdentity, useGetLocale, useSetLocale } from "@refinedev/core";
+import { useGetIdentity, useGetLocale, useSetLocale,useTranslate } from "@refinedev/core";
 import {
     Avatar,
     Button,
     Dropdown,
-    Layout as AntdLayout,
     MenuProps,
     Space,
     Switch,
@@ -19,13 +18,14 @@ import { ColorModeContext } from "../../contexts/color-mode";
 const { Text } = Typography;
 const { useToken } = theme;
 
+
 type IUser = {
     id: number;
     name: string;
     avatar: string;
 };
 
-export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
+export const HeaderCustom: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     sticky,
 }) => {
     const { token } = useToken();
@@ -34,6 +34,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     const changeLanguage = useSetLocale();
     const { data: user } = useGetIdentity<IUser>();
     const { mode, setMode } = useContext(ColorModeContext);
+    const translate = useTranslate();
 
     const currentLocale = locale();
 
@@ -47,7 +48,7 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                     <Avatar size={16} src={`/images/flags/${lang}.svg`} />
                 </span>
             ),
-            label: lang === "en" ? "English" : "German",
+            label: lang === "en" ? "English" : "Русский",
         }));
 
     const headerStyles: React.CSSProperties = {
@@ -66,27 +67,32 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
     }
 
     return (
-        <AntdLayout.Header style={headerStyles}>
-            <Space>
+        
+            <Space style={{
+                position:'absolute',
+                top:'15px',
+                right:'15px',
+                zIndex:99
+            }}>
                 <Dropdown
                     menu={{
                         items: menuItems,
                         selectedKeys: currentLocale ? [currentLocale] : [],
                     }}
                 >
-                    <Button type="text">
+                    <Button type="text" style={{color:token.colorWhite}}>
                         <Space>
-                            {currentLocale === "en" ? "Eng" : "Ger"}
+                            {currentLocale === "en" ? "Eng" : "Рус"}
                             <DownOutlined />
                         </Space>
                     </Button>
                 </Dropdown>
                 <Space style={{ marginLeft: "8px" }} size="middle">
-                <Text>Тема</Text>
+                <Text style={{color:token.colorWhite}}>{translate("header.theme", "Theme")}</Text>
                 <Switch
                 
-                    checkedChildren="🌛"
-                    unCheckedChildren="🔆"
+                    checkedChildren=" "
+                    unCheckedChildren=" "
                     onChange={() =>
                         setMode(mode === "light" ? "dark" : "light")
                     }
@@ -100,6 +106,5 @@ export const Header: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                     )}
                 </Space>
             </Space>
-        </AntdLayout.Header>
     );
 };

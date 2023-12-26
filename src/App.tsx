@@ -4,11 +4,12 @@ import {
 } from '@refinedev/core';
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
-import { AuthPage,ErrorComponent
+import { ErrorComponent
 ,useNotificationProvider
 ,ThemedLayoutV2
 ,ThemedSiderV2} from '@refinedev/antd';
 import "@refinedev/antd/dist/reset.css";
+import { AuthPage } from './components/pages/auth';
 
 import { DataProvider } from "@refinedev/strapi-v4";
 import { App as AntdApp } from "antd"
@@ -122,7 +123,7 @@ i18nProvider={i18nProvider}
                                     element={(
                                         <AuthPage
                                             type="login"
-                                            formProps={{ initialValues:{ email: "demo@refine.dev", password: "demodemo" } }}
+                                            //formProps={{ initialValues:{ email: "demo@refine.dev", password: "demodemo" } }}
                                         />
                                     )}
                                 />

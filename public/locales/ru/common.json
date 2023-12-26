@@ -1,0 +1,170 @@
+{
+    "pages": {
+        "login": {
+            "title": "Добро пожаловать",
+            "signin": "Войти",
+            "signup": "Зарегистрироваться",
+            "divider": "или",
+            "fields": {
+                "email": "E-mail",
+                "emailPlaceholder": "Ваша почта",
+                "password": "Пароль",
+                "passwordPlaceholder":"Ваш пароль"
+            },
+            "errors": {
+                "validEmail": "Недействительный адрес электронной почты"
+            },
+            "buttons": {
+                "submit": "Войти",
+                "forgotPassword": "Забыли пароль?",
+                "noAccount": "Нет аккаунта?",
+                "rememberMe": "Запомнить меня"
+            },
+            "desc":"Платформа для сбора и анализа данных производственных и экономических направлений КМГ"
+        },
+        "forgotPassword": {
+            "title": "Забыли пароль?",
+            "fields": {
+                "email": "Электронная почта"
+            },
+            "errors": {
+                "validEmail": "Недействительный адрес электронной почты"
+            },
+            "buttons": {
+                "submit": "Отправить инструкции сброса"
+            }
+        },
+        "register": {
+            "title": "Зарегистрируйтесь для вашего аккаунта",
+            "fields": {
+                "email": "Электронная почта",
+                "password": "Пароль"
+            },
+            "errors": {
+                "validEmail": "Недействительный адрес электронной почты"
+            },
+            "buttons": {
+                "submit": "Зарегистрироваться",
+                "haveAccount": "Уже есть аккаунт?"
+            }
+        },
+        "updatePassword": {
+            "title": "Обновить пароль",
+            "fields": {
+                "password": "Новый пароль",
+                "confirmPassword": "Подтвердите новый пароль"
+            },
+            "errors": {
+                "confirmPasswordNotMatch": "Пароли не совпадают"
+            },
+            "buttons": {
+                "submit": "Обновить"
+            }
+        },
+        "error": {
+            "info": "Возможно, вы забыли добавить компонент {{action}} в ресурс {{resource}}.",
+            "404": "Извините, страница, которую вы посетили, не существует.",
+            "resource404": "Вы уверены, что создали ресурс {{resource}}.",
+            "backHome": "На главную"
+        }
+    },
+    "actions": {
+        "list": "Список",
+        "create": "Создать",
+        "edit": "Редактировать",
+        "show": "Показать"
+    },
+    "buttons": {
+        "create": "Создать",
+        "save": "Сохранить",
+        "logout": "Выйти",
+        "delete": "Удалить",
+        "edit": "Редактировать",
+        "cancel": "Отмена",
+        "confirm": "Вы уверены?",
+        "filter": "Фильтр",
+        "clear": "Очистить",
+        "refresh": "Обновить",
+        "show": "Показать",
+        "undo": "Отменить",
+        "import": "Импортировать",
+        "clone": "Клонировать",
+        "notAccessTitle": "У вас нет доступа"
+    },
+    "warnWhenUnsavedChanges": "Вы уверены, что хотите уйти? У вас есть несохраненные изменения.",
+    "notifications": {
+        "success": "Успешно",
+        "error": "Ошибка (код состояния: {{statusCode}})",
+        "undoable": "У вас есть {{seconds}} секунд, чтобы отменить",
+        "createSuccess": "Успешно создан {{resource}}",
+        "createError": "Произошла ошибка при создании {{resource}} (код состояния: {{statusCode}})",
+        "deleteSuccess": "Успешно удален {{resource}}",
+        "deleteError": "Ошибка при удалении {{resource}} (код состояния: {{statusCode}})",
+        "editSuccess": "Успешно отредактирован {{resource}}",
+        "editError": "Ошибка при редактировании {{resource}} (код состояния: {{statusCode}})",
+        "importProgress": "Импорт: {{processed}}/{{total}}"
+    },
+    "loading": "Загрузка",
+    "tags": {
+        "clone": "Клон"
+    },
+    "dashboard": {
+        "title": "Панель управления"
+    },
+    "blog-posts": {
+        "blog-posts": "Блог Посты",
+        "fields": {
+            "id": "Id",
+            "title": "Заголовок",
+            "content": "Содержание",
+            "status": "Статус",
+            "createdAt": "Дата создания",
+            "category": "Категория"
+        },
+        "titles": {
+            "create": "Создать блог пост",
+            "edit": "Редактировать блог пост",
+            "list": "Блог Посты",
+            "show": "Показать блог пост"
+        }
+    },
+    "categories": {
+        "categories": "Категории",
+        "fields": {
+            "id": "Id",
+            "title": "Заголовок",
+            "createdAt": "Дата создания"
+        },
+        "titles": {
+            "create": "Создать категорию",
+            "edit": "Редактировать категорию",
+            "list": "Категории",
+            "show": "Показать категорию"
+        }
+    },
+    "documentTitle": {
+        "default": "",
+        "suffix": "",
+        "blog-posts": {
+            "list": "Блог Посты",
+            "show": "#{{id}} Показать блог пост",
+            "edit": "#{{id}} Редактировать блог пост",
+            "create": "Создать новый блог пост",
+            "clone": "#{{id}} Клонировать блог пост"
+        },
+        "categories": {
+            "list": "Категории",
+            "show": "#{{id}} Показать категорию",
+            "edit": "#{{id}} Редактировать категорию",
+            "create": "Создать новую категорию",
+            "clone": "#{{id}} Клонировать категорию"
+        }
+
+    },
+    "table": {
+        "actions": "Действия"
+    },
+    "header":{
+        "theme":"Тема"
+    }
+}

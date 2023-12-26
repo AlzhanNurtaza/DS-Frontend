@@ -1,13 +1,15 @@
 {
     "pages": {
         "login": {
-            "title": "Sign in to your account",
+            "title": "Welcome",
             "signin": "Sign in",
             "signup": "Sign up",
             "divider": "or",
             "fields": {
-                "email": "Email",
-                "password": "Password"
+                "email": "E-mail",
+                "password": "Password",
+                "emailPlaceholder": "Email",
+                "passwordPlaceholder":"Password"
             },
             "errors": {
                 "validEmail": "Invalid email address"
@@ -17,7 +19,8 @@
                 "forgotPassword": "Forgot password?",
                 "noAccount": "Don’t have an account?",
                 "rememberMe": "Remember me"
-            }
+            },
+            "desc":"Platform for collecting and analyzing data on industrial and economic directions of KMG"
         },
         "forgotPassword": {
             "title": "Forgot your password?",
@@ -140,25 +143,28 @@
         }
     },
     "documentTitle": {
-        "default": "refine",
-        "suffix": " | refine",
+        "default": "",
+        "suffix": "",
         "blog-posts": {
-            "list": "Blog Posts | refine",
-            "show": "#{{id}} Show Blog Post | refine",
-            "edit": "#{{id}} Edit Blog Post | refine",
-            "create": "Create new Blog Post | refine",
-            "clone": "#{{id}} Clone Blog Post | refine"
+            "list": "Blog Posts",
+            "show": "#{{id}} Show Blog Post ",
+            "edit": "#{{id}} Edit Blog Post ",
+            "create": "Create new Blog Post",
+            "clone": "#{{id}} Clone Blog Post "
         },
         "categories": {
-            "list": "Categories | refine",
-            "show": "#{{id}} Show Category | refine",
-            "edit": "#{{id}} Edit Category | refine",
-            "create": "Create new Category | refine",
-            "clone": "#{{id}} Clone Category | refine"
+            "list": "Categories",
+            "show": "#{{id}} Show Category",
+            "edit": "#{{id}} Edit Category",
+            "create": "Create new Category",
+            "clone": "#{{id}} Clone Category"
         }
 
     },
     "table": {
         "actions": "Actions"
+    },
+    "header":{
+        "theme":"Theme"
     }
 }
