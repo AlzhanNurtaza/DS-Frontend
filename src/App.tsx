@@ -6,10 +6,14 @@ import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import { ErrorComponent
 ,useNotificationProvider
-,ThemedLayoutV2
-,ThemedSiderV2} from '@refinedev/antd';
+} from '@refinedev/antd';
 import "@refinedev/antd/dist/reset.css";
 import { AuthPage } from './components/pages/auth';
+
+import { ThemedLayoutV2 } from "./components/layout";
+import { ThemedHeaderV2 } from "./components/layout/header";
+import { ThemedSiderV2 } from "./components/layout/sider";  
+import { ThemedTitleV2 } from "./components/layout/title";  
 
 import { DataProvider } from "@refinedev/strapi-v4";
 import { App as AntdApp } from "antd"
@@ -72,8 +76,7 @@ i18nProvider={i18nProvider}
                                     fallback={<CatchAllNavigate to="/login" />}
                                 >
                                         <ThemedLayoutV2
-                                            Header={() => <Header sticky />}
-                                            Sider={(props) => <ThemedSiderV2 {...props} fixed />}
+                                            Header={ThemedHeaderV2} Sider={ThemedSiderV2} Title={ThemedTitleV2}
                                         >
                                             <Outlet />
                                         </ThemedLayoutV2>
@@ -101,7 +104,6 @@ i18nProvider={i18nProvider}
                                     element={(
                                         <AuthPage
                                             type="login"
-                                            //formProps={{ initialValues:{ email: "demo@refine.dev", password: "demodemo" } }}
                                         />
                                     )}
                                 />
