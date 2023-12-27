@@ -281,6 +281,9 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
   const siderStyles: React.CSSProperties = {
     backgroundColor: token.colorBgContainer,
     borderRight: `1px solid ${token.colorBgElevated}`,
+    margin:'10px 0 0 10px',
+    borderRadius:'10px',
+    overflow:'hidden'
   };
 
   if (fixed) {
@@ -312,6 +315,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
         collapsedWidth={80}
         breakpoint="lg"
         trigger={
+          
           <Button
             type="text"
             style={{

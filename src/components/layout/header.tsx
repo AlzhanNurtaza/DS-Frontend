@@ -80,7 +80,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
 
   return (
           <AntdLayout.Header style={headerStyles}>
-            <Space>
+            <Space style={{zIndex:1}}>
                 <Dropdown
                     menu={{
                         items: menuItems,
@@ -94,9 +94,10 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                         </Space>
                     </Button>
                 </Dropdown>
-                <Space style={{ marginLeft: "8px" }} size="middle">
+                <Space style={{ marginLeft: "8px", }} size="middle">
                 <Text  style={{color:token.colorWhite}}>{translate("header.theme", "Theme")}</Text>
                 <Switch
+
                 
                     checkedChildren=" "
                     unCheckedChildren=" "
