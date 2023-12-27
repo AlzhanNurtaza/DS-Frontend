@@ -22,7 +22,6 @@ import routerBindings, { NavigateToResource, CatchAllNavigate, UnsavedChangesNot
 import { useTranslation } from "react-i18next";
 import { Indicator } from "./pages/indicators";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { Header } from "./components/header";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
 import { BarChartOutlined } from '@ant-design/icons';
