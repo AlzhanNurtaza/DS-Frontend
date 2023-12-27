@@ -27,6 +27,7 @@ import {
 import { Layout, Menu, Grid, Drawer, Button, theme } from "antd";
 import type { RefineThemedLayoutV2SiderProps } from "@refinedev/antd";
 
+
 const drawerButtonStyles: CSSProperties = {
   borderTopLeftRadius: 0,
   borderBottomLeftRadius: 0,
@@ -115,7 +116,9 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
       );
 
       const linkStyle: React.CSSProperties =
-        activeItemDisabled && isSelected ? { pointerEvents: "none" } : {};
+        activeItemDisabled && isSelected ? {pointerEvents: "none"} : {};
+      const linkStyleSelected: React.CSSProperties =
+        isSelected ? {border:'1px solid #E2E8F0', backgroundColor:'transparent',fontWeight:'bold',boxShadow:'1px 1px 1px  #E2E8F0' } : {};
 
       return (
         <CanAccess
@@ -129,7 +132,8 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
           <Menu.Item
             key={item.key}
             icon={icon ?? (isRoute && <UnorderedListOutlined />)}
-            style={linkStyle}
+            style={linkStyleSelected}
+
           >
             <Link to={route ?? ""} style={linkStyle}>
               {label}

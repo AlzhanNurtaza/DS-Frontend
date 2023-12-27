@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { ThemedLayoutContextProvider } from "@refinedev/antd";
 import { ThemedHeaderV2 as DefaultHeader } from "./header";
 import { ThemedSiderV2 as DefaultSider } from "./sider";
@@ -24,7 +24,10 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
     <ThemedLayoutContextProvider initialSiderCollapsed={initialSiderCollapsed}>
       <AntdLayout style={{ minHeight: "100vh" }} hasSider={hasSider}>
         <SiderToRender Title={Title} />
-        <AntdLayout>
+        <AntdLayout style={{
+          background:`url(/images/bg/bg-pages.svg)  no-repeat`,
+          backgroundSize:'100%'
+        }}>
           <HeaderToRender />
           <AntdLayout.Content>
             <div

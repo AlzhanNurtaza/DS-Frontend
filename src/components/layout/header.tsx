@@ -4,7 +4,8 @@ import {
   useActiveAuthProvider,
   useGetIdentity,
   useGetLocale,
-  useSetLocale
+  useSetLocale,
+  useTranslate
 } from "@refinedev/core";
 import { Layout as AntdLayout, Typography, Avatar, Space, theme } from "antd";
 import type { RefineThemedLayoutV2HeaderProps } from "@refinedev/antd";
@@ -35,6 +36,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   const changeLanguage = useSetLocale();
   const currentLocale = locale();
   const { mode, setMode } = useContext(ColorModeContext);
+  const translate = useTranslate();
 
 
   const menuItems: MenuProps["items"] = [...(i18n.languages || [])]
@@ -62,7 +64,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
   }
 
   const headerStyles: React.CSSProperties = {
-    backgroundColor: token.colorBgElevated,
+    backgroundColor: 'transparent',
     display: "flex",
     justifyContent: "flex-end",
     alignItems: "center",
@@ -85,7 +87,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                         selectedKeys: currentLocale ? [currentLocale] : [],
                     }}
                 >
-                    <Button type="text">
+                    <Button type="text"  style={{color:token.colorWhite}}>
                         <Space>
                             {currentLocale === "en" ? "Eng" : "Рус"}
                             <DownOutlined />
@@ -93,7 +95,7 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                     </Button>
                 </Dropdown>
                 <Space style={{ marginLeft: "8px" }} size="middle">
-                <Text>Тема</Text>
+                <Text  style={{color:token.colorWhite}}>{translate("header.theme", "Theme")}</Text>
                 <Switch
                 
                     checkedChildren=" "
@@ -104,8 +106,8 @@ export const ThemedHeaderV2: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                     defaultChecked={mode === "dark"}
                 />
                 </Space>
-                <Space style={{ marginLeft: "8px" }} size="middle">
-                    {user?.name && <Text strong>{user.name}</Text>}
+                <Space style={{ marginLeft: "8px"}} size="middle">
+                    {user?.name && <Text strong style={{color:token.colorWhite}}>{user.name}</Text>}
                     {user?.avatar && (
                         <Avatar src={user?.avatar} alt={user?.name} />
                     )}
