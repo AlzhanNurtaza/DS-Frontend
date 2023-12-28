@@ -171,6 +171,8 @@ const topColResponsiveProps = {
 
 const configZakupki = {
     data:dataZakupki,
+    autoFit:false,
+    height:300,
     xField: 'name',
     yField: 'value',
     seriesField: 'type',
@@ -618,23 +620,184 @@ export const Indicator: React.FC = () => {
                     }}
                 />
                 </Col>
-                <Col {...topColResponsiveProps2}>
-                <ProCard      
-                        title={<Text><img src="/images/icons/purchase.svg" style={{paddingRight:'5px'}}/>План закупок группы КМГ</Text>}
-                        //headerBordered
-                        subTitle="млрд."
-                        extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
-                        tooltip="Совет Совет"
-                        boxShadow
-                        bodyStyle={{
-                            paddingInline:'8px'
-                        }}
-                        headStyle={{
-                            paddingInline:'8px'
-                        }}
-                    >
-                        <Column {...configZakupki} />
-                </ProCard>
+                <Col xs={24} xl={12} style={{ marginBottom: 24, display: 'flex',flexDirection:'column' }} >
+                    <ProCard      
+                            title={<Text><img src="/images/icons/purchase.svg" style={{paddingRight:'5px'}}/>План закупок группы КМГ</Text>}
+                            //headerBordered
+                            subTitle="млрд."
+                            extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
+                            tooltip="Совет Совет"
+                            boxShadow
+                            bodyStyle={{
+                                paddingInline:'8px'
+                            }}
+                            headStyle={{
+                                paddingInline:'8px'
+                            }}
+                        >
+                            <Column {...configZakupki} />
+                    </ProCard>
+                    <Row gutter={12} style={{ marginTop: '20px', display: 'flex',justifyContent:'space-between'}}>
+                    <Col style={{display:'flex', flex:'1'}}>
+                        <ProCard      
+                            title={<Text ><img src="/images/icons/incident.svg" style={{paddingRight:'5px'}}/>Инциденты</Text>}
+                            //subTitle="млрд."
+                            extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
+                            tooltip="Совет Совет"
+                            boxShadow
+                            bodyStyle={{
+                                paddingInline:'8px'
+                            }}
+                            headStyle={{
+                                paddingInline:'8px'
+                            }}
+                        >
+                            <List>
+                                <List.Item style={{backgroundColor:listRowColor,height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Всего</Typography.Text>
+                                        <Typography.Text strong style={{color:'#718096',fontSize:'larger'}} >
+                                            183
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                                <List.Item style={{height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Происшествия</Typography.Text>
+                                        <Typography.Text strong style={{color:'#718096',fontSize:'larger'}} >
+                                           170
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                                <List.Item style={{backgroundColor:listRowColor,height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Правонарушения</Typography.Text>
+                                        <Typography.Text strong style={{color:'#718096',fontSize:'larger'}} >
+                                            183
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                            </List>
+                        </ProCard>
+                    </Col>
+                    <Col style={{display:'flex', flex:'1'}}>
+                        <ProCard      
+                            title={<Text ><img src="/images/icons/accident.svg" style={{paddingRight:'5px'}}/>Несчастные случаи</Text>}
+                            //subTitle="млрд."
+                            extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
+                            tooltip="Совет Совет"
+                            boxShadow
+                            bodyStyle={{
+                                paddingInline:'8px'
+                            }}
+                            headStyle={{
+                                paddingInline:'8px'
+                            }}
+                        >
+                            <List>
+                                <List.Item style={{backgroundColor:listRowColor,height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Всего</Typography.Text>
+                                        <Typography.Text strong style={{color:'#718096',fontSize:'larger'}} >
+                                            24
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                                <List.Item style={{height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Летальный исход</Typography.Text>
+                                        <Typography.Text strong style={{color:'#FC6363',fontSize:'larger'}} >
+                                            2
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                            </List>
+                        </ProCard>
+                    </Col>
+                    <Col style={{display:'flex', flex:'1'}}>
+                        <ProCard      
+                            title={<Text><img src="/images/icons/dtp.svg" style={{paddingRight:'5px'}}/>ДТП</Text>}
+                            //subTitle="млрд."
+                            extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
+                            tooltip="Совет Совет"
+                            boxShadow
+                            bodyStyle={{
+                                paddingInline:'8px'
+                            }}
+                            headStyle={{
+                                paddingInline:'8px'
+                            }}
+                        >
+                             <List>
+                                <List.Item style={{backgroundColor:listRowColor,height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Всего</Typography.Text>
+                                        <Typography.Text strong style={{color:'#718096',fontSize:'larger'}} >
+                                            17
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                                <List.Item style={{height:'35px'}}>
+                                    <div  style={{
+                                        width:'100%',
+                                        display:'flex',
+                                        justifyContent:'space-between',
+                                        paddingLeft:'5px',
+                                        paddingRight:'5px'
+                                    }}>
+                                        <Typography.Text  style={{flex:1,color:'#718096'}}>Летальный исход</Typography.Text>
+                                        <Typography.Text strong style={{color:'#FC6363',fontSize:'larger'}} >
+                                            1
+                                        </Typography.Text>
+                                        
+                                    </div>                            
+                                </List.Item>
+                            </List>
+                        </ProCard>
+                    </Col>
+                </Row>
                 
                 </Col>
             </Row>
