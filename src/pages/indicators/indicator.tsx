@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext,useState} from "react";
 import {Layout, Row,Col,DatePicker,Space,Switch,Typography,Progress,List,theme } from "antd";
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import {CaretUpOutlined,CaretDownOutlined,CaretRightOutlined } from '@ant-design/icons';
@@ -6,6 +6,7 @@ import {
     ProCard
   } from '@ant-design/pro-components';
   import { ColorModeContext } from "../../contexts/color-mode";
+  import { Bar } from '@ant-design/plots';
 
 
 
@@ -21,6 +22,102 @@ const topColResponsiveProps = {
     style: { marginBottom: 24, display: 'flex' },
   };
 
+  const topColResponsiveProps2 = {
+    xs: 24,
+    sm: 24,
+    md: 24,
+    lg: 24,
+    xl: 12,
+    style: { marginBottom: 24, display: 'flex' },
+  };
+
+  const data = [
+    {
+      label: 'ТОО “Тенгизшевройл”',
+      type: 'Факт',
+      value: 27515,
+    },
+    {
+      label: 'ТОО “Тенгизшевройл”',
+      type: 'План',
+      value: 28413,
+    },
+    {
+      label: 'Норт Каспиан Оперейтинг Компани н.в.',
+      type: 'Факт',
+      value: 23677,
+    },
+    {
+      label: 'Норт Каспиан Оперейтинг Компани н.в.',
+      type: 'План',
+      value: 24868,
+    },
+    {
+      label: 'Карачаганак Петролеум Оперейтинг б.в.',
+      type: 'Факт',
+      value: 10377,
+    },
+    {
+      label: 'Карачаганак Петролеум Оперейтинг б.в.',
+      type: 'План',
+      value: 10269,
+    },
+    {
+      label: 'АО “Мангистаумунайгаз”',
+      type: 'Факт',
+      value: 6042,
+    },
+    {
+      label: 'АО “Мангистаумунайгаз”',
+      type: 'План',
+      value: 6048,
+    },
+     {
+      label: 'АО “ОзенМунайГаз”',
+      type: 'Факт',
+      value: 5297,
+    },
+    {
+      label: 'АО “ОзенМунайГаз”',
+      type: 'План',
+      value: 5256,
+    },
+    {
+      label: 'АО “Эмбамунайгаз”',
+      type: 'Факт',
+      value: 2758,
+    },
+    {
+      label: 'АО “Эмбамунайгаз”',
+      type: 'План',
+      value: 2776,
+    },
+  ];
+  const uniqueLabels = [...new Set(data.map(item => item.label))];
+  const config = {
+    data,
+    isGroup: true,
+    xField: 'value',
+    yField: 'label',
+    seriesField: 'type',
+    dodgePadding: 4,
+    label: {
+      position: 'right',
+    },
+    annotations: uniqueLabels.map((label, index) => ({
+        type: 'line',
+        start: ['0%', `${(index * 100) / uniqueLabels.length}%`],
+        end: ['100%', `${(index * 100) / uniqueLabels.length}%`],
+        style: {
+          stroke: '#ccc',
+          lineWidth: 1
+        }
+      })),  
+    color: ['#48BB78', '#3182CE'],
+    legend: {
+    position: 'bottom', // Sets the legend at the bottom
+    },
+  };
 
 export const Indicator: React.FC = () => {
     const { token } = useToken();
@@ -28,6 +125,7 @@ export const Indicator: React.FC = () => {
     const listRowColor = mode=='light'? '#F7FAFC':'#11242D';
     const firstRowBgColor = mode=='light'? '#0B5396':'#172C35';
     const firstRowBorderColor = mode=='light'? '#5095D5':'#172C35';
+    const [tab, setTab] = useState('tab1');
     
 
     return (
@@ -242,7 +340,7 @@ export const Indicator: React.FC = () => {
                 </Col>
                 <Col {...topColResponsiveProps}>
                     <ProCard      
-                        title={<Text><img src="/images/icons/tranportirovka.svg" style={{paddingRight:'5px'}}/>Транпортировка</Text>}
+                        title={<Text><img src="/images/icons/tranportirovka.svg" style={{paddingRight:'5px'}}/>Транспортировка</Text>}
                         subTitle="тыс.тон"
                         extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
                         tooltip="Совет Совет"
@@ -419,6 +517,40 @@ export const Indicator: React.FC = () => {
                             </List>
                         </ProCard>
                     </ProCard.Group>
+                </Col>
+            </Row>
+            <Row gutter={24} style={{ marginTop: '20px', display: 'flex'}}>
+                <Col {...topColResponsiveProps2}>
+                
+                <ProCard
+                    tabs={{
+                    activeKey: tab,  
+                    destroyInactiveTabPane: true,        
+                    items: [
+                        {
+                          label: `Добыча нефти`,
+                          key: 'tab1',
+                          icon:<img src="/images/icons/dobycha.svg" style={{width:'20px'}}/>,
+                          children: <Bar {...config}  />                       
+                        },
+                        {
+                          label: `Транспортировка нефти`,
+                          key: 'tab2',
+                          icon:<img src="/images/icons/pererabotka.svg" style={{width:'20px'}}/>,
+                          children: <Bar {...config}  /> 
+                        },
+                        {
+                          label: `Переработка нефти`,
+                          key: 'tab3',
+                          icon:<img src="/images/icons/tranportirovka.svg" style={{width:'20px'}}/>,
+                          children: <Bar {...config}  /> 
+                        },
+                      ],
+                    onChange: (key) => {
+                        setTab(key);
+                    },
+                    }}
+                />
                 </Col>
             </Row>
         </Layout>
