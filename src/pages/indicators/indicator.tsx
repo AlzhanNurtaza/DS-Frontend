@@ -6,7 +6,7 @@ import {
     ProCard
   } from '@ant-design/pro-components';
   import { ColorModeContext } from "../../contexts/color-mode";
-  import { Bar } from '@ant-design/plots';
+  import { Bar,Column } from '@ant-design/plots';
 
 
 
@@ -117,6 +117,71 @@ const topColResponsiveProps = {
     legend: {
     position: 'bottom', // Sets the legend at the bottom
     },
+  };
+
+
+  const dataZakupki =[
+    {
+    name: "Товар",
+    type: "Сумма плана",
+    value: 777
+    },
+    {
+    name: "Товар",
+    type: "Сумма договора",
+    value: 663
+    },
+    {
+    name: "Товар",
+    type: "Сумма исполнения",
+    value: 398
+    },
+    {
+    name: "Работа",
+    type: "Сумма плана",
+    value: 529
+    },
+    {
+    name: "Работа",
+    type: "Сумма договора",
+    value: 436
+    },
+    {
+    name: "Работа",
+    type: "Сумма исполнения",
+    value: 156
+    },
+    {
+    name: "Услуга",
+    type: "Сумма плана",
+    value: 815
+    },
+    {
+    name: "Услуга",
+    type: "Сумма договора",
+    value: 688
+    },
+    {
+    name: "Услуга",
+    type: "Сумма исполнения",
+    value: 248
+    },
+
+];
+
+const configZakupki = {
+    data:dataZakupki,
+    xField: 'name',
+    yField: 'value',
+    seriesField: 'type',
+    isGroup: true,
+    label:{
+      position:'top'
+    },
+    legend:{
+      position:'bottom'
+    },
+    color:['#3182CE','#48BB78','#ED8936']
   };
 
 export const Indicator: React.FC = () => {
@@ -523,6 +588,7 @@ export const Indicator: React.FC = () => {
                 <Col {...topColResponsiveProps2}>
                 
                 <ProCard
+                    boxShadow
                     tabs={{
                     activeKey: tab,  
                     destroyInactiveTabPane: true,        
@@ -551,6 +617,25 @@ export const Indicator: React.FC = () => {
                     },
                     }}
                 />
+                </Col>
+                <Col {...topColResponsiveProps2}>
+                <ProCard      
+                        title={<Text><img src="/images/icons/purchase.svg" style={{paddingRight:'5px'}}/>План закупок группы КМГ</Text>}
+                        //headerBordered
+                        subTitle="млрд."
+                        extra={<Link href="#" style={{fontSize:"x-small"}}>ОТКРЫТЬ</Link>}
+                        tooltip="Совет Совет"
+                        boxShadow
+                        bodyStyle={{
+                            paddingInline:'8px'
+                        }}
+                        headStyle={{
+                            paddingInline:'8px'
+                        }}
+                    >
+                        <Column {...configZakupki} />
+                </ProCard>
+                
                 </Col>
             </Row>
         </Layout>
