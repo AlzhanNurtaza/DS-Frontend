@@ -32,6 +32,7 @@ import {
 } from "antd";
 
 import { HeaderCustom } from "../../../../components/header/headerCustom";
+import {Footer} from "../../../footer/footer"
 
 const { Text, Title } = Typography;
 const { useToken } = theme;
@@ -61,6 +62,8 @@ export const LoginPage: React.FC<LoginProps> = ({
   const { mutate: login, isLoading } = useLogin<LoginFormTypes>({
     v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
   });
+
+  
 
   const PageTitle =
     title === false ? null : (
@@ -307,7 +310,9 @@ export const LoginPage: React.FC<LoginProps> = ({
             </>
           )}
         </Col>
+        <Footer />
       </Row>
+      
     </Layout>
   );
 };
