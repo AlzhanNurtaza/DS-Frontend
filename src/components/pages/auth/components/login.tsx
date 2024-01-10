@@ -64,23 +64,24 @@ export const LoginPage: React.FC<LoginProps> = ({
 
   const PageTitle =
     title === false ? null : (
-      <div
+      <Col
         style={{
           display: "flex",
           flexDirection:"column",
           justifyContent: "center",
-          marginBottom: "32px",
-          alignItems:"center"
+          //marginBottom: "32px",
+          alignItems:"center",
+          minHeight:"150px"
         }}
       >
-        <Space style={{maxWidth:'400px', textAlign:'center'}}>
+        <Space  style={{maxWidth:'400px', textAlign:'center'}}>
           <Text style={{
             fontSize:token.fontSizeHeading5,
             color:token.colorWhite,
           }}>{translate("pages.login.desc", "")}</Text>
         </Space>
 
-      </div>
+      </Col>
     );
 
   const CardTitle = (
@@ -235,30 +236,30 @@ export const LoginPage: React.FC<LoginProps> = ({
   return (
     <Layout style={layoutStyles} {...(wrapperProps ?? {})}>
       <Row>
-      <Col
-        style={{
-          position:'absolute',
-          padding:'10px',
-          display:'flex',
-          width:'100%',
-          overflow:'hidden',
-          height:'40vh',
-        }}>
-          <img src="/images/bg/bg1.png"  
-            style={{
-            width:'50%',
-            borderRadius:'10px 0 0 10px',
-            backgroundColor:'#32A1FF',
-            
-          }}/>
-          
-          <img src="/images/bg/bg2.png" alt="" 
+        <Col
           style={{
-            backgroundColor:'#32A1FF',
-            borderRadius:'0 10px 10px 0',
-            width:'50%',
-          }}
-          />  
+            position:'absolute',
+            padding:'10px',
+            display:'flex',
+            width:'100%',
+            overflow:'hidden',
+            height:'40vh',
+          }}>
+            <img src="/images/bg/bg1.png"  
+              style={{
+              width:'50%',
+              borderRadius:'10px 0 0 10px',
+              backgroundColor:'#32A1FF',
+              
+            }}/>
+            
+            <img src="/images/bg/bg2.png" alt="" 
+            style={{
+              backgroundColor:'#32A1FF',
+              borderRadius:'0 10px 10px 0',
+              width:'50%',
+            }}
+            />  
         </Col>
 
 

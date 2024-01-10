@@ -1,6 +1,5 @@
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { ConfigProvider, theme } from "antd";
-import { RefineThemes } from "@refinedev/antd";
 
 type ColorModeContextType = {
     mode: string;
@@ -48,9 +47,25 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
             <ConfigProvider
                 // you can change the theme colors here. example: ...RefineThemes.Magenta,
                 theme={{
-                    ...RefineThemes.Blue,
-                    algorithm:
-                        mode === "light" ? defaultAlgorithm : darkAlgorithm,
+                    token:{
+                        colorBgBase:mode === "light"?'#F7FAFC':'#22343C', 
+                    },
+       
+                    algorithm:mode === "light" ? defaultAlgorithm : darkAlgorithm,
+                    components: {
+                        Card: {
+                            colorBgContainer:mode === "light" ?'#fff':'#172C35 !important',
+                        },
+                        Input:{
+                            colorBgContainer:'#fff',
+                            colorTextPlaceholder:'#A0AEC0',
+                            colorBorder:'#E2E8F0',
+                            colorText:'#2D3748'
+                        },
+                        Switch: {
+                            colorPrimary: "rgba(0, 0, 0, 0.45)",
+                          }
+                      },
                 }}
             >
                 {children}

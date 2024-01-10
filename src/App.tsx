@@ -47,10 +47,10 @@ function App() {
             <AntdApp>
        
                 <Refine authProvider={authProvider}
-dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
-notificationProvider={useNotificationProvider}
-routerProvider={routerBindings}
-i18nProvider={i18nProvider} 
+                    dataProvider={DataProvider(API_URL + `/api`, axiosInstance)}
+                    notificationProvider={useNotificationProvider}
+                    routerProvider={routerBindings}
+                    i18nProvider={i18nProvider} 
                         resources={[
                             { 
                                 name: "indicators", 
