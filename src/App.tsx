@@ -24,10 +24,10 @@ import { Indicator } from "./pages/indicators";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
-import { Icon } from '@ant-design/icons';
+import Icon from '@ant-design/icons';
 
 
-import ChartMenuIcon from './assets/icons/chart.svg';
+import ChartMenuIcon from './assets/icons/chart.svg?react';
 
 
 
@@ -57,7 +57,13 @@ function App() {
                             { 
                                 name: "indicators", 
                                 list: () => null,
-                                icon:<img src={ChartMenuIcon} />
+                                icon:<Icon component={ChartMenuIcon} />
+                            ,
+                            },
+                            { 
+                                name: "indicators1", 
+                                list: () => null,
+                                icon:<Icon component={ChartMenuIcon}  />
                             ,
                             }
                         ]}

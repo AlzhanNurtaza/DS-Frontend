@@ -78,6 +78,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
   const renderTreeView = (tree: ITreeMenu[], selectedKey?: string) => {
     return tree.map((item: ITreeMenu) => {
       const {
+        
         icon,
         label,
         route,
@@ -87,6 +88,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
         parentName,
         meta,
         options,
+      
       } = item;
 
       if (children.length > 0) {
@@ -123,8 +125,21 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
             backgroundColor:token.colorBgBase,
             fontWeight:'bold',
             boxShadow:'1px 1px 1px  #E2E8F0',
-            color:token.colorTextQuaternary 
+            color:token.colorTextQuaternary,
+            
+
           } : {};
+
+
+      const iconStyle: React.CSSProperties =
+      {
+          color:isSelected? token.colorWhite : token.colorPrimary,
+          backgroundColor: isSelected? token.colorPrimary:'transparent',
+          padding:'5px',
+          borderRadius:'5px'
+        };
+
+      
 
       return (
         <CanAccess
@@ -137,10 +152,11 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
         >
           <Menu.Item
             key={item.key}
-            icon={icon ?? (isRoute && <UnorderedListOutlined />)}
+            icon={ icon ? <span style={iconStyle}>{icon}</span> : isRoute && <UnorderedListOutlined /> }
             style={linkStyleSelected}
-
+            
           >
+            
             <Link to={route ?? ""} style={linkStyle}>
               {label}
             </Link>
