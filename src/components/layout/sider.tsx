@@ -118,7 +118,13 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
       const linkStyle: React.CSSProperties =
         activeItemDisabled && isSelected ? {pointerEvents: "none"} : {};
       const linkStyleSelected: React.CSSProperties =
-        isSelected ? {border:'1px solid #E2E8F0', backgroundColor:'transparent',fontWeight:'bold',boxShadow:'1px 1px 1px  #E2E8F0' } : {};
+        isSelected ? {
+            border:'1px solid #E2E8F0', 
+            backgroundColor:token.colorBgBase,
+            fontWeight:'bold',
+            boxShadow:'1px 1px 1px  #E2E8F0',
+            color:token.colorTextQuaternary 
+          } : {};
 
       return (
         <CanAccess
@@ -193,10 +199,11 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
         items,
         logout,
         collapsed: siderCollapsed,
+        
       });
     }
     return (
-      <>
+      < >
         {dashboard}
         {items}
         {logout}
@@ -215,6 +222,8 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
           border: "none",
           overflow: "auto",
           height: "calc(100% - 72px)",
+          backgroundColor:token.colorBgElevated,
+          color:token.colorTextTertiary
         }}
         onClick={() => {
           setMobileSiderOpen(false);
@@ -328,13 +337,13 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
             {siderCollapsed ? (
               <RightOutlined
                 style={{
-                  color: token.colorPrimary,
+                  color: 'token.colorPrimary',
                 }}
               />
             ) : (
               <LeftOutlined
                 style={{
-                  color: token.colorPrimary,
+                  color: 'token.colorPrimary',
                 }}
               />
             )}

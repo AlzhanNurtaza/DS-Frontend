@@ -32,18 +32,16 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
         }}
       >
         <div>
-          <img src="/images/logo/mini-logo.svg" width='100%' height={30} />
+          <img src="/images/logo/mini-logo.svg" width='100%' height={20} />
         </div>
 
         {!collapsed && (
           <div
             style={{
               marginBottom: 0,
-              paddingTop:mode=='light' ? '6px' : '0px',
-              paddingLeft:mode=='light' ? '5px' : '10px'
             }}
           >
-            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds-dark.svg'} width='100%' height={30}  />
+            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds-dark.svg'} width='100%'   />
           </div>
         )}
       </Space>

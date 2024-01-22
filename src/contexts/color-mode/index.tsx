@@ -49,6 +49,9 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
                 theme={{
                     token:{
                         colorBgBase:mode === "light"?'#F7FAFC':'#22343C', 
+                        colorBgElevated:mode ==="light"?"#FFFFFF":'#172C35',
+                        colorTextTertiary:mode ==="light"?"#A0AEC0":'#A7BBD3',
+                        colorTextQuaternary:mode ==="light"?"#2D3748":'#FFFFFF',
                     },
        
                     algorithm:mode === "light" ? defaultAlgorithm : darkAlgorithm,
