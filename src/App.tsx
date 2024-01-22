@@ -24,8 +24,10 @@ import { Indicator } from "./pages/indicators";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
-import { BarChartOutlined } from '@ant-design/icons';
+import { Icon } from '@ant-design/icons';
 
+
+import ChartMenuIcon from './assets/icons/chart.svg';
 
 
 
@@ -55,7 +57,7 @@ function App() {
                             { 
                                 name: "indicators", 
                                 list: () => null,
-                                icon:<BarChartOutlined />
+                                icon:<img src={ChartMenuIcon} />
                             ,
                             }
                         ]}
