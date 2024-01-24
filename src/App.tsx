@@ -11,7 +11,7 @@ import "@refinedev/antd/dist/reset.css";
 import { AuthPage } from './components/pages/auth';
 
 import { ThemedLayoutV2 } from "./components/layout";
-import { ThemedHeaderV2 } from "./components/layout/header";
+import { HeaderCustom } from "./components/header/headerCustom";
 import { ThemedSiderV2 } from "./components/layout/sider";  
 import { ThemedTitleV2 } from "./components/layout/title";  
 
@@ -84,7 +84,7 @@ function App() {
                                     fallback={<CatchAllNavigate to="/login" />}
                                 >
                                         <ThemedLayoutV2
-                                            Header={ThemedHeaderV2} Sider={ThemedSiderV2} Title={ThemedTitleV2}
+                                            Header={HeaderCustom} Sider={ThemedSiderV2} Title={ThemedTitleV2}
                                         >
                                             <Outlet />
                                         </ThemedLayoutV2>
