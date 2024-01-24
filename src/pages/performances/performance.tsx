@@ -1,7 +1,8 @@
 import React from 'react'
+import { Typography } from 'antd';
 
 export const Performance: React.FC = () => {
   return (
-    <div>performance</div>
+    <Typography>performance</Typography>
   )
 }

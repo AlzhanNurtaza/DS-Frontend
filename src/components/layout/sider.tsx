@@ -304,7 +304,7 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
   }
 
   const siderStyles: React.CSSProperties = {
-    backgroundColor: token.colorBgContainer,
+    backgroundColor: token.colorBgElevated,
     borderRight: `1px solid ${token.colorBgElevated}`,
     margin:'10px 0 0 10px',
     borderRadius:'10px',

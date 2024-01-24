@@ -22,25 +22,17 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
   const hasSider = !!SiderToRender({ Title });
   const { mode } = useContext(ColorModeContext);
 
-  return (
-    <div style={{
-      minHeight: "100vh",
-      position:'relative'
-    }}>
-      <img src={mode=='light'?"/images/bg/bg-pages.svg":"/images/bg/bg-pages-dark.svg"} style={{
-        position:'absolute',
-        width:'100%',
-        backgroundColor:"transparent",
-        opacity:0.9
-      }}/>
-
-    
+  return (    
     <ThemedLayoutContextProvider initialSiderCollapsed={initialSiderCollapsed}>
       <AntdLayout style={{ 
         minHeight: "100vh",
+        backgroundImage:`url(${mode === 'light' ? '/images/bg/bg-pages.svg' : '/images/bg/bg-pages-dark.svg'})`,
+        backgroundSize: '100%', 
+        backgroundRepeat:'no-repeat',
+        backgroundPosition: 'top center'
       }} hasSider={hasSider}>
         <SiderToRender Title={Title} />
-        <AntdLayout >
+        <AntdLayout style={{backgroundColor:'transparent'}}> 
           <HeaderToRender />
           <AntdLayout.Content >
             <div
@@ -57,6 +49,5 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
         </AntdLayout>
       </AntdLayout>
     </ThemedLayoutContextProvider>
-    </div>
   );
 };
