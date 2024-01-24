@@ -21,6 +21,7 @@ import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import routerBindings, { NavigateToResource, CatchAllNavigate, UnsavedChangesNotifier, DocumentTitleHandler } from "@refinedev/react-router-v6";
 import { useTranslation } from "react-i18next";
 import { Indicator } from "./pages/indicators";
+import { Performance } from "./pages/performances";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider, axiosInstance } from "./authProvider";
 import { API_URL } from "./constants";
@@ -61,7 +62,7 @@ function App() {
                             ,
                             },
                             { 
-                                name: "indicators1", 
+                                name: "performance", 
                                 list: () => null,
                                 icon:<Icon component={ChartMenuIcon}  />
                             ,
@@ -96,6 +97,10 @@ function App() {
                             <Route
                                 path="indicators"
                                 element={<Indicator />}
+                            />
+                            <Route
+                                path="performance"
+                                element={<Performance />}
                             />
                             <Route path="*" element={<ErrorComponent />} />
                         </Route>

@@ -30,7 +30,8 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
       <img src={mode=='light'?"/images/bg/bg-pages.svg":"/images/bg/bg-pages-dark.svg"} style={{
         position:'absolute',
         width:'100%',
-        backgroundColor:"transparent"
+        backgroundColor:"transparent",
+        opacity:0.9
       }}/>
 
     
