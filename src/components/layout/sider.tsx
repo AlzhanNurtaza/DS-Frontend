@@ -136,7 +136,8 @@ export const ThemedSiderV2: React.FC<RefineThemedLayoutV2SiderProps> = ({
           color:isSelected? token.colorWhite : token.colorPrimary,
           backgroundColor: isSelected? token.colorPrimary:'transparent',
           padding:'5px',
-          borderRadius:'5px'
+          borderRadius:'5px',
+          maxHeight:'26px'
         };
 
       
