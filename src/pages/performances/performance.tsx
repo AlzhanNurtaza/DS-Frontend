@@ -6,6 +6,8 @@ import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale } from '@refinedev/core';
 import { ExchangeCard } from '../../components/dashboard';
 
+import { API_URL } from "../../constants";
+
 
 const {Text} = Typography; 
 const { useToken } = theme;
@@ -38,7 +40,7 @@ export const Performance: React.FC = () => {
 
 
   const {data:currencyData,isLoading} = useCustom({
-    url:'http://localhost:1337/api/currencies',
+    url:`${API_URL}/api/currencies`,
     method:'get',
     config: {
       sorters: [
