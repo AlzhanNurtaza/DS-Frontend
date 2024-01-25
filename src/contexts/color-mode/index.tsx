@@ -52,6 +52,8 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
                         colorBgElevated:mode ==="light"?"#FFFFFF":'#172C35',
                         colorTextTertiary:mode ==="light"?"#A0AEC0":'#A7BBD3',
                         colorTextQuaternary:mode ==="light"?"#2D3748":'#FFFFFF',
+                        colorFillSecondary:"#5095D5",
+                        colorFillQuaternary:"#0B5396",
                     },
        
                     algorithm:mode === "light" ? defaultAlgorithm : darkAlgorithm,

@@ -70,7 +70,9 @@ export const authProvider: AuthBindings = {
         if (!token) {
             return null;
         }
-
+        axiosInstance.defaults.headers.common[
+            "Authorization"
+        ] = `Bearer ${token}`;
         const { data, status } = await strapiAuthHelper.me(token);
         if (status === 200) {
             const { id, username, email } = data;
