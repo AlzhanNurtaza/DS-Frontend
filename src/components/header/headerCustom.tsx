@@ -100,7 +100,7 @@ export const HeaderCustom: React.FC<RefineThemedLayoutV2HeaderProps> = ({
                 />
                 </Space>
                 <Space style={{ marginLeft: "8px" }} size="middle">
-                    {user?.name && <Text strong>{user.name}</Text>}
+                    {user?.name && <Text strong style={{color:token.colorWhite}}>{user.name}</Text>}
                     {user?.avatar && (
                         <Avatar src={user?.avatar} alt={user?.name} />
                     )}
