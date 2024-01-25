@@ -18,7 +18,7 @@ type Attribute ={
 }
 
 type Rate = {
-    currency:string,
+    title:string,
     value:string,
     arrow:string
 }
@@ -37,7 +37,7 @@ export const ExchangeCard = ({
                 border: `1px solid ${token.colorFillQuaternary}`,
                 width: 'fit-content',
                 maxHeight: '35px',
-                minWidth: '300px'
+                minWidth: '320px'
             }}
             bodyStyle={{
                 display: 'flex',      
@@ -45,6 +45,7 @@ export const ExchangeCard = ({
                 alignItems: 'center',
                 padding: '6px 11px 6px',
                 color: token.colorWhite,
+                justifyContent:'center'
                 
             }}
             loading={isLoading}
@@ -53,9 +54,9 @@ export const ExchangeCard = ({
             {Array.isArray(data) && data.map((item, index) => (
                 <Text 
                     style={{ color: token.colorWhite, marginRight: '6px',fontSize:'small' }} 
-                    strong
+                    
                     key={index}
-                >{item.attributes?.currency} {item.attributes?.value} 
+                >{item.attributes?.title} {item.attributes?.value} 
                     {item.attributes?.arrow === 'DOWN' ? 
                     <CaretDownOutlined style={{ color: resource !== 'currency' ? '#FC6363' : '#48BB78' }}/> 
                     : <CaretUpOutlined style={{ color: resource !== 'currency' ? '#48BB78' : '#FC6363' }}/>}
