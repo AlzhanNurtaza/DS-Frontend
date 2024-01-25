@@ -50,11 +50,11 @@ export const ExchangeCard = ({
             }}
             loading={isLoading}
         >
-            <Text style={{ color: token.colorWhite, marginRight: '6px',fontSize:'small' }} strong>{title}</Text>
+            <Text style={{ color: token.colorWhite, marginRight: '6px',fontSize:'small' }} >{title}</Text>
             {Array.isArray(data) && data.map((item, index) => (
                 <Text 
                     style={{ color: token.colorWhite, marginRight: '6px',fontSize:'small' }} 
-                    
+                    strong
                     key={index}
                 >{item.attributes?.title} {item.attributes?.value} 
                     {item.attributes?.arrow === 'DOWN' ? 
