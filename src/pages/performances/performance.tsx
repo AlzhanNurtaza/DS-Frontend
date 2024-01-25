@@ -37,7 +37,7 @@ export const Performance: React.FC = () => {
   };
 
 
-  const {data,isLoading} = useCustom({
+  const {data:currencyData,isLoading} = useCustom({
     url:'http://localhost:1337/api/currencies',
     method:'get',
     config: {
@@ -48,9 +48,28 @@ export const Performance: React.FC = () => {
         },
         
       ],
+      filters: [
+        {
+          field: "currency",
+          operator: "eq",
+          value: "$",
+        },
+        {
+          field: "currency",
+          operator: "eq",
+          value: "€",
+        },
+        {
+          field: "currency",
+          operator: "eq",
+          value: "₽",
+        },
+      ],
       query: {
-        'pagination[pageSize]': 3,
-        'pagination[page]':1,
+        pagination: {
+          pageSize:3,
+          page:1,
+        },
         ...(selectedDate && { 'filters[date]': selectedDate }),
       },
     },
@@ -84,10 +103,16 @@ export const Performance: React.FC = () => {
           isLoading={isLoading}
           resource='currency'
           title="Котировки:"
-          data={data?.data?.data}
+          data={currencyData?.data?.data}
         />
       </Col>
       <Col {...topColStyle}>
+        <ExchangeCard 
+            isLoading={isLoading}
+            resource='currency'
+            title="Котировки:"
+            data={currencyData?.data?.data}
+          />
       </Col>
     </Row>
     

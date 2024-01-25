@@ -57,8 +57,8 @@ export const ExchangeCard = ({
                     key={index}
                 >{item.attributes?.currency} {item.attributes?.value} 
                     {item.attributes?.arrow === 'DOWN' ? 
-                    <CaretDownOutlined style={{ color: resource !== 'currency' ? '#FC6363' : '#48BB78', marginLeft: '5px' }}/> 
-                    : <CaretUpOutlined style={{ color: resource !== 'currency' ? '#48BB78' : '#FC6363', marginLeft: '5px' }}/>}
+                    <CaretDownOutlined style={{ color: resource !== 'currency' ? '#FC6363' : '#48BB78' }}/> 
+                    : <CaretUpOutlined style={{ color: resource !== 'currency' ? '#48BB78' : '#FC6363' }}/>}
                 </Text>
             ))}
         </Card>
