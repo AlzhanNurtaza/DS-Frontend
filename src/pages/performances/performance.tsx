@@ -164,16 +164,28 @@ export const Performance: React.FC = () => {
         }}
       >
         <Col {...ColStyle}>
-          <KpiCard />
+          <KpiCard 
+            resource='OilProduction'
+            isLoading={false}
+          />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard />
+          <KpiCard 
+            resource='OilRefining'
+            isLoading={false}
+          />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard />
+          <KpiCard 
+            resource='OilTransportation'
+            isLoading={false}
+          />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard />
+          <KpiCard 
+            resource='Money'
+            isLoading={false}
+          />
         </Col>
       </Row>
     </>

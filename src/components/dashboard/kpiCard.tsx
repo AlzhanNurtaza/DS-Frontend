@@ -1,16 +1,34 @@
 import React from 'react'
 import { Statistic, theme, Typography} from 'antd'
-import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
 import { Area } from '@ant-design/plots';
 
 import Icon from '@ant-design/icons';
-import DobychaIcon from '../../assets/icons/dobycha.svg?react';
 import ExclamantionIcon from '../../assets/icons/exclamation.svg?react';
 import { AreaConfig } from '@ant-design/charts';
 import { Trend } from './trend';
+import { KpiSuffixPortion } from './kpiSuffixPortion';
 import './kpiCard.css';
 
+import DobychaIcon from '../../assets/icons/dobycha.svg?react';
+import PererabotkaIcon from '../../assets/icons/pererabotka.svg?react';
+import TransportirovkaIcon from '../../assets/icons/transportirovka.svg?react';
+import DengiIcon from '../../assets/icons/dengi.svg?react';
+
+const getIconComponent = (resource:string) => {
+    switch (resource) {
+      case 'OilProduction':
+        return DobychaIcon;
+      case 'OilRefining':
+        return PererabotkaIcon;
+      case 'OilTransportation':
+        return TransportirovkaIcon;
+      case 'Money':
+        return DengiIcon;
+      default:
+        return null;
+    }
+  }
 
 
 const { useToken } = theme;
@@ -19,21 +37,11 @@ const {Text, Link} = Typography;
 
 type Props = {
     resource:string,
-    title:string,
-    data:Attribute[],
-    isLoading:boolean
+    isLoading:boolean,
 }
 
-type Attribute ={
-    id:number,
-    attributes: Rate
-}
 
-type Rate = {
-    title:string,
-    value:string,
-    arrow:string
-}
+
 
 const ProcardCommonCss = {
     paddingInline:'6px'
@@ -59,8 +67,14 @@ const data = [
 
 
 
-export const KpiCard = () => {
+
+
+export const KpiCard: React.FC<Props> = ({
+    resource,
+    isLoading
+}) => {
   const { token } = useToken();
+  const IconComponent = getIconComponent(resource);
   const config:AreaConfig = {
     data,
     color:['#3182CE','#ED8936'],
@@ -108,13 +122,14 @@ export const KpiCard = () => {
   };
   return (
     <ProCard
+        loading={isLoading}
         title={
             <Text style={{fontSize:'12px', display:'flex',alignItems:'center'}}>
-                <Icon component={DobychaIcon} style={{fontSize:'24px',marginRight:'5px'}}  /> 
+                {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
                 Транспортировка нефти
                 {<Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>(тыс.тонн)</Text>}
                 <Link href='#' style={{marginBottom:'5px', marginLeft:'5px'}}>
-                    <Icon component={ExclamantionIcon}   />
+                    <Icon component={ExclamantionIcon}  />
                 </Link>    
             </Text>}
         extra={<Link style={{fontSize:'9px',color:token.colorTextQuaternary}} href='#'>ОТКРЫТЬ</Link>}
@@ -141,7 +156,7 @@ export const KpiCard = () => {
                             fontWeight:'bold',
                         }}
                         prefix={<Trend  />}
-                        suffix={<Text style={{fontWeight:'normal',fontSize:token.fontSizeSM}}>100.4%</Text>}
+                        suffix={<KpiSuffixPortion stringValue='100.5'/>}
 
                     />
                 </ProCard>
