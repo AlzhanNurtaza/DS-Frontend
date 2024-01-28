@@ -126,7 +126,10 @@ export const KpiCard = () => {
     >
          <ProCard split="vertical">
             <ProCard split="horizontal" colSpan="45%">
-                <ProCard bodyStyle={ProcardCommonCss}>
+                <ProCard bodyStyle={{...ProcardCommonCss,
+                    backgroundColor:token.colorBgBase
+                }}>
+                    
                     <Statistic 
                         title="Факт" 
                         value={112893} 
