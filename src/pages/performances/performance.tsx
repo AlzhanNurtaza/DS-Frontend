@@ -4,7 +4,7 @@ import { Col, DatePicker, Row, Space, Switch,
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale } from '@refinedev/core';
-import { ExchangeCard } from '../../components/dashboard';
+import { ExchangeCard,KpiCard } from '../../components/dashboard';
 import './styles.css';
 
 import { API_URL } from "../../constants";
@@ -27,6 +27,17 @@ const topColStyle = {
   }
 }
 
+const ColStyle = {
+  xs: 24,
+  sm:24,
+  md:12,
+  lg:6,
+  style:{
+    marginTop:24,
+    width:'100%',
+    display:'flex'
+  }
+}
 
 
 export const Performance: React.FC = () => {
@@ -145,6 +156,24 @@ export const Performance: React.FC = () => {
               title="Акции:"
               data={shareData?.data?.data}
             />
+        </Col>
+      </Row>
+      <Row gutter={[24,12]}
+        style={{ 
+          display: 'flex',
+        }}
+      >
+        <Col {...ColStyle}>
+          <KpiCard />
+        </Col>
+        <Col {...ColStyle}>
+          <KpiCard />
+        </Col>
+        <Col {...ColStyle}>
+          <KpiCard />
+        </Col>
+        <Col {...ColStyle}>
+          <KpiCard />
         </Col>
       </Row>
     </>
