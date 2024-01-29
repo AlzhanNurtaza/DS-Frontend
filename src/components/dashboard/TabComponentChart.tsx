@@ -196,7 +196,7 @@ export const TabComponentChart : React.FC<Props> = ({
             loading={isLoading}
             tabs={{
             tabPosition:'top',
-            //destroyInactiveTabPane: true,   
+            destroyInactiveTabPane: true,   
             activeKey: tab,
             items: [
                 {
