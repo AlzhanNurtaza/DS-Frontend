@@ -69,6 +69,9 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
                         },
                         Switch: {
                             colorPrimary: "rgba(0, 0, 0, 0.45)",
+                          },
+                          Table: {
+                            headerColor: "#ffffff"
                           }
                       },
                 }}
