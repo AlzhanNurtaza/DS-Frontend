@@ -2,13 +2,14 @@ import { Column, ColumnConfig } from '@ant-design/charts'
 import Icon from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components'
 import { useTranslate } from '@refinedev/core';
-import { DatePicker, Typography } from 'antd'
+import { DatePicker, Typography, theme } from 'antd'
 import React, { useState } from 'react'
 import PurchaseIcon from '../../assets/icons/purchase.svg?react';
 import { SimpleModal } from './simpleModal';
 import dayjs from 'dayjs';
 
 const {Text} = Typography;
+const { useToken } = theme;
 
 
 
@@ -39,6 +40,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
 }) => {
 
     const translate = useTranslate();
+    const { token } = useToken();
     const currentDate= dayjs();
     const currentYear = dayjs().year();
     const [selectedYear, setSelectedYear] = useState(currentYear);
@@ -58,13 +60,49 @@ export const PurchaseColumnChart: React.FC<Props> = ({
         yField: 'value',
         seriesField: 'type',
         isGroup: true,
-        label:{
-          position:'top'
-        },
         legend:{
-          position:'bottom'
+            position:'bottom',
+            itemName: {
+                style: {
+                    fill: token.colorText
+                }
+            }
         },
-        color:['#3182CE','#48BB78','#ED8936']
+        label: {
+            position: 'top',
+            style: {
+              fill: token.colorText
+            },
+        },
+        color:['#3182CE','#48BB78','#ED8936'],
+        tooltip: {
+            // Custom formatter function
+            formatter: (datum) => {
+                // Function to format number with spaces as thousand separators
+                const formatNumberWithSpaces = (num:number) => {
+                    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                };
+    
+                return {
+                    name: datum.category,
+                    value: formatNumberWithSpaces(Math.round(datum.value))
+                };
+            }
+        },
+        yAxis: {
+            label: {
+              style: {
+                fill:token.colorText
+              },
+            },
+        },
+        xAxis: {
+            label: {
+              style: {
+                fill:token.colorText
+              },
+            },
+        },
       };
   return (
     <ProCard    
