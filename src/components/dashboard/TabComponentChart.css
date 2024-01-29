@@ -1,0 +1,12 @@
+.ant-tabs-tab.ant-tabs-tab-active {
+    border:1px solid #95c6de;
+    padding:5px;
+    border-radius:5px;
+    box-shadow:  0px 0px 1px burlywood;
+}
+.ant-tabs-ink-bar {
+    display:none;
+}
+.ant-tabs-top >.ant-tabs-nav::before{
+    display: none;
+}

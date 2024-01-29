@@ -4,7 +4,7 @@ import { Col, DatePicker, Row, Space, Switch,
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
-import { ExchangeCard,KpiCard } from '../../components/dashboard';
+import { ExchangeCard,KpiCard,TabComponentChart} from '../../components/dashboard';
 import './styles.css';
 
 import { API_URL } from "../../constants";
@@ -33,6 +33,17 @@ const ColStyle = {
   sm:24,
   md:12,
   lg:6,
+  style:{
+    marginTop:24,
+    width:'100%',
+    display:'flex'
+  }
+}
+const ColStyleRow2 = {
+  xs: 24,
+  sm:24,
+  md:24,
+  lg:12,
   style:{
     marginTop:24,
     width:'100%',
@@ -491,6 +502,20 @@ export const Performance: React.FC = () => {
               selectedDate={selectedDate}
             />
           </ProCard>
+        </Col>
+      </Row>
+      <Row gutter={[24,12]} style={{ 
+          display: 'flex',
+        }}
+      >
+        <Col {...ColStyleRow2}>
+          <TabComponentChart 
+            data1={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data}
+            data2={selectedDate ? oilRefiningDailyData?.data?.data: oilRefiningData?.data?.data}
+            data3={selectedDate ? oilTransportationDailyData?.data?.data: oilTransportationData?.data?.data}
+            isLoading={isLoadingDailyOPD}
+            isDolya={dolya}
+          />
         </Col>
       </Row>
     </>
