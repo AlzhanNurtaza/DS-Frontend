@@ -154,7 +154,16 @@ export const Performance: React.FC = () => {
           pageSize:500,
           page:1,
         },
-        ...(selectedDate && { 'filters[date]': selectedDate }),
+        ...(
+          selectedDate ? 
+          { 
+            filters: {
+              date: {
+                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
+              }
+            }
+          } : {}
+        )
       },
     },
   });
@@ -210,7 +219,7 @@ export const Performance: React.FC = () => {
             headerTitle='Добыча нефти'
             subTitle='(тыс.тонн)'
             isLoading={isLoadingOPD}
-            data={oilProductionData?.data?.data}
+            data={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data }
             dataDaily={oilProductionDailyData?.data?.data}
             isLoadingDaily={isLoadingDailyOPD}
           />
