@@ -119,6 +119,47 @@ export const Performance: React.FC = () => {
     },
   });
 
+  const {data:oilProductionData,isLoading:isLoadingOPD} = useCustom({
+    url:`${API_URL}/api/annual-oil-productions`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
+  const {data:oilProductionDailyData,isLoading:isLoadingDailyOPD} = useCustom({
+    url:`${API_URL}/api/daily-oil-productions`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "date",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:500,
+          page:1,
+        },
+        ...(selectedDate && { 'filters[date]': selectedDate }),
+      },
+    },
+  });
+
+
   const { token } = useToken();
   const localing = useGetLocale();
   const currentLocale = localing();
@@ -166,25 +207,41 @@ export const Performance: React.FC = () => {
         <Col {...ColStyle}>
           <KpiCard 
             resource='OilProduction'
-            isLoading={false}
+            headerTitle='Добыча нефти'
+            subTitle='(тыс.тонн)'
+            isLoading={isLoadingOPD}
+            data={oilProductionData?.data?.data}
+            dataDaily={oilProductionDailyData?.data?.data}
+            isLoadingDaily={isLoadingDailyOPD}
           />
         </Col>
         <Col {...ColStyle}>
           <KpiCard 
             resource='OilRefining'
+            headerTitle='Переработка нефти'
+            subTitle='(тыс.тонн)'
             isLoading={false}
+            data={[]}
+ 
           />
         </Col>
         <Col {...ColStyle}>
           <KpiCard 
             resource='OilTransportation'
+            headerTitle='Транспортировка нефти'
+            subTitle='(тыс.тонн)'
             isLoading={false}
+            data={[]}
+                
           />
         </Col>
         <Col {...ColStyle}>
           <KpiCard 
             resource='Money'
+            headerTitle='Деньги'
+            subTitle='(тыс.тонн)'
             isLoading={false}
+            data={[]}
           />
         </Col>
       </Row>
