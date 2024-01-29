@@ -190,6 +190,8 @@
         "OilProductionSubTitle":"(тыс.тонн)",
         "OilRefining":"Переработка нефти",
         "OilRefiningSubTitle":"(тыс.тонн)",
+        "OilTransportation":"Транспортировка нефти",
+        "OilTransportationSubTitle":"(тыс.тонн)",
         "open":"ОТКРЫТЬ",
         "close":"Закрыть",
         "fact":"Факт",

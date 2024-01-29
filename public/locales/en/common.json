@@ -181,6 +181,8 @@
         "OilProductionSubTitle":"(thous.tons)",
         "OilRefining":"Oil Refining",
         "OilRefiningSubTitle":"(thous.tons)",
+        "OilTransportation":"Oil Transportation",
+        "OilTransportationSubTitle":"(thous.tons)",
         "open":"OPEN",
         "close":"Close",
         "fact":"Fact",

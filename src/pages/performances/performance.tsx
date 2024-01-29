@@ -170,8 +170,6 @@ export const Performance: React.FC = () => {
       },
     },
   });
-
-
   const {data:oilRefiningData,isLoading:isLoadingORD} = useCustom({
     url:`${API_URL}/api/annual-oil-refinings`,
     method:'get',
@@ -193,6 +191,55 @@ export const Performance: React.FC = () => {
   });
   const {data:oilRefiningDailyData,isLoading:isLoadingDailyORD} = useCustom({
     url:`${API_URL}/api/daily-oil-refinings`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "date",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:500,
+          page:1,
+        },
+        ...(
+          selectedDate ? 
+          { 
+            filters: {
+              date: {
+                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
+              }
+            }
+          } : {}
+        )
+      },
+    },
+  });
+
+  const {data:oilTransportationData,isLoading:isLoadingOTD} = useCustom({
+    url:`${API_URL}/api/annual-oil-transportations`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
+  const {data:oilTransportationDailyData,isLoading:isLoadingDailyOTD} = useCustom({
+    url:`${API_URL}/api/daily-oil-transportations`,
     method:'get',
     config: {
       sorters: [
@@ -294,13 +341,15 @@ export const Performance: React.FC = () => {
           />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard 
+        <KpiCard 
             resource='OilTransportation'
-            headerTitle='Транспортировка нефти'
-            subTitle='(тыс.тонн)'
-            isLoading={false}
-            data={[]}
-                
+            headerTitle={translate("performance.OilTransportation", "Транспортировка нефти")}
+            subTitle={translate("performance.OilTransportationSubTitle", "(тыс.тонн)")}
+            isLoading={isLoadingOTD}
+            data={selectedDate ? oilTransportationData?.data?.data: oilTransportationDailyData?.data?.data }
+            dataDaily={oilTransportationDailyData?.data?.data}
+            isLoadingDaily={isLoadingDailyOTD}
+            isDolya={dolya}
           />
         </Col>
         <Col {...ColStyle}>
