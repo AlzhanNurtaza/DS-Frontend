@@ -5,3 +5,4 @@ export {KpiSuffixPortion} from './kpiSuffixPortion';
 export {SimpleModal} from './simpleModal';
 export {TabComponentChart} from './TabComponentChart';
 export {PurchaseColumnChart} from './purchaseColumnChart';
+export {KpiListCard} from './kpiListCard';

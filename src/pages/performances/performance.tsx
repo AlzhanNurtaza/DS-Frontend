@@ -4,7 +4,7 @@ import { Col, DatePicker, Row, Space, Switch,
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
-import { ExchangeCard,KpiCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
+import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
 import './styles.css';
 
 import { API_URL } from "../../constants";
@@ -39,17 +39,21 @@ const ColStyle = {
     display:'flex'
   }
 }
+const Row2Col2Css: React.CSSProperties = {
+  marginTop:24,
+  width:'100%',
+  display:'flex',
+  flexDirection:'column',
+  justifyContent:'space-between'
+}
 const ColStyleRow2 = {
   xs: 24,
   sm:24,
   md:24,
   lg:12,
-  style:{
-    marginTop:24,
-    width:'100%',
-    display:'flex'
-  }
+  style:Row2Col2Css
 }
+
 
 
 export const Performance: React.FC = () => {
@@ -394,6 +398,78 @@ export const Performance: React.FC = () => {
       },
     },
   });
+  const {data:IncidentData,isLoading:isLoadingIncident} = useCustom({
+    url:`${API_URL}/api/incidents`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "year",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+        filters: {
+          year: {
+            $eq: '2023'
+          }
+        }
+      },
+    },
+  });
+  const {data:AccidentData,isLoading:isLoadingAccident} = useCustom({
+    url:`${API_URL}/api/accidents`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "year",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+        filters: {
+          year: {
+            $eq: '2023'
+          }
+        }
+      },
+    },
+  });
+  const {data:DtpData,isLoading:isLoadingDtp} = useCustom({
+    url:`${API_URL}/api/dtps`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "year",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+        filters: {
+          year: {
+            $eq: '2023'
+          }
+        }
+      },
+    },
+  });
 
 
   const { token } = useToken();
@@ -527,7 +603,7 @@ export const Performance: React.FC = () => {
           display: 'flex',
         }}
       >
-        <Col {...ColStyleRow2}>
+        <Col {...ColStyleRow2} >
           <TabComponentChart 
             data1={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data}
             data2={selectedDate ? oilRefiningDailyData?.data?.data: oilRefiningData?.data?.data}
@@ -536,7 +612,7 @@ export const Performance: React.FC = () => {
             isDolya={dolya}
           />
         </Col>
-        <Col {...ColStyleRow2}>
+        <Col {...ColStyleRow2} >
           <div style={{
             width:'100%'
           }}>
@@ -545,7 +621,32 @@ export const Performance: React.FC = () => {
               data={PurchaseData?.data?.data}
             />
           </div>
-
+          <Row gutter={12} style={{ marginTop: '20px', display: 'flex',justifyContent:'space-between',gap:'8px'}}>
+            <Col style={{display:'flex'}}>
+              <KpiListCard 
+                data={IncidentData?.data?.data}
+                isLoading={isLoadingIncident}
+                headerTitle={translate("performance.Incident", "")}
+                resource='Incident'
+              />
+            </Col>
+            <Col style={{display:'flex'}} >
+              <KpiListCard 
+                data={AccidentData?.data?.data}
+                isLoading={isLoadingAccident}
+                headerTitle={translate("performance.Accident", "")}
+                resource='Accident'
+              />
+            </Col>
+            <Col style={{display:'flex', flex:'1'}}>
+              <KpiListCard 
+                data={DtpData?.data?.data}
+                isLoading={isLoadingDtp}
+                headerTitle={translate("performance.Dtp", "")}
+                resource='Dtp'
+              />
+            </Col>
+          </Row>
         </Col>
       </Row>
     </>
