@@ -67,6 +67,7 @@
             "resource404": "Are you sure you have created the {{resource}} resource.",
             "backHome": "Back Home"
         }
+        
     },
     "actions": {
         "list": "List",
@@ -169,5 +170,17 @@
     },
     "header":{
         "theme":"Theme"
+    },
+    "performance":{
+        "performance":"Performance",
+        "dolya":"No Share",
+        "date":"Date",
+        "exchange": "Exchange",
+        "shares": "Shares",
+        "OilProduction":"Oil Production",
+        "OilProductionSubTitle":"(thous.tons)",
+        "open":"OPEN",
+        "fact":"Fact",
+        "plan":"Plan"
     }
 }

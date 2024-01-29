@@ -14,6 +14,7 @@ import DobychaIcon from '../../assets/icons/dobycha.svg?react';
 import PererabotkaIcon from '../../assets/icons/pererabotka.svg?react';
 import TransportirovkaIcon from '../../assets/icons/transportirovka.svg?react';
 import DengiIcon from '../../assets/icons/dengi.svg?react';
+import { useTranslate } from '@refinedev/core';
 
 const getIconComponent = (resource:string) => {
     switch (resource) {
@@ -32,6 +33,7 @@ const getIconComponent = (resource:string) => {
 
 
 const { useToken } = theme;
+
 const {Text, Link} = Typography;
 
 
@@ -127,6 +129,7 @@ export const KpiCard: React.FC<Props> = ({
     isDolya= false
 }) => {
   const { token } = useToken();
+  const translate = useTranslate();
   const IconComponent = getIconComponent(resource);
   
   
@@ -226,7 +229,7 @@ const config:AreaConfig = {
                     <Icon component={ExclamantionIcon}  />
                 </Link>    
             </Text>}
-        extra={<Link style={{fontSize:'9px',color:token.colorTextQuaternary}} href='#'>ОТКРЫТЬ</Link>}
+        extra={<Link style={{fontSize:'9px',color:token.colorTextQuaternary}} href='#'>{translate("performance.open", "ОТКРЫТЬ")}</Link>}
         split='vertical'
         bordered
         boxShadow
@@ -240,7 +243,7 @@ const config:AreaConfig = {
                 }}>
                     
                     <Statistic 
-                        title="Факт" 
+                        title={translate("performance.fact", "Факт")}
                         value={sumFact} 
                         precision={0}
                         groupSeparator=' '
@@ -258,7 +261,7 @@ const config:AreaConfig = {
                   bodyStyle={ProcardCommonCss}  
                 >
                     <Statistic 
-                            title="План" 
+                            title={translate("performance.plan", "План")}
                             value={sumPlan} 
                             precision={0}
                             groupSeparator=' '

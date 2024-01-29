@@ -3,7 +3,7 @@ import { Col, DatePicker, Row, Space, Switch,
   Typography, theme } 
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
-import { useCustom, useGetLocale } from '@refinedev/core';
+import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard } from '../../components/dashboard';
 import './styles.css';
 
@@ -43,6 +43,8 @@ const ColStyle = {
 export const Performance: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
+
+  const translate = useTranslate();
 
   const handleDateChange = (date:any, dateString:string) => {
     setSelectedDate(dateString); 
@@ -183,13 +185,13 @@ export const Performance: React.FC = () => {
         <Col {...topColStyle}  >
         
           <Space>
-            <Text style={{color:token.colorWhite, fontSize:'small'}}>Без доли</Text>
+            <Text style={{color:token.colorWhite, fontSize:'small'}}>{translate("performance.dolya", "Без доли")}</Text>
             <Switch 
                 style={{ marginRight: '5px' }}
                 checked={dolya} 
                 onChange={(checked) => setDolya(checked)} 
             />
-            <Text style={{color:token.colorWhite, fontSize:'small'  }}>Дата</Text>
+            <Text style={{color:token.colorWhite, fontSize:'small'  }}>{translate("performance.date", "Дата")}</Text>
             <DatePicker locale={currentLocale !== 'en' ? locale : undefined} onChange={handleDateChange}/>
           </Space>
             
@@ -199,7 +201,7 @@ export const Performance: React.FC = () => {
           <ExchangeCard 
             isLoading={isLoading}
             resource='currency'
-            title="Котировки:"
+            title={translate("performance.exchange", "Котировки")+ ":"}
             data={currencyData?.data?.data}
           />
         </Col>
@@ -207,7 +209,7 @@ export const Performance: React.FC = () => {
           <ExchangeCard 
               isLoading={isLoadingShare}
               resource='share'
-              title="Акции:"
+              title={translate("performance.shares", "Акции")+ ":"}
               data={shareData?.data?.data}
             />
         </Col>
@@ -220,8 +222,8 @@ export const Performance: React.FC = () => {
         <Col {...ColStyle}>
           <KpiCard 
             resource='OilProduction'
-            headerTitle='Добыча нефти'
-            subTitle='(тыс.тонн)'
+            headerTitle={translate("performance.OilProduction", "Добыча нефти")}
+            subTitle={translate("performance.OilProductionSubTitle", "(тыс.тонн)")}
             isLoading={isLoadingOPD}
             data={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data }
             dataDaily={oilProductionDailyData?.data?.data}
