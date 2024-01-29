@@ -4,10 +4,10 @@ import { ProCard } from '@ant-design/pro-components';
 import { Area } from '@ant-design/plots';
 
 import Icon from '@ant-design/icons';
-import ExclamantionIcon from '../../assets/icons/exclamation.svg?react';
 import { AreaConfig } from '@ant-design/charts';
 import { Trend } from './trend';
 import { KpiSuffixPortion } from './kpiSuffixPortion';
+import { SimpleModal } from './';
 import './kpiCard.css';
 
 import DobychaIcon from '../../assets/icons/dobycha.svg?react';
@@ -34,7 +34,7 @@ const getIconComponent = (resource:string) => {
 
 const { useToken } = theme;
 
-const {Text, Link} = Typography;
+const {Text} = Typography;
 
 
 type Props = {
@@ -84,9 +84,8 @@ function createChartData(data: Data[] | undefined): ChartData[] {
             if (!grouped[key]) {
                 grouped[key] = { date, value: 0, value_coef: 0, category };
             }
-
-            grouped[key].value += item.attributes.value;
-            grouped[key].value_coef += item.attributes.value_coef;
+            grouped[key].value = Math.round((grouped[key].value + item.attributes.value) * 10) / 10;
+            grouped[key].value_coef = Math.round((grouped[key].value_coef + item.attributes.value_coef) * 10) / 10;
         }
     });
 
@@ -131,7 +130,7 @@ export const KpiCard: React.FC<Props> = ({
   const { token } = useToken();
   const translate = useTranslate();
   const IconComponent = getIconComponent(resource);
-  
+
   
   let sumFact = 0;
   let sumPlan = 0;
@@ -218,6 +217,7 @@ const config:AreaConfig = {
   };
 
   return (
+    <>
     <ProCard
         loading={isLoading}
         title={
@@ -225,11 +225,9 @@ const config:AreaConfig = {
                 {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
                 {headerTitle}
                 { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
-                <Link href='#' style={{marginBottom:'5px', marginLeft:'5px'}}>
-                    <Icon component={ExclamantionIcon}  />
-                </Link>    
+                {<SimpleModal title='Axon' isAxon={true}/>}   
             </Text>}
-        extra={<Link style={{fontSize:'9px',color:token.colorTextQuaternary}} href='#'>{translate("performance.open", "ОТКРЫТЬ")}</Link>}
+        extra={<SimpleModal title='Данные' tableData={chartData}/>}
         split='vertical'
         bordered
         boxShadow
@@ -289,6 +287,7 @@ const config:AreaConfig = {
          </ProCard>
 
     </ProCard>
+    </>
 
   )
 }

@@ -1,3 +1,7 @@
 .performance-procard-chart canvas {
     width: 100% !important;
 } 
+
+th.ant-table-cell {
+    color:'#ffffff' !important;
+}

@@ -180,7 +180,16 @@
         "OilProduction":"Oil Production",
         "OilProductionSubTitle":"(thous.tons)",
         "open":"OPEN",
+        "close":"Close",
         "fact":"Fact",
-        "plan":"Plan"
+        "plan":"Plan",
+        "modal":{
+            "table":{
+                "date":"Date",
+                "value":"Value",
+                "value_coef":"Value (coef)",
+                "category":"Category"
+            }
+        }
     }
 }

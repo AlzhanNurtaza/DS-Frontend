@@ -186,7 +186,16 @@
         "OilProduction":"Добыча нефти",
         "OilProductionSubTitle":"(тыс.тонн)",
         "open":"ОТКРЫТЬ",
+        "close":"Закрыть",
         "fact":"Факт",
-        "plan":"План"
+        "plan":"План",
+        "modal":{
+            "table":{
+                "date":"Дата",
+                "value":"Значение",
+                "value_coef":"Значение (доля)",
+                "category":"Категория"
+            }
+        }
     }
 }
