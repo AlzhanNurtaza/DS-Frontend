@@ -20,7 +20,6 @@ import { App as AntdApp } from "antd"
 import { BrowserRouter, Route, Routes, Outlet } from "react-router-dom";
 import routerBindings, { NavigateToResource, CatchAllNavigate, UnsavedChangesNotifier, DocumentTitleHandler } from "@refinedev/react-router-v6";
 import { useTranslation } from "react-i18next";
-import { Indicator } from "./pages/indicators";
 import { Performance } from "./pages/performances";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider, axiosInstance } from "./authProvider";
@@ -54,12 +53,6 @@ function App() {
                     i18nProvider={i18nProvider} 
                         resources={[
                             { 
-                                name: "indicators", 
-                                list: () => null,
-                                icon:<Icon component={ChartMenuIcon} />
-                            ,
-                            },
-                            { 
                                 name: "performance", 
                                 list: () => null,
                                 icon:<Icon component={ChartMenuIcon}  />
@@ -90,12 +83,8 @@ function App() {
                             }
                         >
                             <Route index element={
-                                    <NavigateToResource resource="indicators" />
+                                    <NavigateToResource resource="performance" />
                             } />
-                            <Route
-                                path="indicators"
-                                element={<Indicator />}
-                            />
                             <Route
                                 path="performance"
                                 element={<Performance />}
