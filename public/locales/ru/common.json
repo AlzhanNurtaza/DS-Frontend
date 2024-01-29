@@ -194,6 +194,8 @@
         "OilTransportationSubTitle":"(тыс.тонн)",
         "Money":"Денежные средства",
         "MoneySubTitle":"(млрд.)",
+        "Income":"Чистый доход/убыток",
+        "IncomeSubTitle":"(млрд.)",
         "open":"ОТКРЫТЬ",
         "close":"Закрыть",
         "fact":"Факт",

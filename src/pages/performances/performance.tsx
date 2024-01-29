@@ -316,7 +316,54 @@ export const Performance: React.FC = () => {
       },
     },
   });
-
+  const {data:IncomeData,isLoading:isLoadingIncome} = useCustom({
+    url:`${API_URL}/api/incomes`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
+  const {data:IncomeDailyData,isLoading:isLoadingDailyIncome} = useCustom({
+    url:`${API_URL}/api/quarterly-incomes`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+        ...(
+          selectedDate ? 
+          { 
+            filters: {
+              date: {
+                $lte: selectedDate 
+              }
+            }
+          } : {}
+        )
+      },
+    },
+  });
 
 
   const { token } = useToken();
@@ -421,28 +468,28 @@ export const Performance: React.FC = () => {
           }}
           
           >
-            <KpiCard 
-            
-            resource='Money'
-            headerTitle={translate("performance.Money", "Денежные средства")}
-            subTitle={translate("performance.MoneySubTitle", "(млрд.)")}
-            isLoading={isLoadingDeposit}
-            isLoadingDaily={isLoadingDailyDeposit}
-            data={DepositData?.data.data}
-            dataDaily={DepositDailyData?.data?.data}
-            isShort={true}
-            selectedDate={selectedDate}
-          />
-           <KpiCard 
-            
-            resource='Money'
-            headerTitle='Деньги'
-            subTitle='(тыс.тонн)'
-            isLoading={isLoadingDeposit}
-            data={DepositData?.data.data}
-            dataDaily={DepositDailyData?.data?.data}
-            isShort={true}
-          />
+            <KpiCard      
+              resource='Money'
+              headerTitle={translate("performance.Money", "Денежные средства")}
+              subTitle={translate("performance.MoneySubTitle", "(млрд.)")}
+              isLoading={isLoadingDeposit}
+              isLoadingDaily={isLoadingDailyDeposit}
+              data={DepositData?.data.data}
+              dataDaily={DepositDailyData?.data?.data}
+              isShort={true}
+              selectedDate={selectedDate}
+            />
+            <KpiCard      
+              resource='Income'
+              headerTitle={translate("performance.Income", "Денежные средства")}
+              subTitle={translate("performance.IncomeSubTitle", "(млрд.)")}
+              isLoading={isLoadingIncome}
+              isLoadingDaily={isLoadingDailyIncome}
+              data={IncomeData?.data.data}
+              dataDaily={IncomeDailyData?.data?.data}
+              isShort={true}
+              selectedDate={selectedDate}
+            />
           </ProCard>
         </Col>
       </Row>

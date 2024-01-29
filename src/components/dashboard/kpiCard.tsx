@@ -14,6 +14,7 @@ import DobychaIcon from '../../assets/icons/dobycha.svg?react';
 import PererabotkaIcon from '../../assets/icons/pererabotka.svg?react';
 import TransportirovkaIcon from '../../assets/icons/transportirovka.svg?react';
 import DengiIcon from '../../assets/icons/dengi.svg?react';
+import IncomeIcon from '../../assets/icons/income.svg?react';
 import { useTranslate } from '@refinedev/core';
 
 const getIconComponent = (resource:string) => {
@@ -26,6 +27,8 @@ const getIconComponent = (resource:string) => {
         return TransportirovkaIcon;
       case 'Money':
         return DengiIcon;
+     case 'Income':
+        return IncomeIcon;
       default:
         return null;
     }

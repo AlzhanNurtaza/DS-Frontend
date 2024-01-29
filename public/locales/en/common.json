@@ -185,6 +185,8 @@
         "OilTransportationSubTitle":"(thous.tons)",
         "Money":"Money",
         "MoneySubTitle":"(bill.)",
+        "Income":"Net income/loss",
+        "IncomeSubTitle":"(bill.)",
         "open":"OPEN",
         "close":"Close",
         "fact":"Fact",
