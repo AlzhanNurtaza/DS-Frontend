@@ -42,6 +42,7 @@ const ColStyle = {
 
 export const Performance: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('');
+  const [dolya, setDolya] = useState(false);
 
   const handleDateChange = (date:any, dateString:string) => {
     setSelectedDate(dateString); 
@@ -173,7 +174,6 @@ export const Performance: React.FC = () => {
   const localing = useGetLocale();
   const currentLocale = localing();
 
-
   return (
     <>
       <Row gutter={[24,12]} style={{ 
@@ -184,7 +184,11 @@ export const Performance: React.FC = () => {
         
           <Space>
             <Text style={{color:token.colorWhite, fontSize:'small'}}>Без доли</Text>
-            <Switch  style={{marginRight:'5px'}}/> 
+            <Switch 
+                style={{ marginRight: '5px' }}
+                checked={dolya} 
+                onChange={(checked) => setDolya(checked)} 
+            />
             <Text style={{color:token.colorWhite, fontSize:'small'  }}>Дата</Text>
             <DatePicker locale={currentLocale !== 'en' ? locale : undefined} onChange={handleDateChange}/>
           </Space>
@@ -222,6 +226,7 @@ export const Performance: React.FC = () => {
             data={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data }
             dataDaily={oilProductionDailyData?.data?.data}
             isLoadingDaily={isLoadingDailyOPD}
+            isDolya={dolya}
           />
         </Col>
         <Col {...ColStyle}>

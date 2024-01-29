@@ -43,6 +43,7 @@ type Props = {
     data: Data [],
     dataDaily?: Data [],
     isLoadingDaily?:boolean,
+    isDolya?:boolean
 }
 
 type Data = {
@@ -122,7 +123,8 @@ export const KpiCard: React.FC<Props> = ({
     isLoading,
     data,
     dataDaily,
-    isLoadingDaily
+    isLoadingDaily,
+    isDolya= false
 }) => {
   const { token } = useToken();
   const IconComponent = getIconComponent(resource);
@@ -138,9 +140,9 @@ export const KpiCard: React.FC<Props> = ({
   {
   data.forEach(item => {
     if (item.attributes.category === 'Факт') {
-        sumFact += item.attributes.value;
+        sumFact += isDolya ? item.attributes.value_coef: item.attributes.value;
     } else if (item.attributes.category === 'План') {
-        sumPlan += item.attributes.value;
+        sumPlan += isDolya ? item.attributes.value_coef: item.attributes.value;
     }
   });
   percent = Math.round((sumFact / sumPlan) * 1000) / 10;
@@ -153,12 +155,14 @@ export const KpiCard: React.FC<Props> = ({
 const config:AreaConfig = {
     loading:isLoadingDaily,
     data:chartData,
-    color:['#3182CE','#ED8936'],
+    color: (datum) => {
+        return datum.category === 'Факт' ? '#3182CE' : '#ED8936';
+    },
     autoFit:true,
     height:150,
     padding: [30, 0, 0, 0] ,
     xField: "date",
-    yField: "value",
+    yField: isDolya ? "value_coef" :"value",
     seriesField: "category",
     isStack:false,
     xAxis:false,
@@ -172,7 +176,7 @@ const config:AreaConfig = {
 
             return {
                 name: datum.category,
-                value: formatNumberWithSpaces(Math.round(datum.value))
+                value: formatNumberWithSpaces(Math.round(isDolya? datum.value_coef: datum.value))
             };
         }
     },
