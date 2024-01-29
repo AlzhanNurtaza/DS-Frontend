@@ -45,7 +45,10 @@ type Props = {
     data: Data [],
     dataDaily?: Data [],
     isLoadingDaily?:boolean,
-    isDolya?:boolean
+    isDolya?:boolean,
+    isShort?:boolean,
+    selectedDate?:string
+
 }
 
 type Data = {
@@ -125,7 +128,9 @@ export const KpiCard: React.FC<Props> = ({
     data,
     dataDaily,
     isLoadingDaily,
-    isDolya= false
+    isDolya= false,
+    isShort=false,
+    selectedDate
 }) => {
   const { token } = useToken();
   const translate = useTranslate();
@@ -137,11 +142,22 @@ export const KpiCard: React.FC<Props> = ({
   let percent = 0;
   let isDown = false;
   let chartData: ChartData[] = [];
+  let mainData:Data [] | undefined = [];
 
-  if(data)
+
+  if(selectedDate){
+    mainData = dataDaily?.filter(item => item.attributes?.date && item.attributes?.date.toString() === selectedDate);
+  }
+  else {
+    mainData = data
+  }
+
+  if(mainData)
   {
-  data.forEach(item => {
+    mainData.forEach(item => {
+
     if (item.attributes.category === 'Факт') {
+
         sumFact += isDolya ? item.attributes.value_coef: item.attributes.value;
     } else if (item.attributes.category === 'План') {
         sumPlan += isDolya ? item.attributes.value_coef: item.attributes.value;
@@ -161,7 +177,7 @@ const config:AreaConfig = {
         return datum.category === 'Факт' ? '#3182CE' : '#ED8936';
     },
     autoFit:true,
-    height:150,
+    height:isShort?70:150,
     padding: [30, 0, 0, 0] ,
     xField: "date",
     yField: isDolya ? "value_coef" :"value",
@@ -230,15 +246,21 @@ const config:AreaConfig = {
         extra={<SimpleModal title='Данные' tableData={chartData}/>}
         split='vertical'
         bordered
-        boxShadow
+        boxShadow={isShort?false:true}
         headerBordered
-        headStyle={ProcardCommonCss}
+        headStyle={{
+            ...ProcardCommonCss,
+            paddingBlockEnd:isShort?0:'16px ',
+            paddingBlock:isShort?0:'16px'
+        }}
     >
          <ProCard split="vertical">
             <ProCard split="horizontal" colSpan="50%">
                 <ProCard bodyStyle={{...ProcardCommonCss,
-                    backgroundColor:token.colorBgBase
-                }}>
+                    backgroundColor:token.colorBgBase,
+                    paddingBlock:isShort?0:'16px'
+                }}
+                >
                     
                     <Statistic 
                         title={translate("performance.fact", "Факт")}
@@ -247,7 +269,7 @@ const config:AreaConfig = {
                         groupSeparator=' '
                         style={StatisticCommonCss}  
                         valueStyle={{
-                            fontSize:token.fontSizeLG,
+                            fontSize: isShort? token.fontSizeSM: token.fontSizeLG,
                             fontWeight:'bold',
                         }}
                         prefix={<Trend isDown={isDown} />}
@@ -256,7 +278,10 @@ const config:AreaConfig = {
                     />
                 </ProCard>
                 <ProCard
-                  bodyStyle={ProcardCommonCss}  
+                  bodyStyle={{
+                    ...ProcardCommonCss,
+                    paddingBlock:isShort?0:'16px'
+                }}  
                 >
                     <Statistic 
                             title={translate("performance.plan", "План")}
@@ -265,7 +290,7 @@ const config:AreaConfig = {
                             groupSeparator=' '
                             style={StatisticCommonCss}  
                             valueStyle={{
-                                fontSize:token.fontSizeLG,
+                                fontSize: isShort? token.fontSizeSM: token.fontSizeLG,
                                 fontWeight:'bold',
                             }}
 

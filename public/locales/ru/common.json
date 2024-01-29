@@ -192,6 +192,8 @@
         "OilRefiningSubTitle":"(тыс.тонн)",
         "OilTransportation":"Транспортировка нефти",
         "OilTransportationSubTitle":"(тыс.тонн)",
+        "Money":"Денежные средства",
+        "MoneySubTitle":"(млрд.)",
         "open":"ОТКРЫТЬ",
         "close":"Закрыть",
         "fact":"Факт",

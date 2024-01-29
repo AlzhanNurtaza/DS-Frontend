@@ -28,7 +28,6 @@ export const SimpleModal: React.FC<Props> = ({
     tableData,
     isAxon = false
 }) => {
-  console.log(tableData);
   const { token } = useToken();
   const translate = useTranslate();
   const [isModalVisible, setIsModalVisible] = useState(false);

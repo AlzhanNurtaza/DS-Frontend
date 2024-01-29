@@ -183,6 +183,8 @@
         "OilRefiningSubTitle":"(thous.tons)",
         "OilTransportation":"Oil Transportation",
         "OilTransportationSubTitle":"(thous.tons)",
+        "Money":"Money",
+        "MoneySubTitle":"(bill.)",
         "open":"OPEN",
         "close":"Close",
         "fact":"Fact",

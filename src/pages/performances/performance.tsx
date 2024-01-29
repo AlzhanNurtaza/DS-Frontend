@@ -8,6 +8,7 @@ import { ExchangeCard,KpiCard } from '../../components/dashboard';
 import './styles.css';
 
 import { API_URL } from "../../constants";
+import { ProCard } from '@ant-design/pro-components';
 
 
 const {Text} = Typography; 
@@ -267,6 +268,55 @@ export const Performance: React.FC = () => {
       },
     },
   });
+  const {data:DepositData,isLoading:isLoadingDeposit} = useCustom({
+    url:`${API_URL}/api/deposits`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
+  const {data:DepositDailyData,isLoading:isLoadingDailyDeposit} = useCustom({
+    url:`${API_URL}/api/quaterly-deposits`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+        ...(
+          selectedDate ? 
+          { 
+            filters: {
+              date: {
+                $lte: selectedDate 
+              }
+            }
+          } : {}
+        )
+      },
+    },
+  });
+
 
 
   const { token } = useToken();
@@ -322,10 +372,11 @@ export const Performance: React.FC = () => {
             headerTitle={translate("performance.OilProduction", "Добыча нефти")}
             subTitle={translate("performance.OilProductionSubTitle", "(тыс.тонн)")}
             isLoading={isLoadingOPD}
-            data={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data }
+            data={oilProductionData?.data?.data }
             dataDaily={oilProductionDailyData?.data?.data}
             isLoadingDaily={isLoadingDailyOPD}
             isDolya={dolya}
+            selectedDate={selectedDate}
           />
         </Col>
         <Col {...ColStyle}>
@@ -334,10 +385,11 @@ export const Performance: React.FC = () => {
             headerTitle={translate("performance.OilRefining", "Переработка нефти")}
             subTitle={translate("performance.OilRefiningSubTitle", "(тыс.тонн)")}
             isLoading={isLoadingORD}
-            data={selectedDate ? oilRefiningDailyData?.data?.data: oilRefiningData?.data?.data }
+            data={oilRefiningData?.data?.data }
             dataDaily={oilRefiningDailyData?.data?.data}
             isLoadingDaily={isLoadingDailyORD}
             isDolya={dolya}
+            selectedDate={selectedDate}
           />
         </Col>
         <Col {...ColStyle}>
@@ -346,20 +398,52 @@ export const Performance: React.FC = () => {
             headerTitle={translate("performance.OilTransportation", "Транспортировка нефти")}
             subTitle={translate("performance.OilTransportationSubTitle", "(тыс.тонн)")}
             isLoading={isLoadingOTD}
-            data={selectedDate ? oilTransportationData?.data?.data: oilTransportationDailyData?.data?.data }
+            data={oilTransportationData?.data?.data }
             dataDaily={oilTransportationDailyData?.data?.data}
             isLoadingDaily={isLoadingDailyOTD}
             isDolya={dolya}
+            selectedDate={selectedDate}
           />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard 
+          <ProCard
+          boxShadow
+          style={{
+            width:'100%',
+            padding:0,
+            
+          }}
+          bodyStyle={{
+            padding:0,
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'space-between',height:'100%'
+          }}
+          
+          >
+            <KpiCard 
+            
+            resource='Money'
+            headerTitle={translate("performance.Money", "Денежные средства")}
+            subTitle={translate("performance.MoneySubTitle", "(млрд.)")}
+            isLoading={isLoadingDeposit}
+            isLoadingDaily={isLoadingDailyDeposit}
+            data={DepositData?.data.data}
+            dataDaily={DepositDailyData?.data?.data}
+            isShort={true}
+            selectedDate={selectedDate}
+          />
+           <KpiCard 
+            
             resource='Money'
             headerTitle='Деньги'
             subTitle='(тыс.тонн)'
-            isLoading={false}
-            data={[]}
+            isLoading={isLoadingDeposit}
+            data={DepositData?.data.data}
+            dataDaily={DepositDailyData?.data?.data}
+            isShort={true}
           />
+          </ProCard>
         </Col>
       </Row>
     </>
