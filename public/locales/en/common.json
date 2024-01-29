@@ -187,6 +187,8 @@
         "MoneySubTitle":"(bill.)",
         "Income":"Net income/loss",
         "IncomeSubTitle":"(bill.)",
+        "Purchase":"Purchase plan of group KMG",
+        "PurchaseSubTitle":"(bill.)",
         "open":"OPEN",
         "close":"Close",
         "fact":"Fact",

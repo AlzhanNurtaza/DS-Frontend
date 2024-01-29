@@ -120,71 +120,9 @@ const topColResponsiveProps = {
   };
 
 
-  const dataZakupki =[
-    {
-    name: "Товар",
-    type: "Сумма плана",
-    value: 777
-    },
-    {
-    name: "Товар",
-    type: "Сумма договора",
-    value: 663
-    },
-    {
-    name: "Товар",
-    type: "Сумма исполнения",
-    value: 398
-    },
-    {
-    name: "Работа",
-    type: "Сумма плана",
-    value: 529
-    },
-    {
-    name: "Работа",
-    type: "Сумма договора",
-    value: 436
-    },
-    {
-    name: "Работа",
-    type: "Сумма исполнения",
-    value: 156
-    },
-    {
-    name: "Услуга",
-    type: "Сумма плана",
-    value: 815
-    },
-    {
-    name: "Услуга",
-    type: "Сумма договора",
-    value: 688
-    },
-    {
-    name: "Услуга",
-    type: "Сумма исполнения",
-    value: 248
-    },
 
-];
 
-const configZakupki = {
-    data:dataZakupki,
-    autoFit:false,
-    height:300,
-    xField: 'name',
-    yField: 'value',
-    seriesField: 'type',
-    isGroup: true,
-    label:{
-      position:'top'
-    },
-    legend:{
-      position:'bottom'
-    },
-    color:['#3182CE','#48BB78','#ED8936']
-  };
+
 
 export const Indicator: React.FC = () => {
     const { token } = useToken();

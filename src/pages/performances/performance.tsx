@@ -4,7 +4,7 @@ import { Col, DatePicker, Row, Space, Switch,
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
-import { ExchangeCard,KpiCard,TabComponentChart} from '../../components/dashboard';
+import { ExchangeCard,KpiCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
 import './styles.css';
 
 import { API_URL } from "../../constants";
@@ -375,6 +375,25 @@ export const Performance: React.FC = () => {
       },
     },
   });
+  const {data:PurchaseData,isLoading:isLoadingPurchase} = useCustom({
+    url:`${API_URL}/api/purchases`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "year",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
 
 
   const { token } = useToken();
@@ -516,6 +535,17 @@ export const Performance: React.FC = () => {
             isLoading={isLoadingDailyOPD}
             isDolya={dolya}
           />
+        </Col>
+        <Col {...ColStyleRow2}>
+          <div style={{
+            width:'100%'
+          }}>
+            <PurchaseColumnChart 
+              isLoading={isLoadingPurchase}
+              data={PurchaseData?.data?.data}
+            />
+          </div>
+
         </Col>
       </Row>
     </>

@@ -196,6 +196,8 @@
         "MoneySubTitle":"(млрд.)",
         "Income":"Чистый доход/убыток",
         "IncomeSubTitle":"(млрд.)",
+        "Purchase":"План закупок группы КМГ",
+        "PurchaseSubTitle":"(млрд.)",
         "open":"ОТКРЫТЬ",
         "close":"Закрыть",
         "fact":"Факт",

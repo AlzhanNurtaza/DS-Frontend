@@ -70,6 +70,7 @@ export const SimpleModal: React.FC<Props> = ({
         title={title}
         visible={isModalVisible}
         onCancel={handleClose}
+        width='70%'
         footer={[
           <Button key="back" onClick={handleClose}>
             {translate("performance.close", "Закрыть")}
