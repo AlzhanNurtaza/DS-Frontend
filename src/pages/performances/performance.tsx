@@ -172,6 +172,56 @@ export const Performance: React.FC = () => {
   });
 
 
+  const {data:oilRefiningData,isLoading:isLoadingORD} = useCustom({
+    url:`${API_URL}/api/annual-oil-refinings`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "value",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:100,
+          page:1,
+        },
+      },
+    },
+  });
+  const {data:oilRefiningDailyData,isLoading:isLoadingDailyORD} = useCustom({
+    url:`${API_URL}/api/daily-oil-refinings`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "date",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:500,
+          page:1,
+        },
+        ...(
+          selectedDate ? 
+          { 
+            filters: {
+              date: {
+                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
+              }
+            }
+          } : {}
+        )
+      },
+    },
+  });
+
+
   const { token } = useToken();
   const localing = useGetLocale();
   const currentLocale = localing();
@@ -232,13 +282,15 @@ export const Performance: React.FC = () => {
           />
         </Col>
         <Col {...ColStyle}>
-          <KpiCard 
+        <KpiCard 
             resource='OilRefining'
-            headerTitle='Переработка нефти'
-            subTitle='(тыс.тонн)'
-            isLoading={false}
-            data={[]}
- 
+            headerTitle={translate("performance.OilRefining", "Переработка нефти")}
+            subTitle={translate("performance.OilRefiningSubTitle", "(тыс.тонн)")}
+            isLoading={isLoadingORD}
+            data={selectedDate ? oilRefiningDailyData?.data?.data: oilRefiningData?.data?.data }
+            dataDaily={oilRefiningDailyData?.data?.data}
+            isLoadingDaily={isLoadingDailyORD}
+            isDolya={dolya}
           />
         </Col>
         <Col {...ColStyle}>

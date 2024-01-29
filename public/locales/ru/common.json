@@ -168,6 +168,9 @@
             "edit": "#{{id}} Редактировать категорию",
             "create": "Создать новую категорию",
             "clone": "#{{id}} Клонировать категорию"
+        },
+        "performance":{
+            "list":"Показатели"
         }
 
     },
@@ -185,6 +188,8 @@
         "shares": "Акции",
         "OilProduction":"Добыча нефти",
         "OilProductionSubTitle":"(тыс.тонн)",
+        "OilRefining":"Переработка нефти",
+        "OilRefiningSubTitle":"(тыс.тонн)",
         "open":"ОТКРЫТЬ",
         "close":"Закрыть",
         "fact":"Факт",

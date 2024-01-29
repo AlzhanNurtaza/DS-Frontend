@@ -179,6 +179,8 @@
         "shares": "Shares",
         "OilProduction":"Oil Production",
         "OilProductionSubTitle":"(thous.tons)",
+        "OilRefining":"Oil Refining",
+        "OilRefiningSubTitle":"(thous.tons)",
         "open":"OPEN",
         "close":"Close",
         "fact":"Fact",
