@@ -60,6 +60,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
         yField: 'value',
         seriesField: 'type',
         isGroup: true,
+        appendPadding:10,
         legend:{
             position:'bottom',
             itemName: {

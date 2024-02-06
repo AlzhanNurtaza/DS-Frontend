@@ -102,7 +102,7 @@ const tabsCardCss:React.CSSProperties = {
 }
 
 const chartHeightDiv:React.CSSProperties = {
-    height:'800px'
+    height:'800px',
 }
 
 
@@ -123,11 +123,8 @@ export const TabComponentChart : React.FC<Props> = ({
     const translate = useTranslate();
     const [tab, setTab] = useState('tab1');
 
-    const uniqueLabels1 = data1 ? [...new Set(data1 && data1.map(item => item.attributes.dzo))] : [];
-    const uniqueLabels2 = data2 ? [...new Set(data2 && data2.map(item => item.attributes.dzo))] : [];
-    const uniqueLabels3 = data3 ? [...new Set(data3 && data3.map(item => item.attributes.dzo))] : [];
 
-    const createConfig = (chartData: ChartData[], uniqueLabels: string[]): BarConfig => ({
+    const createConfig = (chartData: ChartData[]): BarConfig => ({
         loading:isLoading,
         data:chartData,
         isGroup: true,
@@ -135,16 +132,7 @@ export const TabComponentChart : React.FC<Props> = ({
         yField: 'dzo',
         seriesField: 'category',
         dodgePadding: 4,
-        annotations: uniqueLabels.map((label, index) => ({
-            type: 'line',
-            start: ['0%', `${(index * 100) / uniqueLabels.length}%`],
-            end: ['100%', `${(index * 100) / uniqueLabels.length}%`],
-            style: {
-              stroke: '#ccc',
-              lineWidth: 1
-            }
-          })),  
-
+        //autoFit:false,
         legend:{
             position:'bottom',
             itemName: {
@@ -157,16 +145,20 @@ export const TabComponentChart : React.FC<Props> = ({
             return datum.category === 'Факт' ? '#3182CE' : '#ED8936';
         },
         label: {
+
             position: 'right',
             style: {
-              fill: token.colorText
+              fill: token.colorText,
             },
         },
-        yAxis: {
+        yAxis: {    
             label: {
               style: {
-                fill:token.colorText
+                fill:token.colorText,
+
               },
+              
+              
             },
         },
         tooltip: {
@@ -183,12 +175,14 @@ export const TabComponentChart : React.FC<Props> = ({
                 };
             }
         },
+        appendPadding:[0,40,0,0],
+        barWidthRatio: 0.6,
     });
 
 
-    const config1 = createConfig(chartData1, uniqueLabels1);
-    const config2 = createConfig(chartData2, uniqueLabels2);
-    const config3 = createConfig(chartData3, uniqueLabels3);
+    const config1 = createConfig(chartData1);
+    const config2 = createConfig(chartData2);
+    const config3 = createConfig(chartData3);
     
   return (
     <>
@@ -220,7 +214,7 @@ export const TabComponentChart : React.FC<Props> = ({
                         </Text>,
                 key: 'tab2',
                 style:tabsCardCss,
-                children: !isLoading && <div style={chartHeightDiv}><Bar {...config2}  /></div>,
+                children: !isLoading && <div style={{...chartHeightDiv,height:'460px'}}><Bar {...config2}  /></div>,
                 },
                 {
                 label: <Text style={{
