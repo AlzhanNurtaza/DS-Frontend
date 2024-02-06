@@ -180,7 +180,7 @@ const config:AreaConfig = {
         return datum.category === 'Факт' ? '#3182CE' : '#ED8936';
     },
     autoFit:true,
-    height:isShort?70:150,
+    height:70,
     padding: [30, 0, 0, 0] ,
     xField: "date",
     yField: isDolya ? "value_coef" :"value",
@@ -258,7 +258,7 @@ const config:AreaConfig = {
         }}
     >
          <ProCard split="vertical">
-            <ProCard split="horizontal" colSpan="50%">
+            <ProCard split="horizontal" colSpan={isShort?"100%":"50%"}>
                 <ProCard bodyStyle={{...ProcardCommonCss,
                     backgroundColor:token.colorBgBase,
                     paddingBlock:isShort?0:'16px'
