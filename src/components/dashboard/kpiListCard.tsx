@@ -72,7 +72,10 @@ export const KpiListCard: React.FC<Props> = ({
 
         boxShadow
         bodyStyle={{
-            paddingInline:'8px'
+            paddingInline:'8px',
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%' 
         }}
         headStyle={{
             paddingInline:'8px'

@@ -622,8 +622,8 @@ export const Performance: React.FC = () => {
               data={PurchaseData?.data?.data}
             />
           </div>
-          <Row gutter={12} style={{ marginTop: '20px', display: 'flex',justifyContent:'space-between',gap:'8px'}}>
-            <Col style={{display:'flex'}}>
+          <Row gutter={[16, 16]} style={{marginTop:'12px'}}>
+            <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={IncidentData?.data?.data}
                 isLoading={isLoadingIncident}
@@ -631,7 +631,7 @@ export const Performance: React.FC = () => {
                 resource='Incident'
               />
             </Col>
-            <Col style={{display:'flex'}} >
+            <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={AccidentData?.data?.data}
                 isLoading={isLoadingAccident}
@@ -639,7 +639,7 @@ export const Performance: React.FC = () => {
                 resource='Accident'
               />
             </Col>
-            <Col style={{display:'flex', flex:'1'}}>
+            <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={DtpData?.data?.data}
                 isLoading={isLoadingDtp}
