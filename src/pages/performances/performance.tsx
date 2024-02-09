@@ -30,9 +30,10 @@ const topColStyle = {
 
 const ColStyle = {
   xs: 24,
-  sm:24,
-  md:12,
-  lg:6,
+  sm: 24,
+  md: 12,
+  lg: 12,
+  xl: 6,
   style:{
     marginTop:24,
     width:'100%',

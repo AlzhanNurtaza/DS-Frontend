@@ -180,7 +180,7 @@ const config:AreaConfig = {
         return datum.category === 'Факт' ? '#3182CE' : '#ED8936';
     },
     autoFit:true,
-    height:70,
+    //height:70,
     padding: [30, 0, 0, 0] ,
     xField: "date",
     yField: isDolya ? "value_coef" :"value",
@@ -201,14 +201,17 @@ const config:AreaConfig = {
             };
         }
     },
-    legend:{
-        position:'top-right',
+    legend: {
+        position: 'top-right',
         itemName: {
             style: {
-                fill: token.colorText
+                fill: token.colorText,
+                fontSize: 10, // Set the font size to 10px
+                // Additional styling properties can go here
             }
-        }
-    }, 
+        },
+        itemSpacing: 0
+    },
     yAxis:{ 
         
         tickCount:0, 
@@ -303,6 +306,7 @@ const config:AreaConfig = {
             <ProCard  
             style={{
                 height:'100%',
+                maxHeight:'150px'
             }}
             className='performance-procard-chart'
             bodyStyle={{
