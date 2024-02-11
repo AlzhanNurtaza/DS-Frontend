@@ -77,6 +77,10 @@ export const Performance: React.FC = () => {
           field: "date",
           order: "desc",
         },
+        {
+          field: "currency",
+          order: "desc",
+        },
         
       ],
       filters: [
@@ -502,7 +506,7 @@ export const Performance: React.FC = () => {
           <ExchangeCard 
             isLoading={isLoading}
             resource='currency'
-            title={translate("performance.exchange", "Котировки")+ ":"}
+            title={translate("performance.exchange", "Курсы валют")+ ":"}
             data={currencyData?.data?.data}
           />
         </Col>
