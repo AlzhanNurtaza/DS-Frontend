@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Row, Space, Switch, 
   Typography, theme } 
 from 'antd';
@@ -298,6 +298,22 @@ export const Performance: React.FC = () => {
     "pagination[page]":1,
     "pagination[pageSize]":500,
   }, [startDateString,endDateString],true); 
+
+  const [isLoadingGlobal, setIsLoadingGlobal] = useState(true);
+  useEffect(() => {
+    // Set global loading to false only if all individual loading states are false
+    const anyLoading = isLoading || isLoadingShare || isLoadingbrentData || isLoadingDailyOPD || isLoadingDailyORD || isLoadingDailyOTD || isLoadingDeposit || isLoadingDailyDeposit || isLoadingIncome || isLoadingDailyIncome || isLoadingPurchase || isLoadingIncident || isLoadingAccident || isLoadingDtp;
+  
+    setIsLoadingGlobal(anyLoading);
+  }, [
+    isLoading, isLoadingShare, isLoadingbrentData, isLoadingDailyOPD, 
+    isLoadingDailyORD, isLoadingDailyOTD, isLoadingDeposit, isLoadingDailyDeposit, 
+    isLoadingIncome, isLoadingDailyIncome, isLoadingPurchase, isLoadingIncident, 
+    isLoadingAccident, isLoadingDtp
+  ]);
+
+
+  
   
 
 
@@ -342,13 +358,13 @@ export const Performance: React.FC = () => {
         <Col {...topColStyle}>
           <Space direction="vertical">
           <ExchangeCard 
-            isLoading={isLoading}
+            isLoading={isLoadingGlobal}
             resource='currency'
             title={translate("performance.exchange", "Курсы валют")+ ":"}
             data={currencyData} 
           />
           <ExchangeCard 
-              isLoading={isLoadingbrentData}
+              isLoading={isLoadingGlobal}
               resource='share'
               title={translate("performance.brent", "Platts, BRENT")+ ":"}
               data={brentData}
@@ -358,7 +374,7 @@ export const Performance: React.FC = () => {
         </Col>
         <Col {...topColStyle}>
           <ExchangeCard 
-              isLoading={isLoadingShare}
+              isLoading={isLoadingGlobal}
               resource='share'
               title={translate("performance.shares", "Акции")+ ":"}
               data={shareData}
@@ -375,7 +391,7 @@ export const Performance: React.FC = () => {
             resource='OilProduction'
             headerTitle={translate("performance.OilProduction", "Добыча нефти")}
             subTitle={translate("performance.OilProductionSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingDailyOPD}
+            isLoading={isLoadingGlobal}
             data={oilProductionDailyData }
             dataDaily={oilProductionDailyData}
             isDolya={dolya}
@@ -387,7 +403,7 @@ export const Performance: React.FC = () => {
             resource='OilRefining'
             headerTitle={translate("performance.OilRefining", "Переработка нефти")}
             subTitle={translate("performance.OilRefiningSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingDailyORD}
+            isLoading={isLoadingGlobal}
             data={oilRefiningDailyData }
             isDolya={dolya}
           />
@@ -397,7 +413,7 @@ export const Performance: React.FC = () => {
             resource='OilTransportation'
             headerTitle={translate("performance.OilTransportation", "Транспортировка нефти")}
             subTitle={translate("performance.OilTransportationSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingDailyOTD}
+            isLoading={isLoadingGlobal}
             data={oilTransportationDailyData}
             isDolya={dolya}
           />
@@ -423,7 +439,7 @@ export const Performance: React.FC = () => {
               resource='Money'
               headerTitle={translate("performance.Money", "Денежные средства")}
               subTitle={translate("performance.MoneySubTitle", "(млрд.)")}
-              isLoading={isLoadingDeposit}
+              isLoading={isLoadingGlobal}
               //isLoadingDaily={isLoadingDailyDeposit}
               data={DepositData?.data.data}
               dataDaily={DepositDailyData?.data?.data}
@@ -434,7 +450,7 @@ export const Performance: React.FC = () => {
               resource='Income'
               headerTitle={translate("performance.Income", "Денежные средства")}
               subTitle={translate("performance.IncomeSubTitle", "(млрд.)")}
-              isLoading={isLoadingIncome}
+              isLoading={isLoadingGlobal}
               //isLoadingDaily={isLoadingDailyIncome}
               data={IncomeData?.data.data}
               dataDaily={IncomeDailyData?.data?.data}
@@ -454,7 +470,7 @@ export const Performance: React.FC = () => {
             data1={oilProductionDailyData}
             data2={oilRefiningDailyData}
             data3={oilTransportationDailyData}
-            isLoading={isLoadingDailyOPD}
+            isLoading={isLoadingGlobal}
             isDolya={dolya}
           />
         </Col>
@@ -463,7 +479,7 @@ export const Performance: React.FC = () => {
             width:'100%'
           }}>
             <PurchaseColumnChart 
-              isLoading={isLoadingPurchase}
+              isLoading={isLoadingGlobal}
               data={PurchaseData?.data?.data}
             />
           </div>
@@ -471,7 +487,7 @@ export const Performance: React.FC = () => {
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={IncidentData}
-                isLoading={isLoadingIncident}
+                isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Incident", "")}
                 resource='Incident'
               />
@@ -479,7 +495,7 @@ export const Performance: React.FC = () => {
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={AccidentData}
-                isLoading={isLoadingAccident}
+                isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Accident", "")}
                 resource='Accident'
               />
@@ -487,7 +503,7 @@ export const Performance: React.FC = () => {
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
                 data={DtpData}
-                isLoading={isLoadingDtp}
+                isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Dtp", "")}
                 resource='Dtp'
               />
