@@ -19,6 +19,7 @@ type Attribute ={
 
 type Rate = {
     currency:string,
+    title:string,
     value:string,
     arrow:string
 }
@@ -56,7 +57,7 @@ export const ExchangeCard = ({
                     style={{ color: token.colorWhite, marginRight: '6px',fontSize:'small' }} 
                     strong
                     key={index}
-                >{item.attributes?.currency} {item.attributes?.value} 
+                >{item.attributes?.currency? item.attributes?.currency:item.attributes?.title} {item.attributes?.value} 
                     {item.attributes?.arrow === 'DOWN' ? 
                     <CaretDownOutlined style={{ color: resource !== 'currency' ? '#FC6363' : '#48BB78' }}/> 
                     : <CaretUpOutlined style={{ color: resource !== 'currency' ? '#48BB78' : '#FC6363' }}/>}
