@@ -603,6 +603,7 @@ export const Performance: React.FC = () => {
             padding:0,
             display:'flex',
             flexDirection:'column',
+            gap:24,
             justifyContent:'space-between',height:'100%'
           }}
           
@@ -629,6 +630,7 @@ export const Performance: React.FC = () => {
               isShort={true}
               selectedDate={selectedDate}
             />
+            
           </ProCard>
         </Col>
       </Row>

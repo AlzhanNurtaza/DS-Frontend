@@ -256,8 +256,8 @@ const config:AreaConfig = {
         headerBordered
         headStyle={{
             ...ProcardCommonCss,
-            paddingBlockEnd:isShort?0:'16px ',
-            paddingBlock:isShort?0:'16px'
+            paddingBlockEnd:isShort?'4px':'16px ',
+            paddingBlock:isShort?'4px':'16px'
         }}
     >
          <ProCard split="vertical" style={{height:'100%'}}>
@@ -275,7 +275,7 @@ const config:AreaConfig = {
                         groupSeparator=' '
                         style={StatisticCommonCss}  
                         valueStyle={{
-                            fontSize: isShort? token.fontSizeSM: token.fontSizeLG,
+                            fontSize: isShort? token.fontSizeLG: token.fontSizeLG,
                             fontWeight:'bold',
                         }}
                         prefix={<Trend isDown={isDown} />}
@@ -296,7 +296,7 @@ const config:AreaConfig = {
                             groupSeparator=' '
                             style={StatisticCommonCss}  
                             valueStyle={{
-                                fontSize: isShort? token.fontSizeSM: token.fontSizeLG,
+                                fontSize: isShort? token.fontSizeLG: token.fontSizeLG,
                                 fontWeight:'bold',
                             }}
 
