@@ -260,11 +260,11 @@ const config:AreaConfig = {
             paddingBlock:isShort?0:'16px'
         }}
     >
-         <ProCard split="vertical">
-            <ProCard split="horizontal" colSpan={isShort?"100%":"50%"}>
+         <ProCard split="vertical" style={{height:'100%'}}>
+            <ProCard split="horizontal" colSpan={isShort?"100%":"55%"}>
                 <ProCard bodyStyle={{...ProcardCommonCss,
                     backgroundColor:token.colorBgBase,
-                    paddingBlock:isShort?0:'16px'
+                    paddingBlock:isShort?0:'16px',
                 }}
                 >
                     
@@ -312,6 +312,7 @@ const config:AreaConfig = {
             bodyStyle={{
                 paddingInline:0,
                 paddingBlock:0,
+                paddingTop:'10px'
             }}>
                 
                 <Area {...config} className='chart-canvas' /> 

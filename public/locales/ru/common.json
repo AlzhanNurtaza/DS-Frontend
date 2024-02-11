@@ -185,6 +185,7 @@
         "dolya":"Без доли",
         "date":"Дата",
         "exchange": "Курсы валют",
+        "brent": "Котировки",
         "shares": "Акции",
         "OilProduction":"Добыча нефти",
         "OilProductionSubTitle":"(тыс.тонн)",

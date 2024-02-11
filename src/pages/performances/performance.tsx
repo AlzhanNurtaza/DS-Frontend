@@ -143,6 +143,26 @@ export const Performance: React.FC = () => {
     },
   });
 
+  const {data:brentData,isLoading:isLoadingbrentData} = useCustom({
+    url:`${API_URL}/api/brents`,
+    method:'get',
+    config: {
+      sorters: [
+        {
+          field: "date",
+          order: "desc",
+        },
+        
+      ],
+      query: {
+        pagination: {
+          pageSize:1,
+          page:1,
+        },
+      },
+    },
+  });
+
   const {data:oilProductionData,isLoading:isLoadingOPD} = useCustom({
     url:`${API_URL}/api/annual-oil-productions`,
     method:'get',
@@ -516,6 +536,14 @@ export const Performance: React.FC = () => {
               resource='share'
               title={translate("performance.shares", "Акции")+ ":"}
               data={shareData?.data?.data}
+            />
+        </Col>
+        <Col {...topColStyle}>
+          <ExchangeCard 
+              isLoading={isLoadingbrentData}
+              resource='share'
+              title={translate("performance.brent", "Platts, BRENT")+ ":"}
+              data={brentData?.data?.data}
             />
         </Col>
       </Row>

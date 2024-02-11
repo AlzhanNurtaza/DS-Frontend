@@ -176,6 +176,7 @@
         "dolya":"No Share",
         "date":"Date",
         "exchange": "Exchange",
+        "brent": "Rates",
         "shares": "Shares",
         "OilProduction":"Oil Production",
         "OilProductionSubTitle":"(thous.tons)",
