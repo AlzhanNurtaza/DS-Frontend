@@ -55,12 +55,12 @@ export const PurchaseColumnChart: React.FC<Props> = ({
     const configZakupki:ColumnConfig = {
         autoFit:true,
         data:filteredData,
-        height:220,
+        //height:220,
         xField: 'category',
         yField: 'value',
         seriesField: 'type',
         isGroup: true,
-        appendPadding:10,
+        appendPadding:20,
         legend:{
             position:'bottom',
             itemName: {
