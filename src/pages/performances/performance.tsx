@@ -5,14 +5,18 @@ from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
+import dayjs from 'dayjs';
 import './styles.css';
 
 import { API_URL } from "../../constants";
 import { ProCard } from '@ant-design/pro-components';
+//import { useApiData } from '../../hooks/useApiData';
+import { useApiDataCustom } from '../../hooks/useApiDataCustom';
 
 
 const {Text} = Typography; 
 const { useToken } = theme;
+const { RangePicker } = DatePicker;
 
 const topColStyle = {
   xs: 24,
@@ -61,253 +65,91 @@ export const Performance: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
 
+  const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format('YYYY-MM-DD'));
+  const [endDateString, setEndDateString] = useState(dayjs().format('YYYY-MM-DD'));
+
   const translate = useTranslate();
 
-  const handleDateChange = (date:any, dateString:string) => {
-    setSelectedDate(dateString); 
+  const defaultDates = [dayjs().startOf('year'), dayjs()];
+  const [dates, setDates] = useState<any>(defaultDates);
+  const handleDatesChange:any = (dates:[], dateString:string) => {
+    if(dateString[0]=='' || dateString[1]==''){
+      setDates(defaultDates);
+      setStartDateString(defaultDates[0].format('YYYY-MM-DD'))
+      setEndDateString(defaultDates[1].format('YYYY-MM-DD'))
+    }
+    else {
+      setDates(dates);
+      setStartDateString(dateString[0])
+      setEndDateString(dateString[1])
+    }
   };
 
+  //Курсы 
+  const { data: currencyData, isLoading: isLoading } = useApiDataCustom('currencies', 
+  {
+    'sort[0]':'date:desc',
+    'sort[1]':'currency:desc',
+    'filters[currency][$eq][0]':'$',
+    'filters[currency][$eq][1]':'€',
+    'filters[currency][$eq][2]':'₽',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":3,
+  },[startDateString,endDateString],false);
 
-  const {data:currencyData,isLoading} = useCustom({
-    url:`${API_URL}/api/currencies`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        {
-          field: "currency",
-          order: "desc",
-        },
-        
-      ],
-      filters: [
-        {
-          field: "currency",
-          operator: "eq",
-          value: "$",
-        },
-        {
-          field: "currency",
-          operator: "eq",
-          value: "€",
-        },
-        {
-          field: "currency",
-          operator: "eq",
-          value: "₽",
-        },
-      ],
-      query: {
-        pagination: {
-          pageSize:3,
-          page:1,
-        },
-        ...(selectedDate && { 'filters[date]': selectedDate }),
-      },
-    },
-  });
+  
+  
+  //Акции
+  const { data: shareData, isLoading: isLoadingShare } = useApiDataCustom('shares', {
+    'sort[0]':'date:desc',
+    'filters[title][$eq][0]':'КМГ,AIX',
+    'filters[title][$eq][1]':'КМГ,KASE',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":2,
+  }, [startDateString,endDateString],false); 
 
-  const {data:shareData,isLoading:isLoadingShare} = useCustom({
-    url:`${API_URL}/api/shares`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        
-      ],
-      filters: [
-        {
-          field: "title",
-          operator: "eq",
-          value: "КМГ,AIX",
-        },
-        {
-          field: "title",
-          operator: "eq",
-          value: "КМГ,KASE",
-        }
-      ],
-      query: {
-        pagination: {
-          pageSize:2,
-          page:1,
-        },
-        ...(selectedDate && { 'filters[date]': selectedDate }),
-      },
-    },
-  });
 
-  const {data:brentData,isLoading:isLoadingbrentData} = useCustom({
-    url:`${API_URL}/api/brents`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:1,
-          page:1,
-        },
-      },
-    },
-  });
+    //Brent
+  const { data: brentData, isLoading: isLoadingbrentData } = useApiDataCustom('brents', {
+      'sort[0]':'date:desc',
+      //'filters[date][$gte][0]':startDateString,
+      //'filters[date][$lte][1]':endDateString,
+      "pagination[page]":1,
+      "pagination[pageSize]":1,
+  },[startDateString,endDateString],false);
+    
+  //Добыча
+  const { data: oilProductionDailyData, isLoading: isLoadingDailyOPD } = useApiDataCustom('daily-oil-productions', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
 
-  const {data:oilProductionData,isLoading:isLoadingOPD} = useCustom({
-    url:`${API_URL}/api/annual-oil-productions`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-      },
-    },
-  });
-  const {data:oilProductionDailyData,isLoading:isLoadingDailyOPD} = useCustom({
-    url:`${API_URL}/api/daily-oil-productions`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:500,
-          page:1,
-        },
-        ...(
-          selectedDate ? 
-          { 
-            filters: {
-              date: {
-                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
-              }
-            }
-          } : {}
-        )
-      },
-    },
-  });
-  const {data:oilRefiningData,isLoading:isLoadingORD} = useCustom({
-    url:`${API_URL}/api/annual-oil-refinings`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-      },
-    },
-  });
-  const {data:oilRefiningDailyData,isLoading:isLoadingDailyORD} = useCustom({
-    url:`${API_URL}/api/daily-oil-refinings`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:500,
-          page:1,
-        },
-        ...(
-          selectedDate ? 
-          { 
-            filters: {
-              date: {
-                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
-              }
-            }
-          } : {}
-        )
-      },
-    },
-  });
+  //Переработка
+  const { data: oilRefiningDailyData, isLoading: isLoadingDailyORD } = useApiDataCustom('daily-oil-refinings', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
 
-  const {data:oilTransportationData,isLoading:isLoadingOTD} = useCustom({
-    url:`${API_URL}/api/annual-oil-transportations`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-      },
-    },
-  });
-  const {data:oilTransportationDailyData,isLoading:isLoadingDailyOTD} = useCustom({
-    url:`${API_URL}/api/daily-oil-transportations`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "date",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:500,
-          page:1,
-        },
-        ...(
-          selectedDate ? 
-          { 
-            filters: {
-              date: {
-                $lte: selectedDate // Using Strapi's filtering syntax for 'less than or equal to'
-              }
-            }
-          } : {}
-        )
-      },
-    },
-  });
+  //Транспортировка
+  const { data: oilTransportationDailyData, isLoading: isLoadingDailyOTD } = useApiDataCustom('daily-oil-transportations', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
+
+  //Деньги-----------------
   const {data:DepositData,isLoading:isLoadingDeposit} = useCustom({
     url:`${API_URL}/api/deposits`,
     method:'get',
@@ -356,6 +198,8 @@ export const Performance: React.FC = () => {
       },
     },
   });
+
+  //Чистые доходы------------
   const {data:IncomeData,isLoading:isLoadingIncome} = useCustom({
     url:`${API_URL}/api/incomes`,
     method:'get',
@@ -404,6 +248,9 @@ export const Performance: React.FC = () => {
       },
     },
   });
+
+
+  //Закупки
   const {data:PurchaseData,isLoading:isLoadingPurchase} = useCustom({
     url:`${API_URL}/api/purchases`,
     method:'get',
@@ -423,78 +270,35 @@ export const Performance: React.FC = () => {
       },
     },
   });
-  const {data:IncidentData,isLoading:isLoadingIncident} = useCustom({
-    url:`${API_URL}/api/incidents`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "year",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-        filters: {
-          year: {
-            $eq: '2023'
-          }
-        }
-      },
-    },
-  });
-  const {data:AccidentData,isLoading:isLoadingAccident} = useCustom({
-    url:`${API_URL}/api/accidents`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "year",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-        filters: {
-          year: {
-            $eq: '2023'
-          }
-        }
-      },
-    },
-  });
-  const {data:DtpData,isLoading:isLoadingDtp} = useCustom({
-    url:`${API_URL}/api/dtps`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "year",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-        filters: {
-          year: {
-            $eq: '2023'
-          }
-        }
-      },
-    },
-  });
+
+  //Инциденты
+  const { data: IncidentData, isLoading: isLoadingIncident } = useApiDataCustom('daily-incidents', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
+
+
+  //Несчастные случаи
+  const { data: AccidentData, isLoading: isLoadingAccident } = useApiDataCustom('daily-accidents', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
+  
+  //ДТП
+  const { data: DtpData, isLoading: isLoadingDtp } = useApiDataCustom('daily-dtps', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [startDateString,endDateString],true); 
+  
 
 
   const { token } = useToken();
@@ -509,41 +313,55 @@ export const Performance: React.FC = () => {
         }} className="row-margin-top" >
         <Col {...topColStyle}  >
         
-          <Space>
+          <Space  direction="vertical" style={{ display: 'flex' }}>
+            <Space>
             <Text style={{color:token.colorWhite, fontSize:'small'}}>{translate("performance.dolya", "Без доли")}</Text>
             <Switch 
                 style={{ marginRight: '5px' }}
                 checked={dolya} 
                 onChange={(checked) => setDolya(checked)} 
             />
+            </Space>
+            <Space>
             <Text style={{color:token.colorWhite, fontSize:'small'  }}>{translate("performance.date", "Дата")}</Text>
-            <DatePicker locale={currentLocale !== 'en' ? locale : undefined} onChange={handleDateChange}/>
+            <RangePicker  
+              locale={currentLocale !== 'en' ? locale : undefined}
+              value={dates}
+              onChange={handleDatesChange}
+              style={{
+                
+              }}
+            />
+            </Space>
+
+
           </Space>
             
             
         </Col>
         <Col {...topColStyle}>
+          <Space direction="vertical">
           <ExchangeCard 
             isLoading={isLoading}
             resource='currency'
             title={translate("performance.exchange", "Курсы валют")+ ":"}
-            data={currencyData?.data?.data}
+            data={currencyData} 
           />
+          <ExchangeCard 
+              isLoading={isLoadingbrentData}
+              resource='share'
+              title={translate("performance.brent", "Platts, BRENT")+ ":"}
+              data={brentData}
+            />
+          </Space>
+
         </Col>
         <Col {...topColStyle}>
           <ExchangeCard 
               isLoading={isLoadingShare}
               resource='share'
               title={translate("performance.shares", "Акции")+ ":"}
-              data={shareData?.data?.data}
-            />
-        </Col>
-        <Col {...topColStyle}>
-          <ExchangeCard 
-              isLoading={isLoadingbrentData}
-              resource='share'
-              title={translate("performance.brent", "Platts, BRENT")+ ":"}
-              data={brentData?.data?.data}
+              data={shareData}
             />
         </Col>
       </Row>
@@ -557,10 +375,9 @@ export const Performance: React.FC = () => {
             resource='OilProduction'
             headerTitle={translate("performance.OilProduction", "Добыча нефти")}
             subTitle={translate("performance.OilProductionSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingOPD}
-            data={oilProductionData?.data?.data }
-            dataDaily={oilProductionDailyData?.data?.data}
-            isLoadingDaily={isLoadingDailyOPD}
+            isLoading={isLoadingDailyOPD}
+            data={oilProductionDailyData }
+            dataDaily={oilProductionDailyData}
             isDolya={dolya}
             selectedDate={selectedDate}
           />
@@ -570,12 +387,9 @@ export const Performance: React.FC = () => {
             resource='OilRefining'
             headerTitle={translate("performance.OilRefining", "Переработка нефти")}
             subTitle={translate("performance.OilRefiningSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingORD}
-            data={oilRefiningData?.data?.data }
-            dataDaily={oilRefiningDailyData?.data?.data}
-            isLoadingDaily={isLoadingDailyORD}
+            isLoading={isLoadingDailyORD}
+            data={oilRefiningDailyData }
             isDolya={dolya}
-            selectedDate={selectedDate}
           />
         </Col>
         <Col {...ColStyle}>
@@ -583,12 +397,9 @@ export const Performance: React.FC = () => {
             resource='OilTransportation'
             headerTitle={translate("performance.OilTransportation", "Транспортировка нефти")}
             subTitle={translate("performance.OilTransportationSubTitle", "(тыс.тонн)")}
-            isLoading={isLoadingOTD}
-            data={oilTransportationData?.data?.data }
-            dataDaily={oilTransportationDailyData?.data?.data}
-            isLoadingDaily={isLoadingDailyOTD}
+            isLoading={isLoadingDailyOTD}
+            data={oilTransportationDailyData}
             isDolya={dolya}
-            selectedDate={selectedDate}
           />
         </Col>
         <Col {...ColStyle}>
@@ -640,9 +451,9 @@ export const Performance: React.FC = () => {
       >
         <Col {...ColStyleRow2} >
           <TabComponentChart 
-            data1={selectedDate ? oilProductionDailyData?.data?.data: oilProductionData?.data?.data}
-            data2={selectedDate ? oilRefiningDailyData?.data?.data: oilRefiningData?.data?.data}
-            data3={selectedDate ? oilTransportationDailyData?.data?.data: oilTransportationData?.data?.data}
+            data1={oilProductionDailyData}
+            data2={oilRefiningDailyData}
+            data3={oilTransportationDailyData}
             isLoading={isLoadingDailyOPD}
             isDolya={dolya}
           />
@@ -659,7 +470,7 @@ export const Performance: React.FC = () => {
           <Row gutter={[16, 16]} style={{marginTop:'12px'}}>
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
-                data={IncidentData?.data?.data}
+                data={IncidentData}
                 isLoading={isLoadingIncident}
                 headerTitle={translate("performance.Incident", "")}
                 resource='Incident'
@@ -667,7 +478,7 @@ export const Performance: React.FC = () => {
             </Col>
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
-                data={AccidentData?.data?.data}
+                data={AccidentData}
                 isLoading={isLoadingAccident}
                 headerTitle={translate("performance.Accident", "")}
                 resource='Accident'
@@ -675,7 +486,7 @@ export const Performance: React.FC = () => {
             </Col>
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
               <KpiListCard 
-                data={DtpData?.data?.data}
+                data={DtpData}
                 isLoading={isLoadingDtp}
                 headerTitle={translate("performance.Dtp", "")}
                 resource='Dtp'

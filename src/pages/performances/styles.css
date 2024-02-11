@@ -1,4 +1,6 @@
-
+.ant-picker .ant-picker-input >input {
+    font-size:12px
+}
 
 @media (max-width: 575.98px) { 
     .row-margin-top {

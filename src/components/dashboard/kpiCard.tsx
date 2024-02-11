@@ -47,7 +47,6 @@ type Props = {
     isLoading:boolean,
     data: Data [],
     dataDaily?: Data [],
-    isLoadingDaily?:boolean,
     isDolya?:boolean,
     isShort?:boolean,
     selectedDate?:string
@@ -94,7 +93,6 @@ function createChartData(data: Data[] | undefined): ChartData[] {
             grouped[key].value_coef = Math.round((grouped[key].value_coef + item.attributes.value_coef) * 10) / 10;
         }
     });
-
     return Object.values(grouped);
 }
 
@@ -129,12 +127,10 @@ export const KpiCard: React.FC<Props> = ({
     subTitle,
     isLoading,
     data,
-    dataDaily,
-    isLoadingDaily,
     isDolya= false,
     isShort=false,
-    selectedDate
 }) => {
+
   const { token } = useToken();
   const translate = useTranslate();
   const IconComponent = getIconComponent(resource);
@@ -148,13 +144,7 @@ export const KpiCard: React.FC<Props> = ({
   let mainData:Data [] | undefined = [];
 
 
-  if(selectedDate){
-    mainData = dataDaily?.filter(item => item.attributes?.date && item.attributes?.date.toString() === selectedDate);
-  }
-  else {
-    mainData = data
-  }
-
+  mainData = data;
   if(mainData)
   {
     mainData.forEach(item => {
@@ -170,11 +160,11 @@ export const KpiCard: React.FC<Props> = ({
   if(percent < 100){
     isDown=true;
   }
-  chartData = sortChartDataByDate(createChartData(dataDaily));
+  chartData = sortChartDataByDate(createChartData(data));
 }
 
 const config:AreaConfig = {
-    loading:isLoadingDaily,
+    loading:isLoading,
     data:chartData,
     color: (datum) => {
         return datum.category === 'Факт' ? '#3182CE' : '#ED8936';

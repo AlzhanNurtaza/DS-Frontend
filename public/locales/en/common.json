@@ -199,11 +199,13 @@
         "plan":"Plan",
         "modal":{
             "table":{
+                "year":"Year",
                 "date":"Date",
                 "value":"Value",
                 "value_coef":"Value (coef)",
                 "category":"Category"
             }
-        }
+        },
+        "noDataPeriod":"No data for the period"
     }
 }
