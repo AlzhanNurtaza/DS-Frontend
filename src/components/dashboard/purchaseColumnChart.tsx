@@ -55,7 +55,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
     const configZakupki:ColumnConfig = {
         autoFit:true,
         data:filteredData,
-        //height:220,
+        height:220,
         xField: 'category',
         yField: 'value',
         seriesField: 'type',
