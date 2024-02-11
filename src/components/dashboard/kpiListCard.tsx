@@ -87,7 +87,9 @@ export const KpiListCard: React.FC<Props> = ({
         </Text>}
         subTitle={subTitle}
         extra={<SimpleModal title='Данные' tableData={tableData as any}/>}
-
+        style={{
+            //minHeight:'170px'
+        }}
         boxShadow
         bodyStyle={{
             paddingInline:'8px',

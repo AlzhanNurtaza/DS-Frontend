@@ -98,7 +98,7 @@ function sortChartDataByValue(data: ChartData[], isDolya:boolean): ChartData[] {
 
 const tabsCardCss:React.CSSProperties = {
         overflowX:'auto',
-        height:'500px'
+        height:'460px'
 }
 
 const chartHeightDiv:React.CSSProperties = {
@@ -149,6 +149,10 @@ export const TabComponentChart : React.FC<Props> = ({
             position: 'right',
             style: {
               fill: token.colorText,
+            },
+            formatter: (text, item, index) => {
+                const value = item._origin[isDolya ? 'value_coef' : 'value']; // Accessing the original data value
+                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             },
         },
         yAxis: {    
