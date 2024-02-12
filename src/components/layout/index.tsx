@@ -34,7 +34,7 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
         <SiderToRender Title={Title} />
         <AntdLayout style={{backgroundColor:'transparent'}}> 
           <HeaderToRender />
-          <AntdLayout.Content >
+          <AntdLayout.Content style={{maxWidth:'3000px', marginLeft: 'auto', marginRight: 'auto',width:'100%' }} >
             <div
               style={{
                 minHeight: 360,
