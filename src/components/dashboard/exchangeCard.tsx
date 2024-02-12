@@ -36,9 +36,9 @@ export const ExchangeCard = ({
             style={{
                 backgroundColor: token.colorFillSecondary,
                 border: `1px solid ${token.colorFillQuaternary}`,
-                width: 'fit-content',
+                width: '100%',
                 maxHeight: '35px',
-                minWidth: '310px'
+                //minWidth: '300px'
             }}
             bodyStyle={{
                 display: 'flex',      

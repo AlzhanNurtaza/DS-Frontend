@@ -23,12 +23,14 @@ const topColStyle = {
   sm:24,
   md:12,
   lg:12,
-  xl:8,
+  xl:6,
+  xxl:6,
   style:{
     width:'100%',
     display:'flex',
     paddingLeft:'5px',
     paddingRight:'5px',
+    alignItems:'flex-end'
   }
 }
 
@@ -356,28 +358,28 @@ export const Performance: React.FC = () => {
             
         </Col>
         <Col {...topColStyle}>
-          <Space direction="vertical">
           <ExchangeCard 
             isLoading={isLoadingGlobal}
             resource='currency'
-            title={translate("performance.exchange", "Курсы валют")+ ":"}
+            title=""//{translate("performance.exchange", "Курсы валют")+ ":"}
             data={currencyData} 
           />
-          <ExchangeCard 
-              isLoading={isLoadingGlobal}
-              resource='share'
-              title={translate("performance.brent", "Platts, BRENT")+ ":"}
-              data={brentData}
-            />
-          </Space>
 
         </Col>
         <Col {...topColStyle}>
           <ExchangeCard 
               isLoading={isLoadingGlobal}
               resource='share'
-              title={translate("performance.shares", "Акции")+ ":"}
+              title=""//{translate("performance.shares", "Акции")+ ":"}
               data={shareData}
+            />
+        </Col>
+        <Col {...topColStyle}>
+        <ExchangeCard 
+              isLoading={isLoadingGlobal}
+              resource='share'
+              title=""//{translate("performance.brent", "Platts, BRENT")+ ":"}
+              data={brentData}
             />
         </Col>
       </Row>
