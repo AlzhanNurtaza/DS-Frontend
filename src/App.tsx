@@ -76,6 +76,7 @@ function App() {
                                 >
                                         <ThemedLayoutV2
                                             Header={HeaderCustom} Sider={ThemedSiderV2} Title={ThemedTitleV2}
+                                            
                                         >
                                             <Outlet />
                                         </ThemedLayoutV2>

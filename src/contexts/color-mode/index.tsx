@@ -71,9 +71,12 @@ export const ColorModeContextProvider: React.FC<PropsWithChildren> = ({
                         Switch: {
                             colorPrimary: "rgba(0, 0, 0, 0.45)",
                           },
-                          Table: {
+                        Table: {
                             headerColor: "#ffffff"
-                          }
+                        },
+                        Button: {
+                            defaultShadow: "transparent"
+                        }
                       },
                 }}
             >

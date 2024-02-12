@@ -23,7 +23,7 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
   const { mode } = useContext(ColorModeContext);
 
   return (    
-    <ThemedLayoutContextProvider initialSiderCollapsed={initialSiderCollapsed}>
+    <ThemedLayoutContextProvider initialSiderCollapsed={true}>
       <AntdLayout style={{ 
         minHeight: "100vh",
         backgroundImage:`url(${mode === 'light' ? '/images/bg/bg-pages.svg' : '/images/bg/bg-pages-dark.svg'})`,
