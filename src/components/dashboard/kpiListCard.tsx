@@ -130,10 +130,29 @@ export const KpiListCard: React.FC<Props> = ({
             </List>
         ) : 
         (
-        <Typography.Text style={{fontSize:token.fontSizeSM, textAlign:'center'}}>
-            <Text type="warning">{translate("performance.noDataPeriod", "")}</Text>
-            <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} style={{height:'30px',marginBlock:'30px'}} />
-        </Typography.Text>
+            <List >
+                <List.Item key={1} style={{
+                    height:'35px',
+                    //backgroundColor: 1 % 2 === 1 ? token.colorBgBase : 'transparent' 
+                }}>
+                    <div style={{
+                        width:'100%',
+                        display:'flex',
+                        justifyContent:'space-between',
+                        paddingLeft:'5px',
+                        paddingRight:'5px',
+                    
+                    }}>
+                        <Typography.Text style={{flex:1,color:token.colorFillTertiary, fontSize:token.fontSizeLG}}>Всего</Typography.Text>
+                        <Typography.Text strong 
+                        style={{
+                            fontSize:token.fontSizeLG
+                        }} >
+                            0
+                        </Typography.Text>
+                    </div>                            
+                </List.Item>   
+            </List>
         )}
     </ProCard>
   )
