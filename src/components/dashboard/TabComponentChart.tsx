@@ -194,6 +194,7 @@ export const TabComponentChart : React.FC<Props> = ({
   return (
     <>
         <ProCard
+            boxShadow
             loading={isLoading}
             tabs={{
             tabPosition:'top',
