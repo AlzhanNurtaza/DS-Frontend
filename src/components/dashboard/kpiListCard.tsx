@@ -1,6 +1,6 @@
 import { ProCard } from '@ant-design/pro-components'
 import React from 'react'
-import { Empty, List, Typography, theme } from 'antd'
+import { List, Typography, theme } from 'antd'
 import Icon from '@ant-design/icons';
 import IncidentIcon from '../../assets/icons/incident.svg?react';
 import AccidentIcon from '../../assets/icons/accident.svg?react';
@@ -8,7 +8,7 @@ import DtpIcon from '../../assets/icons/dtp.svg?react';
 import { SimpleModal } from './simpleModal';
 import {useTranslate} from '@refinedev/core';
 
-const {Text, Link} = Typography;
+const {Text} = Typography;
 const { useToken } = theme;
 
 
@@ -143,7 +143,9 @@ export const KpiListCard: React.FC<Props> = ({
                         paddingRight:'5px',
                     
                     }}>
-                        <Typography.Text style={{flex:1,color:token.colorFillTertiary, fontSize:token.fontSizeLG}}>Всего</Typography.Text>
+                        <Typography.Text style={{flex:1,color:token.colorFillTertiary, fontSize:token.fontSizeLG}}>
+                            {translate("performance.total", "Всего")}
+                        </Typography.Text>
                         <Typography.Text strong 
                         style={{
                             fontSize:token.fontSizeLG

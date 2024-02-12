@@ -206,6 +206,7 @@
                 "category":"Category"
             }
         },
-        "noDataPeriod":"No data for the period"
+        "noDataPeriod":"No data for the period",
+        "total":"Total"
     }
 }
