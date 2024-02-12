@@ -182,7 +182,8 @@
     },
     "performance":{
         "performance":"Показатели",
-        "dolya":"Без доли",
+        "dolya":"С долей",
+        "withoutDolya":"Без доли",
         "date":"Дата",
         "exchange": "Курсы валют",
         "brent": "Котировки",

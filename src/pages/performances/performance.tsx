@@ -335,7 +335,9 @@ export const Performance: React.FC = () => {
         
           <Space  direction="vertical" style={{ display: 'flex' }}>
             <Space>
-            <Text style={{color:token.colorWhite, fontSize:'small'}}>{translate("performance.dolya", "Без доли")}</Text>
+            <Text style={{color:token.colorWhite, fontSize:'small'}}>
+              {translate(dolya? "performance.dolya":"performance.wihtoutDolya", "Без доли")}
+            </Text>
             <Switch 
                 style={{ marginRight: '5px' }}
                 checked={dolya} 
