@@ -134,7 +134,7 @@ export const TabComponentChart : React.FC<Props> = ({
         dodgePadding: 4,
         //autoFit:false,
         legend:{
-            position:'bottom',
+            position:'top',
             itemName: {
                 style: {
                     fill: token.colorText
