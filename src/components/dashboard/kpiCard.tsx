@@ -268,8 +268,7 @@ const config:AreaConfig = {
                             fontSize: isShort? token.fontSizeLG: token.fontSizeLG,
                             fontWeight:'bold',
                         }}
-                        prefix={<Trend isDown={isDown} />}
-                        suffix={<KpiSuffixPortion stringValue={percent.toString()} isDown={isDown}/>}
+                        suffix={<><Trend isDown={isDown} /><KpiSuffixPortion stringValue={percent.toString()} isDown={isDown}/></>}
 
                     />
                 </ProCard>
