@@ -64,7 +64,7 @@ const ColStyleRow2 = {
 
 
 export const Performance: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
 
   const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format('YYYY-MM-DD'));
@@ -91,10 +91,10 @@ export const Performance: React.FC = () => {
   const { data: currencyData, isLoading: isLoading } = useApiDataCustom('currencies', 
   {
     'sort[0]':'date:desc',
-    'sort[1]':'currency:desc',
-    'filters[currency][$eq][0]':'$',
-    'filters[currency][$eq][1]':'€',
-    'filters[currency][$eq][2]':'₽',
+    'sort[1]':'category:desc',
+    'filters[category][$eq][0]':'$',
+    'filters[category][$eq][1]':'€',
+    'filters[category][$eq][2]':'₽',
     'filters[date][$gte][0]':startDateString,
     'filters[date][$lte][1]':endDateString,
     "pagination[page]":1,
@@ -106,8 +106,8 @@ export const Performance: React.FC = () => {
   //Акции
   const { data: shareData, isLoading: isLoadingShare } = useApiDataCustom('shares', {
     'sort[0]':'date:desc',
-    'filters[title][$eq][0]':'KMГ,AIX',
-    'filters[title][$eq][1]':'КМГ,KASE',
+    'filters[category][$eq][0]':'AIX',
+    'filters[category][$eq][1]':'KASE',
     'filters[date][$gte][0]':startDateString,
     'filters[date][$lte][1]':endDateString,
     "pagination[page]":1,
@@ -116,12 +116,14 @@ export const Performance: React.FC = () => {
 
 
     //Brent
-  const { data: brentData, isLoading: isLoadingbrentData } = useApiDataCustom('brents', {
+  const { data: brentData, isLoading: isLoadingbrentData } = useApiDataCustom('daily-stocks', {
       'sort[0]':'date:desc',
-      //'filters[date][$gte][0]':startDateString,
-      //'filters[date][$lte][1]':endDateString,
+      'filters[category][$eq][0]':'KEBCO',
+      'filters[category][$eq][1]':'BRENT',
+      'filters[date][$gte][0]':startDateString,
+      'filters[date][$lte][1]':endDateString,
       "pagination[page]":1,
-      "pagination[pageSize]":1,
+      "pagination[pageSize]":2,
   },[startDateString,endDateString],false);
     
   //Добыча
