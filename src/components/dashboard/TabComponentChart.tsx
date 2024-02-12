@@ -166,16 +166,19 @@ export const TabComponentChart : React.FC<Props> = ({
             },
         },
         tooltip: {
-            // Custom formatter function
             formatter: (datum) => {
                 // Function to format number with spaces as thousand separators
-                const formatNumberWithSpaces = (num:number) => {
+                const formatNumberWithSpaces = (num) => {
                     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
                 };
-    
+        
+                // Determine the correct field based on isDolya
+                const valueField = isDolya ? 'value_coef' : 'value';
+                const value = datum[valueField] ? Math.round(datum[valueField]) : NaN; // Safeguard against undefined values
+        
                 return {
                     name: datum.category,
-                    value: formatNumberWithSpaces(Math.round(datum.value))
+                    value: isNaN(value) ? 'N/A' : formatNumberWithSpaces(value)
                 };
             }
         },

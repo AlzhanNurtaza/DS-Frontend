@@ -104,7 +104,7 @@ export const Performance: React.FC = () => {
   //Акции
   const { data: shareData, isLoading: isLoadingShare } = useApiDataCustom('shares', {
     'sort[0]':'date:desc',
-    'filters[title][$eq][0]':'КМГ,AIX',
+    'filters[title][$eq][0]':'KMГ,AIX',
     'filters[title][$eq][1]':'КМГ,KASE',
     'filters[date][$gte][0]':startDateString,
     'filters[date][$lte][1]':endDateString,
