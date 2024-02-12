@@ -13,7 +13,7 @@ export const ThemedLayoutV2: React.FC<RefineThemedLayoutV2Props> = ({
   Title,
   Footer,
   OffLayoutArea,
-  initialSiderCollapsed,
+  //initialSiderCollapsed,
 }) => {
   const breakpoint = Grid.useBreakpoint();
   const SiderToRender = Sider ?? DefaultSider;

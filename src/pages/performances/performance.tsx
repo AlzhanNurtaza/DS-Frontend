@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col, DatePicker, Row, Space, Switch, 
+  TimeRangePickerProps, 
   Typography, theme } 
 from 'antd';
 import locale from 'antd/es/date-picker/locale/ru_RU';
@@ -64,13 +65,35 @@ const ColStyleRow2 = {
 
 
 export const Performance: React.FC = () => {
+  const translate = useTranslate();
   const [selectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
+  const rangePresets: TimeRangePickerProps['presets'] = [
+    { label: translate("performance.prev7Days", "Дата"), value: [dayjs().subtract(7, 'day'), dayjs()] },
+    {
+      label: translate("performance.thisMonth", "This month"),
+      // Start of this month to now
+      value: [dayjs().startOf('month'), dayjs()]
+    },
+    {
+      label: translate("performance.thisYear", "This year"),
+      // Start of this year to now
+      value: [dayjs().startOf('year'), dayjs()]
+    },
+    {
+      label: translate("performance.lastMonth", "Last month"),
+      value: [dayjs().subtract(1, 'month').startOf('month'), dayjs().subtract(1, 'month').endOf('month')]
+    },
+    {
+      label: translate("performance.lastYear", "Last year"),
+      value: [dayjs().subtract(1, 'year').startOf('year'), dayjs().subtract(1, 'year').endOf('year')]
+    },
+  ];
 
   const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format('YYYY-MM-DD'));
   const [endDateString, setEndDateString] = useState(dayjs().format('YYYY-MM-DD'));
 
-  const translate = useTranslate();
+  
 
   const defaultDates = [dayjs().startOf('year'), dayjs()];
   const [dates, setDates] = useState<any>(defaultDates);
@@ -350,9 +373,7 @@ export const Performance: React.FC = () => {
               locale={currentLocale !== 'en' ? locale : undefined}
               value={dates}
               onChange={handleDatesChange}
-              style={{
-                
-              }}
+              presets={rangePresets}
             />
             </Space>
 
