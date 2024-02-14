@@ -209,6 +209,7 @@
         },
         "noDataPeriod":"No data for the period",
         "total":"Total",
+        "yesterday":"Yesterday",
         "prev7Days":"Last 7 days",
         "thisMonth":"This month",
         "thisYear":"This year",

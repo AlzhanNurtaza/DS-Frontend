@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Col, DatePicker, Row, Space, Switch, 
+import { Col, ConfigProvider, DatePicker, Row, Space, Switch, 
   TimeRangePickerProps, 
   Typography, theme } 
 from 'antd';
-import locale from 'antd/es/date-picker/locale/ru_RU';
+import ruRU from 'antd/es/locale/ru_RU';
+import 'dayjs/locale/ru'; 
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
 import dayjs from 'dayjs';
@@ -13,7 +14,6 @@ import { API_URL } from "../../constants";
 import { ProCard } from '@ant-design/pro-components';
 //import { useApiData } from '../../hooks/useApiData';
 import { useApiDataCustom } from '../../hooks/useApiDataCustom';
-
 
 const {Text} = Typography; 
 const { useToken } = theme;
@@ -69,6 +69,7 @@ export const Performance: React.FC = () => {
   const [selectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
   const rangePresets: TimeRangePickerProps['presets'] = [
+    { label: translate("performance.yesterday", "Вчера"), value: [dayjs().subtract(1, 'day'), dayjs().subtract(1, 'day')] },
     { label: translate("performance.prev7Days", "Дата"), value: [dayjs().subtract(7, 'day'), dayjs()] },
     {
       label: translate("performance.thisMonth", "This month"),
@@ -369,12 +370,14 @@ export const Performance: React.FC = () => {
             </Space>
             <Space>
             <Text style={{color:token.colorWhite, fontSize:'small'  }}>{translate("performance.date", "Дата")}</Text>
-            <RangePicker  
-              locale={currentLocale !== 'en' ? locale : undefined}
-              value={dates}
-              onChange={handleDatesChange}
-              presets={rangePresets}
-            />
+            <ConfigProvider locale={currentLocale !== 'en' ? ruRU : undefined}>
+              <RangePicker  
+                  value={dates}
+                  onChange={handleDatesChange}
+                  presets={rangePresets}
+                />            
+            </ConfigProvider>
+
             </Space>
 
 
