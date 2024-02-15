@@ -1,12 +1,14 @@
 import { Column, ColumnConfig } from '@ant-design/charts'
 import Icon from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components'
-import { useTranslate } from '@refinedev/core';
+import { useGetLocale, useTranslate } from '@refinedev/core';
 import { DatePicker, Typography, theme } from 'antd'
 import React, { useState } from 'react'
 import PurchaseIcon from '../../assets/icons/purchase.svg?react';
 import { SimpleModal } from './simpleModal';
 import dayjs from 'dayjs';
+import ruRU from 'antd/es/date-picker/locale/ru_RU';
+
 
 const {Text} = Typography;
 const { useToken } = theme;
@@ -40,6 +42,8 @@ export const PurchaseColumnChart: React.FC<Props> = ({
 }) => {
 
     const translate = useTranslate();
+    const localing = useGetLocale();
+    const currentLocale = localing();
     const { token } = useToken();
     const currentDate= dayjs();
     const currentYear = dayjs().year();
@@ -129,6 +133,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
         >
             <div style={{ paddingBottom: '10px' }}>
                 <DatePicker 
+                    locale={currentLocale==="en"? undefined:ruRU}
                     onChange={handleYearChange} 
                     picker="year"
                     defaultValue={dayjs(currentDate)} 
