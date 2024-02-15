@@ -89,7 +89,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
                 };
     
                 return {
-                    name: datum.category,
+                    name: datum.type,
                     value: formatNumberWithSpaces(Math.round(datum.value))
                 };
             }
