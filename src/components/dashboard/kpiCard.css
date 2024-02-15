@@ -2,6 +2,10 @@
     width: 100% !important;
 } 
 
+.ant-chart-tooltip {
+    background-color: red !important;
+}
+
 /* Customize the scrollbar itself */
 ::-webkit-scrollbar {
     width: 5px; /* Adjust width for vertical scrollbar */

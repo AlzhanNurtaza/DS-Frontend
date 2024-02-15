@@ -189,7 +189,7 @@ const config:AreaConfig = {
                 name: datum.category,
                 value: formatNumberWithSpaces(Math.round(isDolya? datum.value_coef: datum.value))
             };
-        }
+        },
     },
     legend: {
         position: 'top-right',

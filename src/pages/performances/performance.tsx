@@ -7,7 +7,7 @@ import ruRU from 'antd/es/locale/ru_RU';
 import 'dayjs/locale/ru'; 
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
-import dayjs from 'dayjs';
+import dayjs,{ Dayjs } from 'dayjs';
 import './styles.css';
 
 import { API_URL } from "../../constants";
@@ -98,16 +98,19 @@ export const Performance: React.FC = () => {
 
   const defaultDates = [dayjs().startOf('year'), dayjs()];
   const [dates, setDates] = useState<any>(defaultDates);
-  const handleDatesChange:any = (dates:[], dateString:string) => {
+  const handleDatesChange:any = (dates: [Dayjs,Dayjs] | undefined, dateString:string) => {
     if(dateString[0]=='' || dateString[1]==''){
       setDates(defaultDates);
       setStartDateString(defaultDates[0].format('YYYY-MM-DD'))
       setEndDateString(defaultDates[1].format('YYYY-MM-DD'))
     }
-    else {
+    else if (dates && dates.length === 2) {
       setDates(dates);
-      setStartDateString(dateString[0])
-      setEndDateString(dateString[1])
+      if(dates !== undefined && dates.length > 1){
+        setStartDateString(dates[0].format('YYYY-MM-DD'))
+        setEndDateString(dates[1].format('YYYY-MM-DD'))
+      }
+
     }
   };
 
@@ -375,6 +378,7 @@ export const Performance: React.FC = () => {
                   value={dates}
                   onChange={handleDatesChange}
                   presets={rangePresets}
+                  format="DD.MM.YYYY"
                 />            
             </ConfigProvider>
 
