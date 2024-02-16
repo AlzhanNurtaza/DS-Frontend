@@ -196,6 +196,7 @@
         "Dtp": "Traffic Accidents",
         "open":"OPEN",
         "close":"Close",
+        "updated":"Updated",
         "fact":"Fact",
         "plan":"Plan",
         "modal":{

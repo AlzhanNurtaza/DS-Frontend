@@ -10,14 +10,16 @@ const { useToken } = theme;
 type Props = {
     title:string,
     tableData? : TableData[],
-    isAxon?:boolean
+    isAxon?:boolean,
+    updated?:string
 }
 
 type TableData = {
-    date?:Date,
+    date?:string,
     value?:number,
     value_coef?:number,
-    category?:string
+    category?:string,
+    publishedAt?:string
 }
 
 
@@ -26,7 +28,8 @@ type TableData = {
 export const SimpleModal: React.FC<Props> = ({
     title,
     tableData,
-    isAxon = false
+    isAxon = false,
+    updated,
 }) => {
   const { token } = useToken();
   const translate = useTranslate();
@@ -55,7 +58,10 @@ export const SimpleModal: React.FC<Props> = ({
   const handleClose = () => {
     setIsModalVisible(false);
   };
-
+  const dataSourceWithKeys = tableData?.map((item, index) => ({
+    ...item,
+    key: `row-${index}`, // Generating a unique key using the row index
+  }));
   return (
     <>
       { isAxon ?
@@ -77,8 +83,10 @@ export const SimpleModal: React.FC<Props> = ({
           </Button>
         ]}
       >
+        
         {isAxon && <Text type="warning">Нет данных по Axon</Text>}
-        { tableData && <Table dataSource={tableData} columns={columns} />}
+        { tableData && <Table dataSource={dataSourceWithKeys} columns={columns} />}
+        {updated && (translate("performance.updated", "Обновление")+" " + updated) } 
       </Modal>
     </>
   );

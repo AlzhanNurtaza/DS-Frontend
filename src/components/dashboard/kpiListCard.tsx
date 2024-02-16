@@ -7,6 +7,8 @@ import AccidentIcon from '../../assets/icons/accident.svg?react';
 import DtpIcon from '../../assets/icons/dtp.svg?react';
 import { SimpleModal } from './simpleModal';
 import {useTranslate} from '@refinedev/core';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
 
 const {Text} = Typography;
 const { useToken } = theme;
@@ -29,7 +31,8 @@ type Data = {
 type Attribute = {
     date: string,
     value:number,
-    category:string
+    category:string,
+    publishedAt?:string
 }
 
 
@@ -51,8 +54,9 @@ const getIconComponent = (resource:string) => {
 
     data && data.forEach(({ attributes }) => {
         const { category, value, date } = attributes;
+        const formattedDate = dayjs(date,'DD.MM.YYYY').format('DD.MM.YYYY'); 
         if (!groupedData[category]) {
-            groupedData[category] = { date, value, category };
+            groupedData[category] = { date:formattedDate, value, category };
         } else {
             groupedData[category].value += value;
         }
@@ -71,11 +75,23 @@ export const KpiListCard: React.FC<Props> = ({
     data
 }) => {
 
+    let updatedDate = '';
+    if (data && data.length > 0) {
+        updatedDate = dayjs(data[0].attributes.publishedAt).format(DATE_FULL_FORMAT);
+    }
+    const cleanedChartData = data && data.map((item) => {
+        return {
+            date: dayjs(item.attributes.date).format(DATE_FORMAT),
+            value: item.attributes.value,
+            category: item.attributes.category
+        };
+    });
     const attributesArray = transformData(data);
-    const tableData = data && data.map(item => item.attributes);
     const { token } = useToken();
     const IconComponent = getIconComponent(resource);
     const translate = useTranslate();
+
+
   return (
     <ProCard   
         loading={isLoading}   
@@ -86,7 +102,7 @@ export const KpiListCard: React.FC<Props> = ({
             {<SimpleModal title='Axon' isAxon={true}/>}   
         </Text>}
         subTitle={subTitle}
-        extra={<SimpleModal title='Данные' tableData={tableData as any}/>}
+        extra={<SimpleModal title='Данные' tableData={cleanedChartData as any} updated={updatedDate}/>}
         style={{
             //minHeight:'170px'
         }}
@@ -147,11 +163,12 @@ export const KpiListCard: React.FC<Props> = ({
                             {translate("performance.total", "Всего")}
                         </Typography.Text>
                         <Typography.Text strong 
-                        style={{
-                            fontSize:token.fontSizeLG
-                        }} >
-                            0
-                        </Typography.Text>
+                                style={{
+                                    color:token.colorFillTertiary,
+                                    fontSize:token.fontSizeLG
+                                }} >
+                                    0
+                                </Typography.Text>
                     </div>                            
                 </List.Item>   
             </List>

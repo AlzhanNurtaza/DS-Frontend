@@ -8,6 +8,8 @@ import { AreaConfig } from '@ant-design/charts';
 import { Trend } from './trend';
 import { KpiSuffixPortion } from './kpiSuffixPortion';
 import { SimpleModal } from './';
+import dayjs from 'dayjs';
+import { DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
 import './kpiCard.css';
 
 import DobychaIcon from '../../assets/icons/dobycha.svg?react';
@@ -63,11 +65,13 @@ type Attribute = {
     date?:Date,
     value:number,
     value_coef:number,
-    category:string
+    category:string,
+    publishedAt?:string
 }
 
 type ChartData = {
-    date: Date,
+    date: string,
+    originalDate: Date, // Store the original Date object
     value: number,
     value_coef: number,
     category: string
@@ -75,19 +79,25 @@ type ChartData = {
 
 
 function createChartData(data: Data[] | undefined): ChartData[] {
-    if (!data)
-    return [];
+    if (!data) return [];
     const grouped: { [key: string]: ChartData } = {};
 
     data.forEach(item => {
         const date = item.attributes.date;
+        const formattedDate = dayjs(date).format(DATE_FORMAT); 
         const category = item.attributes.category;
 
         if (date !== undefined) {
-            const key = `${date}-${category}`;
+            const key = `${formattedDate}-${category}`;
 
             if (!grouped[key]) {
-                grouped[key] = { date, value: 0, value_coef: 0, category };
+                grouped[key] = { 
+                    originalDate: new Date(date), 
+                    date: formattedDate, 
+                    value: 0, 
+                    value_coef: 0, 
+                    category
+                 }; 
             }
             grouped[key].value = Math.round((grouped[key].value + item.attributes.value) * 10) / 10;
             grouped[key].value_coef = Math.round((grouped[key].value_coef + item.attributes.value_coef) * 10) / 10;
@@ -96,16 +106,9 @@ function createChartData(data: Data[] | undefined): ChartData[] {
     return Object.values(grouped);
 }
 
+
 function sortChartDataByDate(data: ChartData[]): ChartData[] {
-    return data.sort((a, b) => {
-        if (a.date < b.date) {
-            return -1;
-        }
-        if (a.date > b.date) {
-            return 1;
-        }
-        return 0;
-    });
+    return data.sort((a, b) => a.originalDate.getTime() - b.originalDate.getTime());
 }
 
 const ProcardCommonCss = {
@@ -142,13 +145,16 @@ export const KpiCard: React.FC<Props> = ({
   let isDown = false;
   let chartData: ChartData[] = [];
   let mainData:Data [] | undefined = [];
+  let updatedDate = '';
 
 
   mainData = data;
   if(mainData)
   {
-    mainData.forEach(item => {
-
+    mainData.forEach((item,index) => {
+    if(index===0){
+        updatedDate = dayjs(item.attributes.publishedAt).format(DATE_FULL_FORMAT) ?? '';
+    }
     if (item.attributes.category === 'Факт') {
 
         sumFact += isDolya ? item.attributes.value_coef: item.attributes.value;
@@ -227,6 +233,8 @@ const config:AreaConfig = {
         },
     },
   };
+  
+  const cleanedChartData = chartData.map(({ originalDate, ...rest }) => rest);
 
   return (
     <>
@@ -239,7 +247,7 @@ const config:AreaConfig = {
                 { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
                 {<SimpleModal title='Axon' isAxon={true}/>}   
             </Text>}
-        extra={<SimpleModal title='Данные' tableData={chartData}/>}
+        extra={<SimpleModal title='Данные' tableData={cleanedChartData} updated={updatedDate}/>}
         split='vertical'
         bordered
         boxShadow={isShort?false:true}
@@ -313,3 +321,6 @@ const config:AreaConfig = {
 
   )
 }
+
+
+
