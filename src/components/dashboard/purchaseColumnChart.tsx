@@ -8,6 +8,7 @@ import PurchaseIcon from '../../assets/icons/purchase.svg?react';
 import { SimpleModal } from './simpleModal';
 import dayjs from 'dayjs';
 import ruRU from 'antd/es/date-picker/locale/ru_RU';
+import { DATE_FULL_FORMAT } from '../../constants';
 
 
 const {Text} = Typography;
@@ -29,7 +30,10 @@ type Attribute = {
     plan:number,
     fact:number,
     actual:number,
-    category:string
+    category:string,
+    createdAt?:string,
+    publishedAt?:string,
+    updatedAt?:string,
 }
 
 const transformData = (data: Data[]): Attribute[] => {
@@ -55,6 +59,10 @@ export const PurchaseColumnChart: React.FC<Props> = ({
     };
     const attributesArray = transformData(data);
     const filteredData = attributesArray && attributesArray.filter(item => item.year === selectedYear);
+    let updated = filteredData && filteredData[0].publishedAt;
+    updated = dayjs(updated).format(DATE_FULL_FORMAT);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const tableData =  filteredData && filteredData.map(({ createdAt,publishedAt,updatedAt, ...rest }) => rest);
 
     const configZakupki:ColumnConfig = {
         autoFit:true,
@@ -122,7 +130,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
                     {<SimpleModal title='Axon' isAxon={true}/>}  
                 </Text>
             }
-            extra={<SimpleModal title='Данные' tableData={filteredData}/>}
+            extra={<SimpleModal title='Данные' tableData={tableData} updated={updated}/>}
             boxShadow
             bodyStyle={{
                 paddingInline:'8px'

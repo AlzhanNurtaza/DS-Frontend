@@ -205,7 +205,8 @@
                 "date":"Date",
                 "value":"Value",
                 "value_coef":"Value (coef)",
-                "category":"Category"
+                "category":"Category",
+                "type":"Type"
             }
         },
         "noDataPeriod":"No data for the period",

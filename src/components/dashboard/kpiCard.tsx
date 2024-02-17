@@ -236,10 +236,12 @@ const config:AreaConfig = {
   
   let cleanedChartData= [];
   if(resource==='Income' || resource==='Money' || resource==='OilTransportation'){
+     // eslint-disable-next-line @typescript-eslint/no-unused-vars
      cleanedChartData = chartData.map(({ originalDate, value_coef, ...rest }) => rest);
   }
   else
   {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     cleanedChartData = chartData.map(({ originalDate, ...rest }) => rest);
   }
   
