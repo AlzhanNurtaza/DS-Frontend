@@ -4,13 +4,16 @@ import { Col, ConfigProvider, DatePicker, Row, Space, Switch,
   Typography, theme } 
 from 'antd';
 import ruRU from 'antd/es/locale/ru_RU';
+import dtRu from 'antd/es/date-picker/locale/ru_RU';
 import 'dayjs/locale/ru'; 
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
 import dayjs,{ Dayjs } from 'dayjs';
 import './styles.css';
+import quarterOfYear from 'dayjs/plugin/quarterOfYear';
 
-import { API_URL } from "../../constants";
+
+import { API_URL, DATE_API_FORMAT, DATE_FORMAT } from "../../constants";
 import { ProCard } from '@ant-design/pro-components';
 //import { useApiData } from '../../hooks/useApiData';
 import { useApiDataCustom } from '../../hooks/useApiDataCustom';
@@ -18,6 +21,7 @@ import { useApiDataCustom } from '../../hooks/useApiDataCustom';
 const {Text} = Typography; 
 const { useToken } = theme;
 const { RangePicker } = DatePicker;
+dayjs.extend(quarterOfYear);
 
 const topColStyle = {
   xs: 24,
@@ -91,8 +95,8 @@ export const Performance: React.FC = () => {
     },
   ];
 
-  const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format('YYYY-MM-DD'));
-  const [endDateString, setEndDateString] = useState(dayjs().format('YYYY-MM-DD'));
+  const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format(DATE_API_FORMAT));
+  const [endDateString, setEndDateString] = useState(dayjs().format(DATE_API_FORMAT));
 
   
 
@@ -101,17 +105,29 @@ export const Performance: React.FC = () => {
   const handleDatesChange:any = (dates: [Dayjs,Dayjs] | undefined, dateString:string) => {
     if(dateString[0]=='' || dateString[1]==''){
       setDates(defaultDates);
-      setStartDateString(defaultDates[0].format('YYYY-MM-DD'))
-      setEndDateString(defaultDates[1].format('YYYY-MM-DD'))
+      setStartDateString(defaultDates[0].format(DATE_API_FORMAT))
+      setEndDateString(defaultDates[1].format(DATE_API_FORMAT))
     }
     else if (dates && dates.length === 2) {
       setDates(dates);
       if(dates !== undefined && dates.length > 1){
-        setStartDateString(dates[0].format('YYYY-MM-DD'))
-        setEndDateString(dates[1].format('YYYY-MM-DD'))
+        setStartDateString(dates[0].format(DATE_API_FORMAT))
+        setEndDateString(dates[1].format(DATE_API_FORMAT))
       }
 
     }
+  };
+
+  //Квартал
+  const [quarter,setQuarter] =useState<Dayjs>(dayjs().subtract(1, 'quarter').startOf('quarter'));
+  const handleQuarterChange:any = (date: Dayjs, dateString:string) => {
+    if(dateString==''){
+      setQuarter(dayjs().subtract(1, 'quarter').startOf('quarter'));
+    }
+    else {
+      setQuarter(date);
+    }
+    
   };
 
   //Курсы 
@@ -180,55 +196,18 @@ export const Performance: React.FC = () => {
     "pagination[pageSize]":500,
   }, [startDateString,endDateString],true); 
 
-  //Деньги-----------------
-  const {data:DepositData,isLoading:isLoadingDeposit} = useCustom({
-    url:`${API_URL}/api/deposits`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-      },
-    },
-  });
-  const {data:DepositDailyData,isLoading:isLoadingDailyDeposit} = useCustom({
-    url:`${API_URL}/api/quaterly-deposits`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-        ...(
-          selectedDate ? 
-          { 
-            filters: {
-              date: {
-                $lte: selectedDate 
-              }
-            }
-          } : {}
-        )
-      },
-    },
-  });
+
+
+  //Деньги
+  const { data: DepositData, isLoading: isLoadingDeposit } = useApiDataCustom('deposits', {
+    'sort[0]':'date:desc',
+    'filters[date][$eq]':quarter.format(DATE_API_FORMAT),
+    "pagination[page]":1,
+    "pagination[pageSize]":500,
+  }, [quarter],true); 
+  
+
+
 
   //Чистые доходы------------
   const {data:IncomeData,isLoading:isLoadingIncome} = useCustom({
@@ -250,36 +229,6 @@ export const Performance: React.FC = () => {
       },
     },
   });
-  const {data:IncomeDailyData,isLoading:isLoadingDailyIncome} = useCustom({
-    url:`${API_URL}/api/quarterly-incomes`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-        ...(
-          selectedDate ? 
-          { 
-            filters: {
-              date: {
-                $lte: selectedDate 
-              }
-            }
-          } : {}
-        )
-      },
-    },
-  });
-
 
   //Закупки
   const {data:PurchaseData,isLoading:isLoadingPurchase} = useCustom({
@@ -333,13 +282,13 @@ export const Performance: React.FC = () => {
   const [isLoadingGlobal, setIsLoadingGlobal] = useState(true);
   useEffect(() => {
     // Set global loading to false only if all individual loading states are false
-    const anyLoading = isLoading || isLoadingShare || isLoadingbrentData || isLoadingDailyOPD || isLoadingDailyORD || isLoadingDailyOTD || isLoadingDeposit || isLoadingDailyDeposit || isLoadingIncome || isLoadingDailyIncome || isLoadingPurchase || isLoadingIncident || isLoadingAccident || isLoadingDtp;
+    const anyLoading = isLoading || isLoadingShare || isLoadingbrentData || isLoadingDailyOPD || isLoadingDailyORD || isLoadingDailyOTD || isLoadingDeposit  || isLoadingIncome  || isLoadingPurchase || isLoadingIncident || isLoadingAccident || isLoadingDtp;
   
     setIsLoadingGlobal(anyLoading);
   }, [
     isLoading, isLoadingShare, isLoadingbrentData, isLoadingDailyOPD, 
-    isLoadingDailyORD, isLoadingDailyOTD, isLoadingDeposit, isLoadingDailyDeposit, 
-    isLoadingIncome, isLoadingDailyIncome, isLoadingPurchase, isLoadingIncident, 
+    isLoadingDailyORD, isLoadingDailyOTD, isLoadingDeposit, 
+    isLoadingIncome, isLoadingPurchase, isLoadingIncident, 
     isLoadingAccident, isLoadingDtp
   ]);
 
@@ -378,7 +327,7 @@ export const Performance: React.FC = () => {
                   value={dates}
                   onChange={handleDatesChange}
                   presets={rangePresets}
-                  format="DD.MM.YYYY"
+                  format={DATE_FORMAT}
                 />            
             </ConfigProvider>
 
@@ -453,41 +402,44 @@ export const Performance: React.FC = () => {
           />
         </Col>
         <Col {...ColStyle}>
+        
           <ProCard
           boxShadow
           style={{
             width:'100%',
             padding:0,
+            maxHeight:'250px'
             
           }}
           bodyStyle={{
             padding:0,
             display:'flex',
             flexDirection:'column',
-            gap:24,
+            gap:0,
             justifyContent:'space-between',height:'100%'
           }}
           
           >
+            <DatePicker  
+              picker="quarter" 
+              locale={dtRu} 
+              onChange={handleQuarterChange} 
+              value={quarter}
+            />
             <KpiCard      
               resource='Money'
               headerTitle={translate("performance.Money", "Денежные средства")}
               subTitle={translate("performance.MoneySubTitle", "(млрд.)")}
               isLoading={isLoadingGlobal}
-              //isLoadingDaily={isLoadingDailyDeposit}
-              data={DepositData?.data.data}
-              dataDaily={DepositDailyData?.data?.data}
+              data={DepositData}
               isShort={true}
-              selectedDate={selectedDate}
             />
             <KpiCard      
               resource='Income'
               headerTitle={translate("performance.Income", "Денежные средства")}
               subTitle={translate("performance.IncomeSubTitle", "(млрд.)")}
               isLoading={isLoadingGlobal}
-              //isLoadingDaily={isLoadingDailyIncome}
               data={IncomeData?.data.data}
-              dataDaily={IncomeDailyData?.data?.data}
               isShort={true}
               selectedDate={selectedDate}
             />
