@@ -235,9 +235,17 @@ const config:AreaConfig = {
   };
   
   let cleanedChartData= [];
-  if(resource==='Income' || resource==='Money' || resource==='OilTransportation'){
+  if(resource==='Income' || resource==='Money'){
      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-     cleanedChartData = chartData.map(({ originalDate, value_coef, ...rest }) => rest);
+     cleanedChartData = chartData.map(({ originalDate, value_coef, date, ...rest }) => ({
+        date: dayjs(date,DATE_FORMAT).format('Q-YYYY') ,
+        ...rest,
+        
+      }));
+  }
+  else if (resource==='OilTransportation'){
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    cleanedChartData = chartData.map(({ originalDate,value_coef, ...rest }) => rest);
   }
   else
   {

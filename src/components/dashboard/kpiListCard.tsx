@@ -116,6 +116,7 @@ export const KpiListCard: React.FC<Props> = ({
         headStyle={{
             paddingInline:'8px'
         }}
+        headerBordered
     >
         {attributesArray && attributesArray.length > 0 ? (
             <List >
