@@ -32,7 +32,7 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
         }}
       >
         <div>
-          <img src="/images/logo/mini-logo.svg" width='100%' height={20} />
+          <img src="/images/logo/mini-logo.svg" width='25px' />
         </div>
 
         {!collapsed && (
@@ -41,7 +41,7 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
               marginBottom: 0,
             }}
           >
-            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds-dark.svg'} width='100%'   />
+            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds.svg'} width='90px'   />
           </div>
         )}
       </Space>
