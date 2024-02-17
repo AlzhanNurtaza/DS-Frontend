@@ -184,9 +184,12 @@ const config:AreaConfig = {
     isStack:false,
     xAxis:false,
     tooltip: {
-        // Custom formatter function
+        domStyles: {
+            'g2-tooltip': { 
+              backgroundColor: 'rgb(255 255 255 / 85%)', 
+            },
+          },
         formatter: (datum) => {
-            // Function to format number with spaces as thousand separators
             const formatNumberWithSpaces = (num:number) => {
                 return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             };
