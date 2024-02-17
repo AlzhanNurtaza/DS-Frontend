@@ -234,7 +234,15 @@ const config:AreaConfig = {
     },
   };
   
-  const cleanedChartData = chartData.map(({ originalDate, ...rest }) => rest);
+  let cleanedChartData= [];
+  if(resource==='Income' || resource==='Money' || resource==='OilTransportation'){
+     cleanedChartData = chartData.map(({ originalDate, value_coef, ...rest }) => rest);
+  }
+  else
+  {
+    cleanedChartData = chartData.map(({ originalDate, ...rest }) => rest);
+  }
+  
 
   return (
     <>

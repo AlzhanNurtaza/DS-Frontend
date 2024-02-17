@@ -203,32 +203,18 @@ export const Performance: React.FC = () => {
     'sort[0]':'date:desc',
     'filters[date][$eq]':quarter.format(DATE_API_FORMAT),
     "pagination[page]":1,
-    "pagination[pageSize]":500,
+    "pagination[pageSize]":100,
   }, [quarter],true); 
   
 
 
-
-  //Чистые доходы------------
-  const {data:IncomeData,isLoading:isLoadingIncome} = useCustom({
-    url:`${API_URL}/api/incomes`,
-    method:'get',
-    config: {
-      sorters: [
-        {
-          field: "value",
-          order: "desc",
-        },
-        
-      ],
-      query: {
-        pagination: {
-          pageSize:100,
-          page:1,
-        },
-      },
-    },
-  });
+  //Чистые доходы
+  const { data: IncomeData, isLoading: isLoadingIncome } = useApiDataCustom('incomes', {
+    'sort[0]':'date:desc',
+    'filters[date][$eq]':quarter.format(DATE_API_FORMAT),
+    "pagination[page]":1,
+    "pagination[pageSize]":100,
+  }, [quarter],true); 
 
   //Закупки
   const {data:PurchaseData,isLoading:isLoadingPurchase} = useCustom({
@@ -439,9 +425,8 @@ export const Performance: React.FC = () => {
               headerTitle={translate("performance.Income", "Денежные средства")}
               subTitle={translate("performance.IncomeSubTitle", "(млрд.)")}
               isLoading={isLoadingGlobal}
-              data={IncomeData?.data.data}
+              data={IncomeData}
               isShort={true}
-              selectedDate={selectedDate}
             />
             
           </ProCard>
