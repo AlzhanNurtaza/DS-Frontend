@@ -74,7 +74,7 @@ export const SimpleModal: React.FC<Props> = ({
       }
       <Modal
         title={title}
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleClose}
         width='70%'
         footer={[
