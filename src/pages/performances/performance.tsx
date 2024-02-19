@@ -4,19 +4,23 @@ import { Col, ConfigProvider, DatePicker, Row, Space, Switch,
   Typography, theme } 
 from 'antd';
 import ruRU from 'antd/es/locale/ru_RU';
-import dtRu from 'antd/es/date-picker/locale/ru_RU';
 import 'dayjs/locale/ru'; 
 import { useCustom, useGetLocale, useTranslate } from '@refinedev/core';
 import { ExchangeCard,KpiCard,KpiListCard,PurchaseColumnChart,TabComponentChart} from '../../components/dashboard';
 import dayjs,{ Dayjs } from 'dayjs';
 import './styles.css';
 import quarterOfYear from 'dayjs/plugin/quarterOfYear';
+import updateLocale from 'dayjs/plugin/updateLocale';
+dayjs.extend(updateLocale);
+
+
 
 
 import { API_URL, DATE_API_FORMAT, DATE_FORMAT } from "../../constants";
 import { ProCard } from '@ant-design/pro-components';
 //import { useApiData } from '../../hooks/useApiData';
 import { useApiDataCustom } from '../../hooks/useApiDataCustom';
+import { QuarterPicker } from '../../components/dashboard/QuarterPicker';
 
 const {Text} = Typography; 
 const { useToken } = theme;
@@ -70,6 +74,13 @@ const ColStyleRow2 = {
 
 export const Performance: React.FC = () => {
   const translate = useTranslate();
+  const { token } = useToken();
+  const localing = useGetLocale();
+  const currentLocale = localing();
+
+
+
+
   const [selectedDate] = useState('');
   const [dolya, setDolya] = useState(false);
   const rangePresets: TimeRangePickerProps['presets'] = [
@@ -283,9 +294,6 @@ export const Performance: React.FC = () => {
   
 
 
-  const { token } = useToken();
-  const localing = useGetLocale();
-  const currentLocale = localing();
 
   return (
     <>
@@ -406,10 +414,9 @@ export const Performance: React.FC = () => {
           }}
           
           >
-            <DatePicker  
-              picker="quarter" 
-              locale={dtRu} 
-              onChange={handleQuarterChange} 
+            <QuarterPicker
+              locale={currentLocale}
+              onChange={handleQuarterChange}
               value={quarter}
             />
             <KpiCard      
