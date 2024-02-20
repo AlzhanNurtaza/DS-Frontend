@@ -17,4 +17,8 @@ export type AxonAttribute = {
     data: AxonDataItem[];
   };
 
+  export type AreaTooltipData = {
+    title?:string
+  };
+
  

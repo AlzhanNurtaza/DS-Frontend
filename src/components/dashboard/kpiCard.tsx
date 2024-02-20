@@ -8,8 +8,8 @@ import { AreaConfig } from '@ant-design/charts';
 import { Trend } from './trend';
 import { KpiSuffixPortion } from './kpiSuffixPortion';
 import { SimpleModal } from './';
-import dayjs from 'dayjs';
-import { DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
+import dayjs,{Dayjs} from 'dayjs';
+import { DATE_API_FORMAT, DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
 import './kpiCard.css';
 
 import DobychaIcon from '../../assets/icons/dobycha.svg?react';
@@ -19,7 +19,7 @@ import DengiIcon from '../../assets/icons/dengi.svg?react';
 import IncomeIcon from '../../assets/icons/income.svg?react';
 import { useTranslate } from '@refinedev/core';
 import { AxonModal } from './AxonModal';
-import { AxonAttribute } from '../../common';
+import { AreaTooltipData, AxonAttribute } from '../../common';
 
 const getIconComponent = (resource:string) => {
     switch (resource) {
@@ -54,7 +54,8 @@ type Props = {
     isDolya?:boolean,
     isShort?:boolean,
     selectedDate?:string
-    axonDataAttribute?:AxonAttribute
+    axonDataAttribute?:AxonAttribute,
+    handleDatesChange?: (dates: [Dayjs, Dayjs] | undefined, dateString: string[]) => void;
 }
 
 type Data = {
@@ -134,7 +135,8 @@ export const KpiCard: React.FC<Props> = ({
     data,
     isDolya= false,
     isShort=false,
-    axonDataAttribute
+    axonDataAttribute,
+    handleDatesChange,
 }) => {
 
   const { token } = useToken();
@@ -171,7 +173,7 @@ export const KpiCard: React.FC<Props> = ({
   }
   chartData = sortChartDataByDate(createChartData(data));
 }
-
+let lastTooltipData:AreaTooltipData= {};
 const config:AreaConfig = {
     loading:isLoading,
     data:chartData,
@@ -238,6 +240,26 @@ const config:AreaConfig = {
             min: 0
         },
     },
+    onReady: (chart) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        chart.on('tooltip:show', (event:any) => {
+          lastTooltipData = event.data; 
+        });
+        chart.on('plot:click', () => {
+          if (lastTooltipData && handleDatesChange && lastTooltipData.title) {
+            handleDatesChange(
+                [
+                    dayjs(lastTooltipData.title,DATE_FORMAT),
+                    dayjs(lastTooltipData.title,DATE_FORMAT)
+                ],
+                [
+                    dayjs(lastTooltipData.title,DATE_FORMAT).format(DATE_API_FORMAT),
+                    dayjs(lastTooltipData.title,DATE_FORMAT).format(DATE_API_FORMAT)
+                ]
+            )
+          } 
+        })
+    }
   };
   
   let cleanedChartData= [];

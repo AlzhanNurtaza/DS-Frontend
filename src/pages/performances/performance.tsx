@@ -113,7 +113,7 @@ export const Performance: React.FC = () => {
 
   const defaultDates = [dayjs().startOf('year'), dayjs()];
   const [dates, setDates] = useState<any>(defaultDates);
-  const handleDatesChange:any = (dates: [Dayjs,Dayjs] | undefined, dateString:string) => {
+  const handleDatesChange:any = (dates: [Dayjs,Dayjs] | undefined, dateString:string[]) => {
     if(dateString[0]=='' || dateString[1]==''){
       setDates(defaultDates);
       setStartDateString(defaultDates[0].format(DATE_API_FORMAT))
@@ -390,6 +390,7 @@ export const Performance: React.FC = () => {
             isDolya={dolya}
             selectedDate={selectedDate}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-637')}
+            handleDatesChange={handleDatesChange}
           />
         </Col>
         <Col {...ColStyle}>
@@ -401,6 +402,7 @@ export const Performance: React.FC = () => {
             data={oilRefiningDailyData }
             isDolya={dolya}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-906')}
+            handleDatesChange={handleDatesChange}
           />
         </Col>
         <Col {...ColStyle}>
@@ -412,6 +414,7 @@ export const Performance: React.FC = () => {
             data={oilTransportationDailyData}
             isDolya={dolya}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-978')}
+            handleDatesChange={handleDatesChange}
           />
         </Col>
         <Col {...ColStyle}>
