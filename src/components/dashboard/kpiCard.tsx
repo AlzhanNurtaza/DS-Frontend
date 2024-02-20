@@ -18,6 +18,7 @@ import TransportirovkaIcon from '../../assets/icons/transportirovka.svg?react';
 import DengiIcon from '../../assets/icons/dengi.svg?react';
 import IncomeIcon from '../../assets/icons/income.svg?react';
 import { useTranslate } from '@refinedev/core';
+import { AxonModal } from './AxonModal';
 
 const getIconComponent = (resource:string) => {
     switch (resource) {
@@ -266,7 +267,7 @@ const config:AreaConfig = {
                 {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
                 {headerTitle}
                 { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
-                {<SimpleModal title='Axon' isAxon={true}/>}   
+                {<AxonModal/>}   
             </Text>}
         extra={<SimpleModal title='Данные' tableData={cleanedChartData} updated={updatedDate}/>}
         split='vertical'

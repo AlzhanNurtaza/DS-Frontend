@@ -9,6 +9,7 @@ import { SimpleModal } from './simpleModal';
 import dayjs from 'dayjs';
 import ruRU from 'antd/es/date-picker/locale/ru_RU';
 import { DATE_FULL_FORMAT } from '../../constants';
+import { AxonModal } from './AxonModal';
 
 
 const {Text} = Typography;
@@ -127,7 +128,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
                     <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>
                         {translate("performance.PurchaseSubTitle", "(млрд.)")}
                     </Text>
-                    {<SimpleModal title='Axon' isAxon={true}/>}  
+                    {<AxonModal/>  }  
                 </Text>
             }
             extra={<SimpleModal title='Данные' tableData={tableData} updated={updated}/>}

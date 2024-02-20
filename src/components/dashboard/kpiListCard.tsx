@@ -9,6 +9,7 @@ import { SimpleModal } from './simpleModal';
 import {useTranslate} from '@refinedev/core';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
+import { AxonModal } from './AxonModal';
 
 const {Text} = Typography;
 const { useToken } = theme;
@@ -99,7 +100,7 @@ export const KpiListCard: React.FC<Props> = ({
             {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
             {headerTitle}
             { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
-            {<SimpleModal title='Axon' isAxon={true}/>}   
+            {<AxonModal/>}   
         </Text>}
         subTitle={subTitle}
         extra={<SimpleModal title='Данные' tableData={cleanedChartData as any} updated={updatedDate}/>}
