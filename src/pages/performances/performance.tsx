@@ -18,9 +18,9 @@ dayjs.extend(updateLocale);
 
 import { API_URL, DATE_API_FORMAT, DATE_FORMAT } from "../../constants";
 import { ProCard } from '@ant-design/pro-components';
-//import { useApiData } from '../../hooks/useApiData';
 import { useApiDataCustom } from '../../hooks/useApiDataCustom';
 import { QuarterPicker } from '../../components/dashboard/QuarterPicker';
+import { AxonAttribute, AxonDataItem } from '../../common';
 
 const {Text} = Typography; 
 const { useToken } = theme;
@@ -276,6 +276,22 @@ export const Performance: React.FC = () => {
     "pagination[pageSize]":500,
   }, [startDateString,endDateString],true); 
 
+  //Axon
+  const { data: axonData, isLoading: isAxonLoading } = useApiDataCustom<AxonDataItem[]>('axons', {
+    "pagination[page]":1,
+    "pagination[pageSize]":100,
+  }, [],true); 
+
+  // Function to search for attributes by refNumber
+  const findAttributesByRefNumber = (axonData: AxonDataItem[], refNumber: string): AxonAttribute | undefined => {
+    if(!isAxonLoading){
+      const item = axonData.find((item:any) => item?.attributes.refNumber ===refNumber);
+      return item ? item.attributes : undefined;
+    }
+    return undefined;
+
+  };
+
   const [isLoadingGlobal, setIsLoadingGlobal] = useState(true);
   useEffect(() => {
     // Set global loading to false only if all individual loading states are false
@@ -373,6 +389,7 @@ export const Performance: React.FC = () => {
             dataDaily={oilProductionDailyData}
             isDolya={dolya}
             selectedDate={selectedDate}
+            axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-637')}
           />
         </Col>
         <Col {...ColStyle}>
@@ -383,6 +400,7 @@ export const Performance: React.FC = () => {
             isLoading={isLoadingGlobal}
             data={oilRefiningDailyData }
             isDolya={dolya}
+            axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-906')}
           />
         </Col>
         <Col {...ColStyle}>
@@ -393,6 +411,7 @@ export const Performance: React.FC = () => {
             isLoading={isLoadingGlobal}
             data={oilTransportationDailyData}
             isDolya={dolya}
+            axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-978')}
           />
         </Col>
         <Col {...ColStyle}>
@@ -426,6 +445,7 @@ export const Performance: React.FC = () => {
               isLoading={isLoadingGlobal}
               data={DepositData}
               isShort={true}
+              axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3061')}
             />
             <KpiCard      
               resource='Income'
@@ -434,6 +454,7 @@ export const Performance: React.FC = () => {
               isLoading={isLoadingGlobal}
               data={IncomeData}
               isShort={true}
+              axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3443')}
             />
             
           </ProCard>
@@ -452,13 +473,14 @@ export const Performance: React.FC = () => {
             isDolya={dolya}
           />
         </Col>
-        <Col {...ColStyleRow2} >
+        <Col {...ColStyleRow2} >  
           <div style={{
             width:'100%'
           }}>
             <PurchaseColumnChart 
               isLoading={isLoadingGlobal}
               data={PurchaseData?.data?.data}
+              axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-979')}
             />
           </div>
           <Row gutter={[16, 16]} style={{marginTop:'12px'}}>
@@ -468,6 +490,7 @@ export const Performance: React.FC = () => {
                 isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Incident", "")}
                 resource='Incident'
+                axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3444')}
               />
             </Col>
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
@@ -476,6 +499,7 @@ export const Performance: React.FC = () => {
                 isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Accident", "")}
                 resource='Accident'
+                axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3446')}
               />
             </Col>
             <Col  xs={24} sm={24} md={12} lg={8} style={{display:'flex', flexWrap:'wrap'}}>
@@ -484,6 +508,7 @@ export const Performance: React.FC = () => {
                 isLoading={isLoadingGlobal}
                 headerTitle={translate("performance.Dtp", "")}
                 resource='Dtp'
+                axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3445')}
               />
             </Col>
           </Row>

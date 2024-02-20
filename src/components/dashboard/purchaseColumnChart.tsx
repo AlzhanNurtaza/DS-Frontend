@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import ruRU from 'antd/es/date-picker/locale/ru_RU';
 import { DATE_FULL_FORMAT } from '../../constants';
 import { AxonModal } from './AxonModal';
+import { AxonAttribute } from '../../common';
 
 
 const {Text} = Typography;
@@ -20,6 +21,7 @@ const { useToken } = theme;
 type Props = {
     isLoading:boolean,
     data:Data[],
+    axonDataAttribute?:AxonAttribute
 }
 type Data = {
     id:number 
@@ -43,7 +45,8 @@ const transformData = (data: Data[]): Attribute[] => {
 
 export const PurchaseColumnChart: React.FC<Props> = ({
     isLoading,
-    data
+    data,
+    axonDataAttribute
 }) => {
 
     const translate = useTranslate();
@@ -128,7 +131,7 @@ export const PurchaseColumnChart: React.FC<Props> = ({
                     <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>
                         {translate("performance.PurchaseSubTitle", "(млрд.)")}
                     </Text>
-                    {<AxonModal/>  }  
+                    {<AxonModal axonDataAttribute={axonDataAttribute} />  }  
                 </Text>
             }
             extra={<SimpleModal title='Данные' tableData={tableData} updated={updated}/>}

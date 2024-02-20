@@ -10,6 +10,7 @@ import {useTranslate} from '@refinedev/core';
 import dayjs from 'dayjs';
 import { DATE_FORMAT, DATE_FULL_FORMAT } from '../../constants';
 import { AxonModal } from './AxonModal';
+import { AxonAttribute } from '../../common';
 
 const {Text} = Typography;
 const { useToken } = theme;
@@ -21,6 +22,7 @@ type Props = {
     subTitle?:string
     isLoading:boolean,
     data: Data [],
+    axonDataAttribute?:AxonAttribute
 
 }
 
@@ -73,7 +75,8 @@ export const KpiListCard: React.FC<Props> = ({
     headerTitle,
     subTitle,
     isLoading,
-    data
+    data,
+    axonDataAttribute
 }) => {
 
     let updatedDate = '';
@@ -100,7 +103,7 @@ export const KpiListCard: React.FC<Props> = ({
             {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
             {headerTitle}
             { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
-            {<AxonModal/>}   
+            {<AxonModal axonDataAttribute={axonDataAttribute} />  }
         </Text>}
         subTitle={subTitle}
         extra={<SimpleModal title='Данные' tableData={cleanedChartData as any} updated={updatedDate}/>}

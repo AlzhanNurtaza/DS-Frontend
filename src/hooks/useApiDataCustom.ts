@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from '../constants';
 
-export const useApiDataCustom = (
+// Define the hook with a generic type parameter T, defaulting to any[]
+export const useApiDataCustom = <T = any[]>(
   endpoint: string,
   config: any,
   dependencies: any[] = [],
   fetchAll = false
 ) => {
-  const [data, setData] = useState<any[]>([]);
+  // Use the generic type T for data state
+  const [data, setData] = useState<T>([] as unknown as T); // Cast [] as T to satisfy TypeScript
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<any>(null);
 
@@ -17,11 +19,9 @@ export const useApiDataCustom = (
         setIsLoading(true);
         setError(null); // Clear any previous error state
 
-        // Reset data only at the beginning of a new fetchAll sequence
-        if ( page === 1) {
-            setData([]);
+        if (page === 1) {
+            setData([] as unknown as T); // Reset data for new fetchAll sequence
         }
-        
 
         try {
             const modifiedConfig = { ...config, "pagination[page]": page };
@@ -29,15 +29,14 @@ export const useApiDataCustom = (
                 params: modifiedConfig,
             });
         
-            const newData = response.data.data;
+            const newData = response.data.data as T;
         
-            // Conditionally update data based on fetchAll
             if (fetchAll) {
-                // Append new data to existing data
-                setData(prevData => [...prevData, ...(Array.isArray(newData) ? newData : [newData])]);
+                // Append new data to existing data, assuming newData is compatible with T
+                setData(prevData => [...prevData as any[], ...(Array.isArray(newData) ? newData : [newData])] as unknown as T);
             } else {
-                // Replace existing data with new data
-                setData(Array.isArray(newData) ? newData : [newData]);
+                // Replace existing data with new data, assuming newData is compatible with T
+                setData(Array.isArray(newData) ? newData : [newData] as unknown as T);
             }
         
             if (fetchAll) {
@@ -57,8 +56,7 @@ export const useApiDataCustom = (
     };
 
     fetchData(config["pagination[page]"] || 1);
-}, [endpoint, JSON.stringify(config), ...dependencies, fetchAll]); 
-
+  }, [endpoint, JSON.stringify(config), ...dependencies, fetchAll]); 
 
   return { data, isLoading, error };
 };

@@ -19,6 +19,7 @@ import DengiIcon from '../../assets/icons/dengi.svg?react';
 import IncomeIcon from '../../assets/icons/income.svg?react';
 import { useTranslate } from '@refinedev/core';
 import { AxonModal } from './AxonModal';
+import { AxonAttribute } from '../../common';
 
 const getIconComponent = (resource:string) => {
     switch (resource) {
@@ -53,7 +54,7 @@ type Props = {
     isDolya?:boolean,
     isShort?:boolean,
     selectedDate?:string
-
+    axonDataAttribute?:AxonAttribute
 }
 
 type Data = {
@@ -133,6 +134,7 @@ export const KpiCard: React.FC<Props> = ({
     data,
     isDolya= false,
     isShort=false,
+    axonDataAttribute
 }) => {
 
   const { token } = useToken();
@@ -267,7 +269,7 @@ const config:AreaConfig = {
                 {IconComponent && <Icon component={IconComponent} style={{ fontSize: '24px', marginRight: '5px',color:'#FFFFFF' }} />}
                 {headerTitle}
                 { subTitle &&  <Text style={{fontSize:'9px',fontWeight:'normal',marginLeft:'3px'}}>{subTitle}</Text>}
-                {<AxonModal/>}   
+                {<AxonModal axonDataAttribute={axonDataAttribute} />  }    
             </Text>}
         extra={<SimpleModal title='Данные' tableData={cleanedChartData} updated={updatedDate}/>}
         split='vertical'
