@@ -1,6 +1,6 @@
 import { Bar, BarConfig } from '@ant-design/charts';
 import { ProCard } from '@ant-design/pro-components';
-import { theme,Typography } from 'antd';
+import { Button, theme,Typography } from 'antd';
 import React, { useState } from 'react'
 import "./TabComponentChart.css";
 import DobychaIcon from '../../assets/icons/dobycha.svg?react';
@@ -29,6 +29,7 @@ type Data = {
 
 type Attribute = {
     dzo:string,
+    group?:string,
     year?: number,
     date?:Date,
     value:number,
@@ -39,21 +40,33 @@ type Attribute = {
 type ChartData = {
 
     dzo: string,
+    group?:string,
     value: number,
     value_coef: number,
     category: string
 };
+interface ChartClickEvent {
+    data: {
+      data: {
+        dzo: string;
+        group?: string;
+        value: number;
+        value_coef: number;
+        category: string;
+      };
+    };
+  }
 
 
 
 
-function createChartData(data: Data[] | undefined): ChartData[] {
+function createChartData(data: Data[] | undefined, isGroup=false): ChartData[] {
     if (!data)
     return [];
     const grouped: { [key: string]: ChartData } = {};
 
     data.forEach(item => {
-        const dzo = item.attributes.dzo;
+        const dzo = (isGroup && item.attributes.group)? item.attributes.group: item.attributes.dzo;
         const category = item.attributes.category;
 
         if (dzo !== undefined) {
@@ -102,7 +115,7 @@ const tabsCardCss:React.CSSProperties = {
 }
 
 const chartHeightDiv:React.CSSProperties = {
-    height:'800px',
+   height:'800px',
 }
 
 
@@ -118,21 +131,25 @@ export const TabComponentChart : React.FC<Props> = ({
 }) => {
     const chartData1 = sortChartDataByValue(createChartData(data1),isDolya);
     const chartData2 = sortChartDataByValue(createChartData(data2),isDolya);
-    const chartData3 = sortChartDataByValue(createChartData(data3),isDolya);
+    const chartData3 = sortChartDataByValue(createChartData(data3,true),isDolya);
     const { token } = useToken();
     const translate = useTranslate();
     const [tab, setTab] = useState('tab1');
 
+    const [isDrilledDown, setIsDrilledDown] = useState(false);
+    const [currentData, setCurrentData] = useState<ChartData[]>([]);
 
-    const createConfig = (chartData: ChartData[]): BarConfig => ({
+
+
+
+
+    const createConfig = (chartData: ChartData[],isDrillDownChart=false): BarConfig => ({
         loading:isLoading,
         data:chartData,
         isGroup: true,
         xField: isDolya ? 'value_coef':'value',
         yField: 'dzo',
         seriesField: 'category',
-        dodgePadding: 4,
-        //autoFit:false,
         legend:{
             position:'bottom',
             itemName: {
@@ -150,7 +167,7 @@ export const TabComponentChart : React.FC<Props> = ({
             style: {
               fill: token.colorText,
             },
-            formatter: (text, item, index) => {
+            formatter: (text, item) => {
                 const value = item._origin[isDolya ? 'value_coef' : 'value']; // Accessing the original data value
                 return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             },
@@ -159,7 +176,6 @@ export const TabComponentChart : React.FC<Props> = ({
             label: {
               style: {
                 fill:token.colorText,
-
               },
               
               
@@ -168,7 +184,7 @@ export const TabComponentChart : React.FC<Props> = ({
         tooltip: {
             formatter: (datum) => {
                 // Function to format number with spaces as thousand separators
-                const formatNumberWithSpaces = (num) => {
+                const formatNumberWithSpaces = (num:number) => {
                     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
                 };
         
@@ -184,12 +200,35 @@ export const TabComponentChart : React.FC<Props> = ({
         },
         appendPadding:[0,40,0,0],
         barWidthRatio: 0.6,
+        onReady: (plot) => {
+            isDrillDownChart && plot.on('element:click', ({ data}:ChartClickEvent) => {
+              const item = data.data;
+              handleBarClick(item);
+            });
+        },
     });
 
 
+    
+    const handleBarClick = (data: ChartData) => {
+        if (!isDrilledDown) { 
+          setIsDrilledDown(true);    
+          const detailedData = data3.filter(item => item.attributes.group === data.dzo);
+          const resultDetailedData = sortChartDataByValue(createChartData(detailedData),isDolya);
+          setCurrentData(resultDetailedData);
+          
+        }
+      };
+    
+    const resetDrillDown = () => {
+        setIsDrilledDown(false); 
+        setCurrentData([]); 
+    };
+
     const config1 = createConfig(chartData1);
     const config2 = createConfig(chartData2);
-    const config3 = createConfig(chartData3);
+    const config3 = createConfig(currentData.length?currentData:chartData3,true);
+
     
   return (
     <>
@@ -222,7 +261,7 @@ export const TabComponentChart : React.FC<Props> = ({
                         </Text>,
                 key: 'tab2',
                 style:tabsCardCss,
-                children: !isLoading && <div style={{...chartHeightDiv,height:'460px'}}><Bar {...config2}  /></div>,
+                children: !isLoading && <div style={{...chartHeightDiv,height:'400px'}}><Bar {...config2}  /></div>,
                 },
                 {
                 label: <Text style={{
@@ -233,8 +272,14 @@ export const TabComponentChart : React.FC<Props> = ({
                         </Text>,
                 key: 'tab3',
                 style:tabsCardCss,
-                children: !isLoading && <div style={chartHeightDiv}><Bar {...config3}  /></div>,
-                },
+                children: !isLoading && 
+                    <div style={{...chartHeightDiv,height:'400px'}}>
+                        {isDrilledDown && <Button onClick={resetDrillDown} type="primary">
+                            Назад
+                        </Button>}
+                        <Bar {...config3}/>
+                    </div>
+                }
             ],
             onChange: (key) => {
                 setTab(key);
