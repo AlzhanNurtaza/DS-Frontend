@@ -216,6 +216,7 @@
         "thisMonth":"This month",
         "thisYear":"This year",
         "lastMonth":"Last month",
-        "lastYear":"Last year"
+        "lastYear":"Last year",
+        "back":"Back"
     }
 }

@@ -136,7 +136,7 @@ export const TabComponentChart : React.FC<Props> = ({
     const translate = useTranslate();
     const [tab, setTab] = useState('tab1');
 
-    const [isDrilledDown, setIsDrilledDown] = useState(false);
+    const [drillFilter, setDrillFilter] = useState('');
     const [currentData, setCurrentData] = useState<ChartData[]>([]);
 
 
@@ -201,7 +201,7 @@ export const TabComponentChart : React.FC<Props> = ({
         appendPadding:[0,40,0,0],
         barWidthRatio: 0.6,
         onReady: (plot) => {
-            isDrillDownChart && plot.on('element:click', ({ data}:ChartClickEvent) => {
+            (drillFilter==='' && isDrillDownChart) && plot.on('element:click', ({ data}:ChartClickEvent) => {
               const item = data.data;
               handleBarClick(item);
             });
@@ -209,25 +209,38 @@ export const TabComponentChart : React.FC<Props> = ({
     });
 
 
+
+
     
-    const handleBarClick = (data: ChartData) => {
-        if (!isDrilledDown) { 
-          setIsDrilledDown(true);    
-          const detailedData = data3.filter(item => item.attributes.group === data.dzo);
-          const resultDetailedData = sortChartDataByValue(createChartData(detailedData),isDolya);
-          setCurrentData(resultDetailedData);
-          
-        }
-      };
-    
-    const resetDrillDown = () => {
-        setIsDrilledDown(false); 
-        setCurrentData([]); 
-    };
+
 
     const config1 = createConfig(chartData1);
     const config2 = createConfig(chartData2);
     const config3 = createConfig(currentData.length?currentData:chartData3,true);
+
+
+    const handleBarClick = (data: ChartData) => {
+        if (data.dzo) { 
+            setDrillFilter(data.dzo);
+        }
+    };
+
+    const resetDrillDown = () => {
+        setDrillFilter('');       
+    };
+
+
+    React.useEffect(() => {
+        if(drillFilter && !currentData.length){
+            const detailedData = data3.filter(item => item.attributes.group === drillFilter);
+            const resultDetailedData = sortChartDataByValue(createChartData(detailedData),isDolya);
+            setCurrentData(resultDetailedData);
+        } else {
+            setCurrentData([]); 
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [drillFilter]);
+    
 
     
   return (
@@ -274,8 +287,8 @@ export const TabComponentChart : React.FC<Props> = ({
                 style:tabsCardCss,
                 children: !isLoading && 
                     <div style={{...chartHeightDiv,height:'400px'}}>
-                        {isDrilledDown && <Button onClick={resetDrillDown} type="primary">
-                            Назад
+                        {drillFilter && <Button onClick={resetDrillDown} type="primary">
+                        {translate("performance.back", "Транспортировка нефти")}
                         </Button>}
                         <Bar {...config3}/>
                     </div>
