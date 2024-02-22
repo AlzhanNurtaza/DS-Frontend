@@ -41,7 +41,7 @@ export const ThemedTitleV2: React.FC<RefineLayoutThemedTitleProps> = ({
               marginBottom: 0,
             }}
           >
-            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds.svg'} width='90px'   />
+            <img src={mode=='light' ? '/images/logo/ds.svg' : '/images/logo/ds.svg'} width='130px'   />
           </div>
         )}
       </Space>
