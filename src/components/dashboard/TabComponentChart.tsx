@@ -288,11 +288,7 @@ export const TabComponentChart : React.FC<Props> = ({
 
 
     React.useEffect(() => {
-        console.log(`drillLevel=${drillLevel}`);
-        console.log(`drillFilter=${drillFilter}`);
-        console.log(`drillMarketFilter=${drillMarketFilter}`);
         let detailedData: ChartData[] = [];
-
         switch(drillLevel) {
             case 0:
                 detailedData = chartData3;
