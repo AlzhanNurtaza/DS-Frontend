@@ -142,6 +142,7 @@ export const TabComponentChart : React.FC<Props> = ({
 }) => {
 
     const [drillFilter, setDrillFilter] = useState('');
+    const [drillMarketFilter, setDrillMarketFilter] = useState('');
     const [drillLevel, setDrillLevel] = useState(0);
     const [currentData, setCurrentData] = useState<ChartData[]>([]);
 
@@ -245,11 +246,21 @@ export const TabComponentChart : React.FC<Props> = ({
                     return 2;
                 return prev+1;
             });
+            if(drillLevel==1)
+                setDrillMarketFilter(data.dzo)
         }
     };
 
     const resetDrillDown = () => {
-        setDrillLevel(0);
+        setDrillLevel(prev =>{
+            if(prev<0){
+                return 0
+            }
+            return prev-1;
+        });
+        if(drillLevel<=1){
+            setDrillMarketFilter('');
+        }
         setDrillFilter('');
 
     };
@@ -257,12 +268,15 @@ export const TabComponentChart : React.FC<Props> = ({
 
     React.useEffect(() => {
         let detailedData: ChartData[] = [];
+        if(drillLevel==1) {
+            setDrillMarketFilter(drillFilter);
+        }
         switch(drillLevel) {
             case 0:
                 detailedData = chartData3;
                 break;
             case 1: 
-                detailedData = sortChartDataByValue(createChartData(data3.filter(item => item.attributes.export === drillFilter),true,1),isDolya);
+                detailedData = sortChartDataByValue(createChartData(data3.filter(item => item.attributes.export === drillMarketFilter),true,1),isDolya);
                 break;
             case 2:
                 detailedData = sortChartDataByValue(createChartData(data3.filter(item => item.attributes.market === drillFilter),true,2),isDolya);
@@ -275,7 +289,7 @@ export const TabComponentChart : React.FC<Props> = ({
             setCurrentData(detailedData);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [drillFilter,drillLevel]);
+    }, [drillFilter,drillLevel,drillMarketFilter]);
     
 
     
@@ -323,7 +337,7 @@ export const TabComponentChart : React.FC<Props> = ({
                 style:tabsCardCss,
                 children: !isLoading && 
                     <div style={{...chartHeightDiv,height:'400px'}}>
-                        {drillFilter && <Button onClick={resetDrillDown} type="primary">
+                        {drillLevel>0 && <Button onClick={resetDrillDown} type="primary">
                         {translate("performance.back", "Транспортировка нефти")}
                         </Button>}
                         <Bar {...config3}/>
