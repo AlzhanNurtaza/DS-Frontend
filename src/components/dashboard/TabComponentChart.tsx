@@ -240,23 +240,44 @@ export const TabComponentChart : React.FC<Props> = ({
 
     const handleBarClick = (data: ChartData) => {
         if (data.dzo) { 
+            
             setDrillFilter(data.dzo);
             setDrillLevel(prev=>{
+                let result = prev;
                 if(prev>=2)
-                    return 2;
-                return prev+1;
+                    result =  2;
+                else {
+                    result =  prev+1;
+                }
+                
+                if (result==1){
+                    setDrillMarketFilter(data.dzo);
+                    if(data.dzo=='Внутренний рынок' || data.dzo=='АО "КазТрансОйл"' ){
+                        result = 2;
+                        setDrillMarketFilter(data.dzo);
+                    }
+                }
+
+                return result;
             });
-            if(drillLevel==1)
-                setDrillMarketFilter(data.dzo)
+            
+                
         }
     };
 
     const resetDrillDown = () => {
         setDrillLevel(prev =>{
+            let result = prev;
             if(prev<0){
-                return 0
+                result = 0
             }
-            return prev-1;
+            else {
+                result = prev-1;
+            } 
+            if(result===1 && (drillMarketFilter=='Внутренний рынок' ||drillMarketFilter=='АО "КазТрансОйл"') ){
+                result = 0;
+            }
+            return result;
         });
         if(drillLevel<=1){
             setDrillMarketFilter('');
@@ -267,10 +288,11 @@ export const TabComponentChart : React.FC<Props> = ({
 
 
     React.useEffect(() => {
+        console.log(`drillLevel=${drillLevel}`);
+        console.log(`drillFilter=${drillFilter}`);
+        console.log(`drillMarketFilter=${drillMarketFilter}`);
         let detailedData: ChartData[] = [];
-        if(drillLevel==1) {
-            setDrillMarketFilter(drillFilter);
-        }
+
         switch(drillLevel) {
             case 0:
                 detailedData = chartData3;
