@@ -199,7 +199,7 @@ export const Performance: React.FC = () => {
   }, [startDateString,endDateString],true); 
 
   //Транспортировка
-  const { data: oilTransportationDailyData, isLoading: isLoadingDailyOTD } = useApiDataCustom('daily-oil-transportations', {
+  const { data: oilTransportationDailyData, isLoading: isLoadingDailyOTD } = useApiDataCustom('oil-transportations', {
     'sort[0]':'date:desc',
     'filters[date][$gte][0]':startDateString,
     'filters[date][$lte][1]':endDateString,

@@ -29,7 +29,8 @@ type Data = {
 
 type Attribute = {
     dzo:string,
-    group?:string,
+    export?:string,
+    market?:string,
     year?: number,
     date?:Date,
     value:number,
@@ -40,7 +41,8 @@ type Attribute = {
 type ChartData = {
 
     dzo: string,
-    group?:string,
+    export?:string,
+    market?:string,
     value: number,
     value_coef: number,
     category: string
@@ -49,7 +51,8 @@ interface ChartClickEvent {
     data: {
       data: {
         dzo: string;
-        group?: string;
+        export?:string,
+        market?:string,
         value: number;
         value_coef: number;
         category: string;
@@ -60,13 +63,21 @@ interface ChartClickEvent {
 
 
 
-function createChartData(data: Data[] | undefined, isGroup=false): ChartData[] {
+function createChartData(data: Data[] | undefined, isGroup=false,level=0): ChartData[] {
     if (!data)
     return [];
     const grouped: { [key: string]: ChartData } = {};
 
     data.forEach(item => {
-        const dzo = (isGroup && item.attributes.group)? item.attributes.group: item.attributes.dzo;
+        let fieldValue = item.attributes.dzo;
+        if(isGroup){
+            if(level===0){
+                fieldValue = item.attributes.export ?? '';
+            } else if(level===1){
+                fieldValue = item.attributes.market ?? '';
+            }
+        }
+        const dzo = fieldValue;
         const category = item.attributes.category;
 
         if (dzo !== undefined) {
@@ -129,6 +140,13 @@ export const TabComponentChart : React.FC<Props> = ({
     data2,
     data3
 }) => {
+
+    const [drillFilter, setDrillFilter] = useState('');
+    const [drillLevel, setDrillLevel] = useState(0);
+    const [currentData, setCurrentData] = useState<ChartData[]>([]);
+
+
+
     const chartData1 = sortChartDataByValue(createChartData(data1),isDolya);
     const chartData2 = sortChartDataByValue(createChartData(data2),isDolya);
     const chartData3 = sortChartDataByValue(createChartData(data3,true),isDolya);
@@ -136,8 +154,7 @@ export const TabComponentChart : React.FC<Props> = ({
     const translate = useTranslate();
     const [tab, setTab] = useState('tab1');
 
-    const [drillFilter, setDrillFilter] = useState('');
-    const [currentData, setCurrentData] = useState<ChartData[]>([]);
+
 
 
 
@@ -206,6 +223,7 @@ export const TabComponentChart : React.FC<Props> = ({
               handleBarClick(item);
             });
         },
+          
     });
 
 
@@ -222,24 +240,42 @@ export const TabComponentChart : React.FC<Props> = ({
     const handleBarClick = (data: ChartData) => {
         if (data.dzo) { 
             setDrillFilter(data.dzo);
+            setDrillLevel(prev=>{
+                if(prev>=2)
+                    return 2;
+                return prev+1;
+            });
         }
     };
 
     const resetDrillDown = () => {
-        setDrillFilter('');       
+        setDrillLevel(0);
+        setDrillFilter('');
+
     };
 
 
     React.useEffect(() => {
-        if(drillFilter && !currentData.length){
-            const detailedData = data3.filter(item => item.attributes.group === drillFilter);
-            const resultDetailedData = sortChartDataByValue(createChartData(detailedData),isDolya);
-            setCurrentData(resultDetailedData);
-        } else {
-            setCurrentData([]); 
+        let detailedData: ChartData[] = [];
+        switch(drillLevel) {
+            case 0:
+                detailedData = chartData3;
+                break;
+            case 1: 
+                detailedData = sortChartDataByValue(createChartData(data3.filter(item => item.attributes.export === drillFilter),true,1),isDolya);
+                break;
+            case 2:
+                detailedData = sortChartDataByValue(createChartData(data3.filter(item => item.attributes.market === drillFilter),true,2),isDolya);
+                break;
+            default:
+                break;
+                
+        }
+        if(detailedData.length>0){
+            setCurrentData(detailedData);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [drillFilter]);
+    }, [drillFilter,drillLevel]);
     
 
     
