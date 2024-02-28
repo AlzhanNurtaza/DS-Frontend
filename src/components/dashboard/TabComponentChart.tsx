@@ -1,6 +1,6 @@
 import { Bar, BarConfig } from '@ant-design/charts';
 import { ProCard } from '@ant-design/pro-components';
-import { Button, theme,Typography } from 'antd';
+import { Button, Tag, theme,Typography } from 'antd';
 import React, { useState } from 'react'
 import "./TabComponentChart.css";
 import DobychaIcon from '../../assets/icons/dobycha.svg?react';
@@ -219,7 +219,7 @@ export const TabComponentChart : React.FC<Props> = ({
         appendPadding:[0,40,0,0],
         barWidthRatio: 0.6,
         onReady: (plot) => {
-            (drillFilter==='' && isDrillDownChart) && plot.on('element:click', ({ data}:ChartClickEvent) => {
+            (isDrillDownChart) && plot.on('element:click', ({ data}:ChartClickEvent) => {
               const item = data.data;
               handleBarClick(item);
             });
@@ -239,15 +239,16 @@ export const TabComponentChart : React.FC<Props> = ({
 
 
     const handleBarClick = (data: ChartData) => {
-        if (data.dzo) { 
+        if (data.dzo) {    
             
-            setDrillFilter(data.dzo);
             setDrillLevel(prev=>{
                 let result = prev;
-                if(prev>=2)
+                if(prev>=2){
                     result =  2;
+                }
                 else {
                     result =  prev+1;
+                    setDrillFilter(data.dzo);
                 }
                 
                 if (result==1){
@@ -358,6 +359,15 @@ export const TabComponentChart : React.FC<Props> = ({
                         {drillLevel>0 && <Button onClick={resetDrillDown} type="primary">
                         {translate("performance.back", "Транспортировка нефти")}
                         </Button>}
+                        
+                        {((drillFilter.length>0 || drillMarketFilter.length>0) && drillLevel>0)  && 
+                            <Tag color="blue" style={{marginLeft:'10px'}}>
+                                {drillMarketFilter!==drillFilter? drillMarketFilter:'' } 
+                                {drillFilter.length>0 && drillMarketFilter.length>0 
+                                && drillMarketFilter!== drillFilter?" | ":""}
+                                {drillFilter}
+                            </Tag> 
+                        }
                         <Bar {...config3}/>
                     </div>
                 }
