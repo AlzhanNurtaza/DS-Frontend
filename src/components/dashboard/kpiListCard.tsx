@@ -86,14 +86,16 @@ export const KpiListCard: React.FC<Props> = ({
     if (data && data.length > 0) {
         updatedDate = dayjs(data[0].attributes.publishedAt).format(DATE_FULL_FORMAT);
     }
-    const cleanedChartData = data && data.map((item) => {
+    const cleanedChartData = data && data
+    .filter(item => item.attributes.value > 0)
+    .map(item => {
         return {
             date: dayjs(item.attributes.date).format(DATE_FORMAT),
             value: item.attributes.value,
             category: item.attributes.category,
-            location:item.attributes.location,
-            description:item.attributes.description,
-            dzo:item.attributes.dzo
+            location: item.attributes.location,
+            description: item.attributes.description,
+            dzo: item.attributes.dzo
         };
     });
     const attributesArray = transformData(data);
