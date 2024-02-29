@@ -206,7 +206,10 @@
                 "value":"Value",
                 "value_coef":"Value (coef)",
                 "category":"Category",
-                "type":"Type"
+                "type":"Type",
+                "location":"Местоположение",
+                "description":"Описание",
+                "dzo":"ДЗО"
             }
         },
         "noDataPeriod":"No data for the period",

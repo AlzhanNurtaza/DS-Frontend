@@ -35,6 +35,9 @@ type Attribute = {
     date: string,
     value:number,
     category:string,
+    location?:string,
+    description?:string,
+    dzo?:string,
     publishedAt?:string
 }
 
@@ -87,7 +90,10 @@ export const KpiListCard: React.FC<Props> = ({
         return {
             date: dayjs(item.attributes.date).format(DATE_FORMAT),
             value: item.attributes.value,
-            category: item.attributes.category
+            category: item.attributes.category,
+            location:item.attributes.location,
+            description:item.attributes.description,
+            dzo:item.attributes.dzo
         };
     });
     const attributesArray = transformData(data);
