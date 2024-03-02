@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, theme, Tooltip, Typography } from 'antd';
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { DATE_FORMAT } from '../../constants';
-import dayjs,{Dayjs} from 'dayjs';
+import dayjs from 'dayjs';
 
 const { useToken } = theme;
 const { Text } = Typography;
