@@ -157,15 +157,23 @@ export const Performance: React.FC = () => {
 
   
   
-  //Акции
-  const { data: shareData, isLoading: isLoadingShare } = useApiDataCustom('shares', {
+
+  //aix
+  const { data: aixData, isLoading: isLoadingAix } = useApiDataCustom('aixes', {
     'sort[0]':'date:desc',
-    'filters[category][$eq][0]':'AIX',
-    'filters[category][$eq][1]':'KASE',
     'filters[date][$gte][0]':startDateString,
     'filters[date][$lte][1]':endDateString,
     "pagination[page]":1,
-    "pagination[pageSize]":2,
+    "pagination[pageSize]":1,
+  }, [startDateString,endDateString],false); 
+
+  //kase
+  const { data: kaseData, isLoading: isLoadingKase } = useApiDataCustom('kases', {
+    'sort[0]':'date:desc',
+    'filters[date][$gte][0]':startDateString,
+    'filters[date][$lte][1]':endDateString,
+    "pagination[page]":1,
+    "pagination[pageSize]":1,
   }, [startDateString,endDateString],false); 
 
 
@@ -294,12 +302,24 @@ export const Performance: React.FC = () => {
 
   const [isLoadingGlobal, setIsLoadingGlobal] = useState(true);
   useEffect(() => {
-    // Set global loading to false only if all individual loading states are false
-    const anyLoading = isLoading || isLoadingShare || isLoadingbrentData || isLoadingDailyOPD || isLoadingDailyORD || isLoadingDailyOTD || isLoadingDeposit  || isLoadingIncome  || isLoadingPurchase || isLoadingIncident || isLoadingAccident || isLoadingDtp;
+
+    const anyLoading = isLoading  
+    || isLoadingAix 
+    || isLoadingKase 
+    || isLoadingbrentData 
+    || isLoadingDailyOPD 
+    || isLoadingDailyORD 
+    || isLoadingDailyOTD 
+    || isLoadingDeposit  
+    || isLoadingIncome  
+    || isLoadingPurchase 
+    || isLoadingIncident 
+    || isLoadingAccident 
+    || isLoadingDtp;
   
     setIsLoadingGlobal(anyLoading);
   }, [
-    isLoading, isLoadingShare, isLoadingbrentData, isLoadingDailyOPD, 
+    isLoading, isLoadingbrentData,isLoadingAix,isLoadingKase, isLoadingDailyOPD, 
     isLoadingDailyORD, isLoadingDailyOTD, isLoadingDeposit, 
     isLoadingIncome, isLoadingPurchase, isLoadingIncident, 
     isLoadingAccident, isLoadingDtp
@@ -362,7 +382,7 @@ export const Performance: React.FC = () => {
               isLoading={isLoadingGlobal}
               resource='share'
               title=""//{translate("performance.shares", "Акции")+ ":"}
-              data={shareData}
+              data={[...kaseData, ...aixData]}
             />
         </Col>
         <Col {...topColStyle}>
