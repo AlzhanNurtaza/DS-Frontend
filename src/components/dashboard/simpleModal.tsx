@@ -85,7 +85,7 @@ export const SimpleModal: React.FC<Props> = ({
       >
         
         {isAxon && <Text type="warning">Нет данных по Axon</Text>}
-        { tableData && <Table dataSource={dataSourceWithKeys} columns={columns} />}
+        { tableData && <Table dataSource={dataSourceWithKeys} columns={columns}  style={{overflow:'auto'}}/>}
         {updated && (translate("performance.updated", "Обновление")+" " + updated) } 
       </Modal>
     </>
