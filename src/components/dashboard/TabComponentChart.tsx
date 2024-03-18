@@ -57,7 +57,12 @@ interface ChartClickEvent {
         value_coef: number;
         category: string;
       };
-    };
+    },
+    target: {
+        attrs:{
+            text:string;
+        }
+    }
   }
 
 
@@ -199,6 +204,11 @@ export const TabComponentChart : React.FC<Props> = ({
               
             },
         },
+        interactions: [
+            {type: (isDrillDownChart) ? 'axis-label-highlight':"" },
+            {type: (isDrillDownChart) ? 'element-active':"" }
+        ]
+        ,
         tooltip: {
             formatter: (datum) => {
                 // Function to format number with spaces as thousand separators
@@ -223,6 +233,16 @@ export const TabComponentChart : React.FC<Props> = ({
               const item = data.data;
               handleBarClick(item);
             });
+            (isDrillDownChart) && plot.on('axis-label:click', ({ target}:ChartClickEvent) => {
+                const item: ChartData = {
+                    dzo: target.attrs.text,
+                    value: 0,
+                    value_coef: 0,
+                    category: ''
+                }
+                item.dzo=target.attrs.text;
+                handleBarClick(item);
+              });
         },
           
     });

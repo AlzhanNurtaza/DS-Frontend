@@ -1,4 +1,4 @@
-export const API_URL = "http://172.22.5.252:1337";
+export const API_URL = "http://localhost:1337";
 export const TOKEN_KEY = "strapi-jwt-token";
 
 export const DATE_FORMAT="DD.MM.YYYY";
