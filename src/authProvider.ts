@@ -66,14 +66,18 @@ export const authProvider: AuthBindings = {
     },
     getPermissions: async () => null,
     getIdentity: async () => {
-        const token = localStorage.getItem(TOKEN_KEY);
-        if (!token) {
-            return null;
-        }
-        axiosInstance.defaults.headers.common[
-            "Authorization"
-        ] = `Bearer ${token}`;
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) {
+        localStorage.setItem(TOKEN_KEY, "");
+        return null;
+    }
+    axiosInstance.defaults.headers.common[
+        "Authorization"
+    ] = `Bearer ${token}`;
+    
+    try {
         const { data, status } = await strapiAuthHelper.me(token);
+        console.log(status);
         if (status === 200) {
             const { id, username, email } = data;
             return {
@@ -82,7 +86,11 @@ export const authProvider: AuthBindings = {
                 email,
             };
         }
-
+    } catch (error) {
+        localStorage.setItem(TOKEN_KEY, "");
         return null;
-    },
+    }
+    return null;
+},
+
 };
