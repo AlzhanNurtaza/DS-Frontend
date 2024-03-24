@@ -24,9 +24,29 @@ export const useApiDataCustom = <T = any[]>(
         }
 
         try {
-            const modifiedConfig = { ...config, "pagination[page]": page };
+
+                // Attempt to retrieve the JWT token from localStorage
+            let jwtToken = null;
+            try {
+                jwtToken = localStorage.getItem('strapi-jwt-token');
+            } catch (error) {
+                console.error('Error accessing localStorage:', error);
+            }
+
+            // Modify the request headers to include the authorization token if it exists
+            const headers = {
+                ...config.headers,
+            };
+            if (jwtToken) {
+                headers['Authorization'] = `Bearer ${jwtToken}`;
+            }
+            const modifiedConfig = {
+                ...config,
+                "pagination[page]": page,       
+            };
             const response = await axios.get(`${API_URL}/api/${endpoint}`, {
                 params: modifiedConfig,
+                headers
             });
         
             const newData = response.data.data as T;
