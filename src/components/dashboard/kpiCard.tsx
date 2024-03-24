@@ -55,7 +55,8 @@ type Props = {
     isShort?:boolean,
     selectedDate?:string
     axonDataAttribute?:AxonAttribute,
-    handleDatesChange?: (dates: [Dayjs, Dayjs] | undefined, dateString: string[]) => void;
+    handleDatesChange?: (dates: [Dayjs, Dayjs] | undefined, dateString: string[]) => void,
+    setCurrentTab?: (tab: string) => void, 
 }
 
 type Data = {
@@ -137,6 +138,7 @@ export const KpiCard: React.FC<Props> = ({
     isShort=false,
     axonDataAttribute,
     handleDatesChange,
+    setCurrentTab,
 }) => {
 
   const { token } = useToken();
@@ -247,6 +249,7 @@ const config:AreaConfig = {
         });
         chart.on('plot:click', () => {
           if (lastTooltipData && handleDatesChange && lastTooltipData.title) {
+            setCurrentTab && setCurrentTab(resource);
             handleDatesChange(
                 [
                     dayjs(lastTooltipData.title,DATE_FORMAT),

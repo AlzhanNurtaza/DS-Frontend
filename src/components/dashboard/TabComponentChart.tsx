@@ -20,6 +20,8 @@ const {Text} = Typography;
     data1:Data[],
     data2:Data[],
     data3:Data[],
+    currentTab: string, 
+    setCurrentTab: (tab: string) => void, 
 
 }
 type Data = {
@@ -143,7 +145,9 @@ export const TabComponentChart : React.FC<Props> = ({
     isLoading,
     isDolya=false,
     data2,
-    data3
+    data3,
+    currentTab,
+    setCurrentTab,
 }) => {
 
     const [drillFilter, setDrillFilter] = useState('');
@@ -158,7 +162,7 @@ export const TabComponentChart : React.FC<Props> = ({
     const chartData3 = sortChartDataByValue(createChartData(data3,true),isDolya);
     const { token } = useToken();
     const translate = useTranslate();
-    const [tab, setTab] = useState('tab1');
+    //const [tab, setTab] = useState('tab1');
 
 
 
@@ -340,7 +344,7 @@ export const TabComponentChart : React.FC<Props> = ({
             tabs={{
             tabPosition:'top',
             destroyInactiveTabPane: true,   
-            activeKey: tab,
+            activeKey: currentTab,
             items: [
                 {
                 label:
@@ -350,7 +354,7 @@ export const TabComponentChart : React.FC<Props> = ({
                         <Icon component={DobychaIcon} style={{ fontSize: '24px', marginRight: '5px' }} />
                         {translate("performance.OilProduction", "Добыча нефти")}
                     </Text>,
-                key: 'tab1',
+                key: 'OilProduction',
                 style:tabsCardCss,
                 children: !isLoading && <div style={chartHeightDiv}><Bar {...config1}  /></div>,
                 },
@@ -361,7 +365,7 @@ export const TabComponentChart : React.FC<Props> = ({
                             <Icon component={PererabotkaIcon} style={{ fontSize: '24px', marginRight: '5px' }} />
                             {translate("performance.OilRefining", "Переработка нефти")}
                         </Text>,
-                key: 'tab2',
+                key: 'OilRefining',
                 style:tabsCardCss,
                 children: !isLoading && <div style={{...chartHeightDiv,height:'400px'}}><Bar {...config2}  /></div>,
                 },
@@ -372,7 +376,7 @@ export const TabComponentChart : React.FC<Props> = ({
                             <Icon component={TransportirovkaIcon} style={{ fontSize: '24px', marginRight: '5px' }} />
                             {translate("performance.OilTransportation", "Транспортировка нефти")}
                         </Text>,
-                key: 'tab3',
+                key: 'OilTransportation',
                 style:tabsCardCss,
                 children: !isLoading && 
                     <div style={{...chartHeightDiv,height:'400px'}}>
@@ -393,7 +397,7 @@ export const TabComponentChart : React.FC<Props> = ({
                 }
             ],
             onChange: (key) => {
-                setTab(key);
+                setCurrentTab(key);
             },
             }}
         />

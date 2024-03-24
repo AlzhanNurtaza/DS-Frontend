@@ -109,6 +109,8 @@ export const Performance: React.FC = () => {
   const [startDateString, setStartDateString] = useState(dayjs().startOf('year').format(DATE_API_FORMAT));
   const [endDateString, setEndDateString] = useState(dayjs().format(DATE_API_FORMAT));
 
+  const [currentTab, setCurrentTab] = useState('OilProduction');
+
   
 
   const defaultDates = [dayjs().startOf('year'), dayjs()];
@@ -411,6 +413,7 @@ export const Performance: React.FC = () => {
             selectedDate={selectedDate}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-637')}
             handleDatesChange={handleDatesChange}
+            setCurrentTab={setCurrentTab}
           />
         </Col>
         <Col {...ColStyle}>
@@ -423,6 +426,7 @@ export const Performance: React.FC = () => {
             isDolya={dolya}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-906')}
             handleDatesChange={handleDatesChange}
+            setCurrentTab={setCurrentTab}
           />
         </Col>
         <Col {...ColStyle}>
@@ -435,6 +439,7 @@ export const Performance: React.FC = () => {
             isDolya={dolya}
             axonDataAttribute = {findAttributesByRefNumber(axonData,'DS-978')}
             handleDatesChange={handleDatesChange}
+            setCurrentTab={setCurrentTab}
           />
         </Col>
         <Col {...ColStyle}>
@@ -478,6 +483,7 @@ export const Performance: React.FC = () => {
               data={IncomeData}
               isShort={true}
               axonDataAttribute = {findAttributesByRefNumber(axonData,'GLOS-3443')}
+              
             />
             
           </ProCard>
@@ -494,6 +500,8 @@ export const Performance: React.FC = () => {
             data3={oilTransportationDailyData}
             isLoading={isLoadingGlobal}
             isDolya={dolya}
+            currentTab={currentTab}
+            setCurrentTab={setCurrentTab}
           />
         </Col>
         <Col {...ColStyleRow2} >  
