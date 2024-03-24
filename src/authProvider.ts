@@ -77,7 +77,6 @@ export const authProvider: AuthBindings = {
     
     try {
         const { data, status } = await strapiAuthHelper.me(token);
-        console.log(status);
         if (status === 200) {
             const { id, username, email } = data;
             return {

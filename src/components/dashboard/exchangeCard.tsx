@@ -67,7 +67,7 @@ export const ExchangeCard = ({
     >
       <Text style={{ color: token.colorWhite, marginRight: '6px', fontSize: 'small' }}>{title}</Text>
       {Array.isArray(uniqueData) && uniqueData.map((item, index) => (
-        <Tooltip title={dayjs(item.attributes?.date).format(DATE_FORMAT)}>
+        <Tooltip title={dayjs(item.attributes?.date).format(DATE_FORMAT)} key={index}>
           <Text 
             style={{ color: token.colorWhite, marginRight: '6px', fontSize: 'small' }} 
             key={index}
