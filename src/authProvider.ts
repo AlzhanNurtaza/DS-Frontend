@@ -9,6 +9,18 @@ export const axiosInstance = axios.create();
 const strapiAuthHelper = AuthHelper(API_URL + "/api");
 
 export const authProvider: AuthBindings = {
+    onError: async (error) => {
+        if (error.status === 401 || error.status === 403) {
+            return {
+            logout: true,
+            redirectTo: "/login",
+            error,
+            };
+        }
+
+        return {};
+        },
+
     login: async ({ email, password }) => {
         const { data, status } = await strapiAuthHelper.login(email, password);
         if (status === 200) {
@@ -38,10 +50,6 @@ export const authProvider: AuthBindings = {
             success: true,
             redirectTo: "/login",
         };
-    },
-    onError: async (error) => {
-        console.error(error);
-        return { error };
     },
     check: async () => {
         const token = localStorage.getItem(TOKEN_KEY);

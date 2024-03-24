@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { API_URL } from '../constants';
+import { API_URL, TOKEN_KEY } from '../constants';
 
 // Define the hook with a generic type parameter T, defaulting to any[]
 export const useApiDataCustom = <T = any[]>(
@@ -28,7 +28,7 @@ export const useApiDataCustom = <T = any[]>(
                 // Attempt to retrieve the JWT token from localStorage
             let jwtToken = null;
             try {
-                jwtToken = localStorage.getItem('strapi-jwt-token');
+                jwtToken = localStorage.getItem(TOKEN_KEY);
             } catch (error) {
                 console.error('Error accessing localStorage:', error);
             }
